@@ -108,3 +108,55 @@ print("Libro: \(titulo)")
 print("Usuario: \(usuario)")
 print("Días solicitados: \(diasSolicitados)")
 print("Máximo permitido: \(diasPermitidos)")
+
+// Fecha real de devolución
+print("\nFecha real de devolución (dd/MM/yyyy):")
+let textoDevolucion = readLine() ?? ""
+
+guard let fechaDevolucion = formato.date(from: textoDevolucion) else {
+    print("Fecha de devolución no válida")
+    exit(0)
+}
+
+if fechaDevolucion < fechaPrestamo {
+    print("La fecha de devolución no puede ser anterior a la fecha de préstamo")
+    exit(0)
+}
+
+// Calcular días de atraso
+let diferenciaAtraso = calendario.dateComponents(
+    [.day],
+    from: fechaPrometida,
+    to: fechaDevolucion
+)
+
+let diasAtraso = max(0, diferenciaAtraso.day ?? 0)
+
+// Calcular multa
+var multaTotal = 0.0
+
+if diasAtraso > 0 {
+
+    for dia in 1...diasAtraso {
+
+        if dia <= 3 {
+            multaTotal += tarifaDiaria
+        } else if dia <= 6 {
+            multaTotal += tarifaDiaria * 1.50
+        } else {
+            multaTotal += tarifaDiaria * 2
+        }
+    }
+}
+
+// Estado del préstamo
+let estado = diasAtraso == 0
+    ? "Devuelto a tiempo"
+    : "Devuelto con atraso"
+
+// Situación del usuario
+var situacion = "Habilitado"
+
+if usuario == "Docente" && diasAtraso >= 10 {
+    situacion = "Suspendido"
+}

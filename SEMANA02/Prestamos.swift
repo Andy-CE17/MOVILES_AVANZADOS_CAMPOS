@@ -160,3 +160,60 @@ var situacion = "Habilitado"
 if usuario == "Docente" && diasAtraso >= 10 {
     situacion = "Suspendido"
 }
+
+// Detalle de la multa por día
+print("\n==========================================")
+print("          DETALLE DEL ATRASO")
+print("==========================================")
+
+if diasAtraso == 0 {
+
+    print("No existen días de atraso.")
+
+} else {
+
+    var acumulado = 0.0
+
+    for dia in 1...diasAtraso {
+
+        var multaDia = 0.0
+
+        if dia <= 3 {
+            multaDia = tarifaDiaria
+        } else if dia <= 6 {
+            multaDia = tarifaDiaria * 1.50
+        } else {
+            multaDia = tarifaDiaria * 2
+        }
+
+        acumulado += multaDia
+
+        print(
+            "Día \(dia) | Multa: S/ \(String(format: "%.2f", multaDia)) | Acumulado: S/ \(String(format: "%.2f", acumulado))"
+        )
+    }
+}
+
+// Resumen final
+print("\n==========================================")
+print("          RESUMEN DEL PRÉSTAMO")
+print("==========================================")
+
+print("Libro: \(titulo)")
+print("Usuario: \(usuario)")
+print("Fecha de préstamo: \(textoPrestamo)")
+print("Fecha prometida: \(textoPrometido)")
+print("Fecha real: \(textoDevolucion)")
+print("Días permitidos: \(diasPermitidos)")
+print("Días solicitados: \(diasSolicitados)")
+print("Días de atraso: \(diasAtraso)")
+print("Multa por día: S/ \(String(format: "%.2f", tarifaDiaria))")
+print("Multa total: S/ \(String(format: "%.2f", multaTotal))")
+print("Estado: \(estado)")
+print("Situación: \(situacion)")
+
+print("==========================================")
+
+if situacion == "Suspendido" {
+    print("El usuario quedó suspendido para nuevos préstamos.")
+}

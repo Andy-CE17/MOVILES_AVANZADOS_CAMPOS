@@ -25,3 +25,11 @@ let notaFinal = Double(readLine() ?? "") ?? 0.0
 let promedio = (notaParcial * exParcial) +
                (notaTrabajo * trabajo) +
                (notaFinal * exFinal)
+
+// impresion de resultados
+print("\n========== RESULTADO ==========")
+print("Alumno: \(alumno)")
+print("Nota Parcial: \(notaParcial)")
+print("Nota Trabajo: \(notaTrabajo)")
+print("Nota Final: \(notaFinal)")
+print("Promedio Final: \(promedio)")

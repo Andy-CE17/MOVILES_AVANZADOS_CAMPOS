@@ -20,3 +20,8 @@ let notaTrabajo = Double(readLine() ?? "") ?? 0.0
 // Nota del examen final
 print("Nota del Examen Final:")
 let notaFinal = Double(readLine() ?? "") ?? 0.0
+
+// Cálculo del promedio ponderado
+let promedio = (notaParcial * exParcial) +
+               (notaTrabajo * trabajo) +
+               (notaFinal * exFinal)

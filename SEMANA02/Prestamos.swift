@@ -100,7 +100,7 @@ while true {
     if fechaPrestamo != fechaActual {
 
         print("\n==========================================")
-        print("          PRÉSTAMO NO VÁLIDO")
+        print("          🔒 PRÉSTAMO NO VÁLIDO")
         print("==========================================")
         print("Fecha ingresada: \(textoPrestamo)")
         print("Fecha actual: \(formato.string(from: fechaActual))")
@@ -200,7 +200,7 @@ let diferenciaAtraso = calendario.dateComponents(
 
 let diasAtraso = max(0, diferenciaAtraso.day ?? 0)
 
-// Calculo la multa
+// Calculo la multa según los días de atraso
 var multaTotal = 0.0
 
 if diasAtraso > 0 {
@@ -208,11 +208,13 @@ if diasAtraso > 0 {
     for dia in 1...diasAtraso {
 
         if dia <= 3 {
-            multaTotal += tarifaDiaria
+            multaTotal += 0.0
         } else if dia <= 6 {
-            multaTotal += tarifaDiaria * 1.50
+            multaTotal += tarifaDiaria * 0.25
+        } else if dia <= 10 {
+            multaTotal += tarifaDiaria * 0.50
         } else {
-            multaTotal += tarifaDiaria * 2
+            multaTotal += tarifaDiaria
         }
     }
 }
@@ -223,16 +225,17 @@ let estado = diasAtraso == 0
     : "Devuelto con atraso"
 
 // Situación del usuario
-var situacion = " ✔️ Habilitado"
+var situacion = "✔️ Habilitado"
 
-if usuario == "Docente" && diasAtraso >= 10 {
-    situacion = "Suspendido"
+// Verifico si el usuario queda suspendido
+if diasAtraso >= 20 {
+    situacion = "🔒 Suspendido"
 }
 
-// Detalle de la multa por día
-print("\n==========================================")
-print("          DETALLE DEL ATRASO")
-print("==========================================")
+// Detalle del atraso
+print("\n================================================================")
+print("                     DETALLE DEL ATRASO")
+print("================================================================")
 
 if diasAtraso == 0 {
 
@@ -242,25 +245,54 @@ if diasAtraso == 0 {
 
     var acumulado = 0.0
 
+    print("Fecha        Día       Multa         Acumulado")
+    print("----------------------------------------------------------------")
+
     for dia in 1...diasAtraso {
 
+        // Obtengo la fecha correspondiente a cada día de atraso
+        let fechaDia = calendario.date(
+            byAdding: .day,
+            value: dia,
+            to: fechaPrometida
+        )!
+
+        let fechaTexto = formato.string(from: fechaDia)
+
         var multaDia = 0.0
+        var porcentaje = ""
 
         if dia <= 3 {
-            multaDia = tarifaDiaria
+            multaDia = 0.0
+            porcentaje = "Sin multa"
+
         } else if dia <= 6 {
-            multaDia = tarifaDiaria * 1.50
+            multaDia = tarifaDiaria * 0.25
+            porcentaje = "25%"
+
+        } else if dia <= 10 {
+            multaDia = tarifaDiaria * 0.50
+            porcentaje = "50%"
+
         } else {
-            multaDia = tarifaDiaria * 2
+            multaDia = tarifaDiaria
+            porcentaje = "100%"
         }
 
         acumulado += multaDia
 
         print(
-            "Día \(dia) | Multa: S/ \(String(format: "%.2f", multaDia)) | Acumulado: S/ \(String(format: "%.2f", acumulado))"
+            "\(fechaTexto)   " +
+            "\(String(format: "%2d", dia))      " +
+            "S/ \(String(format: "%.2f", multaDia))      " +
+            "S/ \(String(format: "%.2f", acumulado))"
         )
+
+        print("             Multa aplicada: \(porcentaje)")
     }
 }
+
+print("================================================================")
 
 // Resumen final
 print("\n==========================================")
@@ -282,6 +314,13 @@ print("Situación: \(situacion)")
 
 print("==========================================")
 
-if situacion == "Suspendido" {
-    print("El usuario quedó suspendido para nuevos préstamos.")
+// Muestro el mensaje si el usuario quedó suspendido
+if diasAtraso >= 20 {
+
+    print("\n==========================================")
+    print("          🔒 USUARIO SUSPENDIDO")
+    print("==========================================")
+    print("El usuario alcanzó \(diasAtraso) días de atraso.")
+    print("No puede realizar nuevos préstamos.")
+    print("==========================================")
 }

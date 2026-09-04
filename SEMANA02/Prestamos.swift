@@ -4,11 +4,13 @@ import Foundation
 let limiteAlumno = 7
 let limiteDocente = 15
 let limiteAdmin = 10
+let limiteContador = 15
 
 // Multa base diaria
 let tarifaAlumno = 1.50
 let tarifaDocente = 2.00
 let tarifaAdmin = 3.00
+let tarifaContador = 4.00
 
 // Datos del libro
 print("==========================================")
@@ -23,6 +25,7 @@ print("\nTipo de usuario:")
 print("1. Alumno")
 print("2. Docente")
 print("3. Administrador")
+print("4. Contador")
 
 let opcion = readLine() ?? ""
 
@@ -45,6 +48,11 @@ case "3":
     usuario = "Administrador"
     diasPermitidos = limiteAdmin
     tarifaDiaria = tarifaAdmin
+
+case "4":
+    usuario = "Contador"
+    diasPermitidos = limiteContador
+    tarifaDiaria = tarifaContador
 
 default:
     print("Opción no válida")
@@ -74,13 +82,12 @@ guard let fechaPrometida = formato.date(from: textoPrometido) else {
     exit(0)
 }
 
-// Verificar que la fecha prometida no sea anterior
 if fechaPrometida < fechaPrestamo {
     print("La fecha prometida no puede ser anterior a la fecha de préstamo")
     exit(0)
 }
 
-// Calcular cuántos días está solicitando
+// Calculo cuántos días está solicitando
 let diferenciaPrestamo = calendario.dateComponents(
     [.day],
     from: fechaPrestamo,
@@ -89,10 +96,10 @@ let diferenciaPrestamo = calendario.dateComponents(
 
 let diasSolicitados = diferenciaPrestamo.day ?? 0
 
-// Validar el máximo permitido
+// Valido el máximo permitido
 if diasSolicitados > diasPermitidos {
     print("\n==========================================")
-    print("          PRÉSTAMO NO PERMITIDO")
+    print("         🔒 PRÉSTAMO NO PERMITIDO")
     print("==========================================")
     print("Usuario: \(usuario)")
     print("Máximo permitido: \(diasPermitidos) días")
@@ -102,7 +109,7 @@ if diasSolicitados > diasPermitidos {
 }
 
 print("\n==========================================")
-print("            PRÉSTAMO PERMITIDO")
+print("           💵 PRÉSTAMO PERMITIDO")
 print("==========================================")
 print("Libro: \(titulo)")
 print("Usuario: \(usuario)")
@@ -123,7 +130,7 @@ if fechaDevolucion < fechaPrestamo {
     exit(0)
 }
 
-// Calcular días de atraso
+// Calculo los días de atraso
 let diferenciaAtraso = calendario.dateComponents(
     [.day],
     from: fechaPrometida,
@@ -132,13 +139,11 @@ let diferenciaAtraso = calendario.dateComponents(
 
 let diasAtraso = max(0, diferenciaAtraso.day ?? 0)
 
-// Calcular multa
+// Calculo la multa
 var multaTotal = 0.0
 
 if diasAtraso > 0 {
-
     for dia in 1...diasAtraso {
-
         if dia <= 3 {
             multaTotal += tarifaDiaria
         } else if dia <= 6 {
@@ -155,8 +160,7 @@ let estado = diasAtraso == 0
     : "Devuelto con atraso"
 
 // Situación del usuario
-var situacion = "Habilitado"
-
+var situacion = " ✔️ Habilitado"
 if usuario == "Docente" && diasAtraso >= 10 {
     situacion = "Suspendido"
 }
@@ -167,15 +171,11 @@ print("          DETALLE DEL ATRASO")
 print("==========================================")
 
 if diasAtraso == 0 {
-
     print("No existen días de atraso.")
-
 } else {
-
     var acumulado = 0.0
 
     for dia in 1...diasAtraso {
-
         var multaDia = 0.0
 
         if dia <= 3 {

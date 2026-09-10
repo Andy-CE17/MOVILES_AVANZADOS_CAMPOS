@@ -332,3 +332,65 @@ func mostrarInformacionEstacion(_ estacion: Estacion) {
 }
 
 
+let conexionesSistemas: [Conexion] = [
+    Conexion(
+        origenID: "L1-15",
+        destinoID: "L2-E16",
+        estado: .enConstruccion,
+        descripcion: "Conexión entre Gamarra de Línea 1 y 28 de Julio de Línea 2"
+    ),
+
+    Conexion(
+        origenID: "L2-E13",
+        destinoID: "MET-25",
+        estado: .enConstruccion,
+        descripcion: "Conexión entre Estación Central de Línea 2 y Central del Metropolitano"
+    ),
+
+    Conexion(
+        origenID: "L2-E05",
+        destinoID: "L4-08",
+        estado: .enConstruccion,
+        descripcion: "Conexión entre Línea 2 y Ramal Línea 4 en Carmen de la Legua"
+    )
+]
+
+func buscarEstacionPorID(_ id: String) -> Estacion? {
+    return todasLasEstaciones.first {
+        $0.id == id
+    }
+}
+
+
+// RF04 - MOSTRAR PUNTOS DE CONEXIÓN
+
+func mostrarPuntosConexion() {
+    print("")
+    print("==============================================================")
+    print("           PUNTOS DE CONEXIÓN ENTRE SISTEMAS")
+    print("==============================================================")
+
+    for (indice, conexion) in conexionesSistemas.enumerated() {
+
+        guard
+            let origen = buscarEstacionPorID(conexion.origenID),
+            let destino = buscarEstacionPorID(conexion.destinoID)
+        else {
+            continue
+        }
+
+        print("")
+        print("Punto \(indice + 1)")
+        print("--------------------------------------------------------------")
+        print("\(origen.nombre) - \(origen.sistema.rawValue)")
+        print("                  ↓")
+        print("\(destino.nombre) - \(destino.sistema.rawValue)")
+        print("")
+        print("Distrito: \(origen.distrito)")
+        print("Estado de conexión: \(conexion.estado.rawValue)")
+        print("Detalle: \(conexion.descripcion)")
+    }
+
+    print("")
+    print("==============================================================")
+}

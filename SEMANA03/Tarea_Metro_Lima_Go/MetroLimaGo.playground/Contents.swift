@@ -299,7 +299,79 @@ func buscarEstaciones(_ texto: String) -> [Estacion] {
         return distanciaEdicion(consulta, nombre) <= 2
     }
 }
-var transportesComplementarios: [TransporteComplementario] = []
+var transportesComplementarios: [TransporteComplementario] = [
+    TransporteComplementario(
+        ruta: "SE-09",
+        empresa: "Corredor Morado",
+        origenID: "L1-23",
+        destinoID: "MET-31",
+        paraderoSubida: "San Carlos",
+        distritoSubida: "San Juan de Lurigancho",
+        paraderoBajada: "Canaval y Moreyra",
+        distritoBajada: "San Isidro",
+        tiempoReferencial: 42
+    ),
+
+    TransporteComplementario(
+        ruta: "1068",
+        empresa: "Nuevo Perú",
+        origenID: "L1-16",
+        destinoID: "L2-E21",
+        paraderoSubida: "Grau",
+        distritoSubida: "La Victoria",
+        paraderoBajada: "Óvalo Santa Anita",
+        distritoBajada: "Santa Anita",
+        tiempoReferencial: 38
+    ),
+
+    TransporteComplementario(
+        ruta: "4604",
+        empresa: "Transporte urbano",
+        origenID: "L2-E24",
+        destinoID: "L1-14",
+        paraderoSubida: "Mercado Santa Anita",
+        distritoSubida: "Santa Anita",
+        paraderoBajada: "Arriola",
+        distritoBajada: "La Victoria",
+        tiempoReferencial: 30
+    ),
+
+    TransporteComplementario(
+        ruta: "1227",
+        empresa: "Almirante Miguel Grau S.A.",
+        origenID: "L2-E21",
+        destinoID: "MET-34",
+        paraderoSubida: "Óvalo Santa Anita",
+        distritoSubida: "Santa Anita",
+        paraderoBajada: "Vía Expresa - zona Angamos",
+        distritoBajada: "Surquillo",
+        tiempoReferencial: 44
+    ),
+
+    TransporteComplementario(
+        ruta: "1073",
+        empresa: "Transporte urbano",
+        origenID: "L2-E23",
+        destinoID: "MET-34",
+        paraderoSubida: "Hermilio Valdizán",
+        distritoSubida: "Santa Anita",
+        paraderoBajada: "Vía Expresa - zona Angamos",
+        distritoBajada: "Surquillo",
+        tiempoReferencial: 40
+    ),
+
+    TransporteComplementario(
+        ruta: "201 / 204",
+        empresa: "Corredor Rojo",
+        origenID: "L1-13",
+        destinoID: "MET-29",
+        paraderoSubida: "La Cultura",
+        distritoSubida: "San Borja",
+        paraderoBajada: "Javier Prado - Vía Expresa",
+        distritoBajada: "San Isidro",
+        tiempoReferencial: 25
+    )
+]
 
 // RF03 - MOSTRAR INFORMACIÓN DE UNA ESTACIÓN
 
@@ -389,6 +461,79 @@ func mostrarPuntosConexion() {
         print("Distrito: \(origen.distrito)")
         print("Estado de conexión: \(conexion.estado.rawValue)")
         print("Detalle: \(conexion.descripcion)")
+    }
+
+    print("")
+    print("==============================================================")
+}
+
+// RF05 - CONSULTAR TRANSPORTE COMPLEMENTARIO
+
+func mostrarTransporteComplementario(desde estacion: Estacion) {
+    print("")
+    print("==============================================================")
+    print("              TRANSPORTE COMPLEMENTARIO")
+    print("==============================================================")
+
+    if estacion.estado != .operativa {
+        print("")
+        print("Estación: \(estacion.nombre)")
+        print("Sistema: \(estacion.sistema.rawValue)")
+        print("Estado: \(estacion.estado.rawValue)")
+        print("")
+        print("El transporte complementario solo está disponible")
+        print("para estaciones que se encuentran operativas.")
+        print("")
+        print("==============================================================")
+        return
+    }
+
+    let rutasDisponibles = transportesComplementarios.filter {
+        $0.origenID == estacion.id
+    }
+
+    if rutasDisponibles.isEmpty {
+        print("")
+        print("Estación: \(estacion.nombre)")
+        print("Distrito: \(estacion.distrito)")
+        print("")
+        print("No hay transporte complementario registrado")
+        print("para esta estación.")
+        print("")
+        print("==============================================================")
+        return
+    }
+
+    print("")
+    print("Estación: \(estacion.nombre)")
+    print("Distrito: \(estacion.distrito)")
+    print("Sistema: \(estacion.sistema.rawValue)")
+
+    for (indice, transporte) in rutasDisponibles.enumerated() {
+        print("")
+        print("RUTA \(indice + 1)")
+        print("--------------------------------------------------------------")
+        print("Servicio: \(transporte.ruta)")
+        print("Operador: \(transporte.empresa)")
+        print("")
+        print("Subida:")
+        print("  \(transporte.paraderoSubida)")
+        print("  Distrito: \(transporte.distritoSubida)")
+        print("")
+        print("                  ↓")
+        print("")
+        print("Bajada:")
+        print("  \(transporte.paraderoBajada)")
+        print("  Distrito: \(transporte.distritoBajada)")
+
+        if let destino = buscarEstacionPorID(transporte.destinoID) {
+            print("")
+            print("Conecta con:")
+            print("  \(destino.nombre) - \(destino.sistema.rawValue)")
+        }
+
+        print("")
+        print("Tiempo referencial: ~\(transporte.tiempoReferencial) min")
     }
 
     print("")

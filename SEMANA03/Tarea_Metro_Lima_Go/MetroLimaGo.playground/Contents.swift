@@ -1034,3 +1034,194 @@ func mostrarDetalleRuta(
     print("║                    FIN DE LA RUTA                         ║")
     print("╚════════════════════════════════════════════════════════════╝")
 }
+
+// RF08 - DIFERENCIAR RUTAS ACTUALES Y FUTURAS
+
+func conectarSecuenciaFutura(
+    _ estaciones: [Estacion],
+    medio: String,
+    minutos: Int,
+    grafo: inout [String: [PasoRuta]]
+) {
+    guard estaciones.count > 1 else {
+        return
+    }
+
+    for i in 0..<(estaciones.count - 1) {
+        let origen = estaciones[i]
+        let destino = estaciones[i + 1]
+
+        let esFuturo =
+            origen.estado != .operativa ||
+            destino.estado != .operativa
+
+        let paso = PasoRuta(
+            origenID: origen.id,
+            destinoID: destino.id,
+            medio: medio,
+            tiempo: minutos,
+            esFuturo: esFuturo,
+            transporte: nil
+        )
+
+        agregarPaso(paso, al: &grafo)
+    }
+}
+
+func crearGrafoFuturo() -> [String: [PasoRuta]] {
+    var grafo: [String: [PasoRuta]] = [:]
+
+    conectarSecuenciaFutura(
+        estacionesLinea1,
+        medio: SistemaTransporte.linea1.rawValue,
+        minutos: 3,
+        grafo: &grafo
+    )
+
+    conectarSecuenciaFutura(
+        estacionesLinea2,
+        medio: SistemaTransporte.linea2.rawValue,
+        minutos: 2,
+        grafo: &grafo
+    )
+
+    conectarSecuenciaFutura(
+        estacionesRamalLinea4,
+        medio: SistemaTransporte.ramalLinea4.rawValue,
+        minutos: 3,
+        grafo: &grafo
+    )
+
+    let metNorte = Array(estacionesMetropolitano.prefix(17))
+
+    let metRama1 = estacionesMetropolitano.filter {
+        ["MET-17", "MET-18", "MET-19", "MET-20", "MET-21", "MET-25"]
+            .contains($0.id)
+    }
+
+    let metRama2 = estacionesMetropolitano.filter {
+        ["MET-17", "MET-22", "MET-23", "MET-24", "MET-25"]
+            .contains($0.id)
+    }
+
+    let metSur = estacionesMetropolitano.filter {
+        guard let numero = Int(
+            $0.id.replacingOccurrences(of: "MET-", with: "")
+        ) else {
+            return false
+        }
+
+        return numero >= 25
+    }
+
+    conectarSecuenciaFutura(
+        metNorte,
+        medio: SistemaTransporte.metropolitano.rawValue,
+        minutos: 4,
+        grafo: &grafo
+    )
+
+    conectarSecuenciaFutura(
+        metRama1,
+        medio: SistemaTransporte.metropolitano.rawValue,
+        minutos: 4,
+        grafo: &grafo
+    )
+
+    conectarSecuenciaFutura(
+        metRama2,
+        medio: SistemaTransporte.metropolitano.rawValue,
+        minutos: 4,
+        grafo: &grafo
+    )
+
+    conectarSecuenciaFutura(
+        metSur,
+        medio: SistemaTransporte.metropolitano.rawValue,
+        minutos: 4,
+        grafo: &grafo
+    )
+
+    for transporte in transportesComplementarios {
+        let paso = PasoRuta(
+            origenID: transporte.origenID,
+            destinoID: transporte.destinoID,
+            medio: transporte.ruta,
+            tiempo: transporte.tiempoReferencial,
+            esFuturo: false,
+            transporte: transporte
+        )
+
+        agregarPaso(paso, al: &grafo)
+    }
+
+    for conexion in conexionesSistemas {
+        let paso = PasoRuta(
+            origenID: conexion.origenID,
+            destinoID: conexion.destinoID,
+            medio: "Conexión entre sistemas",
+            tiempo: 5,
+            esFuturo: true,
+            transporte: nil
+        )
+
+        agregarPaso(paso, al: &grafo)
+    }
+
+    return grafo
+}
+
+func calcularRutaDisponible(
+    desde origen: Estacion,
+    hasta destino: Estacion
+) -> RutaCalculada? {
+
+    if let rutaActual = calcularRuta(
+        desde: origen,
+        hasta: destino
+    ) {
+        return rutaActual
+    }
+
+    let grafoFuturo = crearGrafoFuturo()
+
+    guard let pasos = buscarCamino(
+        desde: origen.id,
+        hasta: destino.id,
+        grafo: grafoFuturo
+    ) else {
+        return nil
+    }
+
+    let tiempoTotal = pasos.reduce(0) {
+        $0 + $1.tiempo
+    }
+
+    return RutaCalculada(
+        tipo: .futura,
+        pasos: pasos,
+        tiempoTotal: tiempoTotal
+    )
+}
+
+func mostrarRutaDisponible(
+    _ ruta: RutaCalculada,
+    origen: Estacion,
+    destino: Estacion
+) {
+    if ruta.tipo == .futura {
+        print("")
+        print("⚠️  RUTA FUTURA / REFERENCIAL")
+        print("------------------------------------------------------------")
+        print("Esta ruta utiliza estaciones o conexiones que todavía")
+        print("se encuentran en construcción o proyectadas.")
+        print("Actualmente no se encuentra disponible en su totalidad.")
+        print("------------------------------------------------------------")
+    }
+
+    mostrarDetalleRuta(
+        ruta,
+        origen: origen,
+        destino: destino
+    )
+}

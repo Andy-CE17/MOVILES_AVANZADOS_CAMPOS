@@ -539,3 +539,332 @@ func mostrarTransporteComplementario(desde estacion: Estacion) {
     print("")
     print("==============================================================")
 }
+// RF06 - CALCULAR RUTAS
+
+struct PasoRuta {
+    let origenID: String
+    let destinoID: String
+    let medio: String
+    let tiempo: Int
+    let esFuturo: Bool
+    let transporte: TransporteComplementario?
+}
+
+struct RutaCalculada {
+    let tipo: TipoRuta
+    let pasos: [PasoRuta]
+    let tiempoTotal: Int
+}
+
+func agregarPaso(
+    _ paso: PasoRuta,
+    al grafo: inout [String: [PasoRuta]],
+    bidireccional: Bool = true
+) {
+    grafo[paso.origenID, default: []].append(paso)
+
+    if bidireccional {
+        var transporteInverso: TransporteComplementario? = nil
+
+        if let transporte = paso.transporte {
+            transporteInverso = TransporteComplementario(
+                ruta: transporte.ruta,
+                empresa: transporte.empresa,
+                origenID: transporte.destinoID,
+                destinoID: transporte.origenID,
+                paraderoSubida: transporte.paraderoBajada,
+                distritoSubida: transporte.distritoBajada,
+                paraderoBajada: transporte.paraderoSubida,
+                distritoBajada: transporte.distritoSubida,
+                tiempoReferencial: transporte.tiempoReferencial
+            )
+        }
+
+        let inverso = PasoRuta(
+            origenID: paso.destinoID,
+            destinoID: paso.origenID,
+            medio: paso.medio,
+            tiempo: paso.tiempo,
+            esFuturo: paso.esFuturo,
+            transporte: transporteInverso
+        )
+
+        grafo[paso.destinoID, default: []].append(inverso)
+    }
+}
+
+func conectarSecuencia(
+    _ estaciones: [Estacion],
+    medio: String,
+    minutos: Int,
+    grafo: inout [String: [PasoRuta]]
+) {
+    guard estaciones.count > 1 else {
+        return
+    }
+
+    for i in 0..<(estaciones.count - 1) {
+        let origen = estaciones[i]
+        let destino = estaciones[i + 1]
+
+        if origen.estado == .operativa &&
+           destino.estado == .operativa {
+
+            let paso = PasoRuta(
+                origenID: origen.id,
+                destinoID: destino.id,
+                medio: medio,
+                tiempo: minutos,
+                esFuturo: false,
+                transporte: nil
+            )
+
+            agregarPaso(paso, al: &grafo)
+        }
+    }
+}
+
+func crearGrafoActual() -> [String: [PasoRuta]] {
+    var grafo: [String: [PasoRuta]] = [:]
+
+    conectarSecuencia(
+        estacionesLinea1,
+        medio: SistemaTransporte.linea1.rawValue,
+        minutos: 3,
+        grafo: &grafo
+    )
+
+    conectarSecuencia(
+        estacionesLinea2,
+        medio: SistemaTransporte.linea2.rawValue,
+        minutos: 2,
+        grafo: &grafo
+    )
+
+    let metNorte = Array(estacionesMetropolitano.prefix(17))
+
+    let metRama1 = estacionesMetropolitano.filter {
+        [
+            "MET-17",
+            "MET-18",
+            "MET-19",
+            "MET-20",
+            "MET-21",
+            "MET-25"
+        ].contains($0.id)
+    }
+
+    let metRama2 = estacionesMetropolitano.filter {
+        [
+            "MET-17",
+            "MET-22",
+            "MET-23",
+            "MET-24",
+            "MET-25"
+        ].contains($0.id)
+    }
+
+    let metSur = estacionesMetropolitano.filter {
+        guard let numero = Int(
+            $0.id.replacingOccurrences(
+                of: "MET-",
+                with: ""
+            )
+        ) else {
+            return false
+        }
+
+        return numero >= 25
+    }
+
+    conectarSecuencia(
+        metNorte,
+        medio: SistemaTransporte.metropolitano.rawValue,
+        minutos: 4,
+        grafo: &grafo
+    )
+
+    conectarSecuencia(
+        metRama1,
+        medio: SistemaTransporte.metropolitano.rawValue,
+        minutos: 4,
+        grafo: &grafo
+    )
+
+    conectarSecuencia(
+        metRama2,
+        medio: SistemaTransporte.metropolitano.rawValue,
+        minutos: 4,
+        grafo: &grafo
+    )
+
+    conectarSecuencia(
+        metSur,
+        medio: SistemaTransporte.metropolitano.rawValue,
+        minutos: 4,
+        grafo: &grafo
+    )
+
+    for transporte in transportesComplementarios {
+        let paso = PasoRuta(
+            origenID: transporte.origenID,
+            destinoID: transporte.destinoID,
+            medio: transporte.ruta,
+            tiempo: transporte.tiempoReferencial,
+            esFuturo: false,
+            transporte: transporte
+        )
+
+        agregarPaso(paso, al: &grafo)
+    }
+
+    return grafo
+}
+
+func buscarCamino(
+    desde origenID: String,
+    hasta destinoID: String,
+    grafo: [String: [PasoRuta]]
+) -> [PasoRuta]? {
+
+    var distancias: [String: Int] = [
+        origenID: 0
+    ]
+
+    var saltos: [String: Int] = [
+        origenID: 0
+    ]
+
+    var anteriores: [String: PasoRuta] = [:]
+
+    var visitados = Set<String>()
+
+    while true {
+        let pendientes = distancias.keys.filter {
+            !visitados.contains($0)
+        }
+
+        guard let actual = pendientes.min(by: { a, b in
+
+            let distanciaA = distancias[a] ?? Int.max
+            let distanciaB = distancias[b] ?? Int.max
+
+            if distanciaA == distanciaB {
+                return (saltos[a] ?? Int.max) <
+                       (saltos[b] ?? Int.max)
+            }
+
+            return distanciaA < distanciaB
+
+        }) else {
+            break
+        }
+
+        if actual == destinoID {
+            break
+        }
+
+        visitados.insert(actual)
+
+        for paso in grafo[actual] ?? [] {
+
+            let nuevaDistancia =
+                (distancias[actual] ?? 0) +
+                paso.tiempo
+
+            let nuevosSaltos =
+                (saltos[actual] ?? 0) + 1
+
+            let distanciaGuardada =
+                distancias[paso.destinoID] ?? Int.max
+
+            let saltosGuardados =
+                saltos[paso.destinoID] ?? Int.max
+
+            if nuevaDistancia < distanciaGuardada ||
+               (
+                   nuevaDistancia == distanciaGuardada &&
+                   nuevosSaltos < saltosGuardados
+               ) {
+
+                distancias[paso.destinoID] =
+                    nuevaDistancia
+
+                saltos[paso.destinoID] =
+                    nuevosSaltos
+
+                anteriores[paso.destinoID] =
+                    paso
+            }
+        }
+    }
+
+    guard distancias[destinoID] != nil else {
+        return nil
+    }
+
+    var camino: [PasoRuta] = []
+    var actual = destinoID
+
+    while actual != origenID {
+
+        guard let paso = anteriores[actual] else {
+            return nil
+        }
+
+        camino.insert(paso, at: 0)
+
+        actual = paso.origenID
+    }
+
+    return camino
+}
+
+func calcularRuta(
+    desde origen: Estacion,
+    hasta destino: Estacion
+) -> RutaCalculada? {
+
+    if origen.id == destino.id {
+        return RutaCalculada(
+            tipo: .directa,
+            pasos: [],
+            tiempoTotal: 0
+        )
+    }
+
+    let grafo = crearGrafoActual()
+
+    guard let pasos = buscarCamino(
+        desde: origen.id,
+        hasta: destino.id,
+        grafo: grafo
+    ) else {
+        return nil
+    }
+
+    let usaBus = pasos.contains {
+        $0.transporte != nil
+    }
+
+    let medios = Set(
+        pasos.map {
+            $0.medio
+        }
+    )
+
+    let tipo: TipoRuta =
+        (usaBus || medios.count > 1)
+        ? .multimodal
+        : .directa
+
+    let tiempoTotal = pasos.reduce(0) {
+        $0 + $1.tiempo
+    }
+
+    return RutaCalculada(
+        tipo: tipo,
+        pasos: pasos,
+        tiempoTotal: tiempoTotal
+    )
+}

@@ -868,3 +868,169 @@ func calcularRuta(
         tiempoTotal: tiempoTotal
     )
 }
+
+// RF07 - MOSTRAR DETALLE DE LA RUTA
+
+func obtenerListaSistema(_ sistema: SistemaTransporte) -> [Estacion] {
+    switch sistema {
+    case .linea1:
+        return estacionesLinea1
+    case .linea2:
+        return estacionesLinea2
+    case .metropolitano:
+        return estacionesMetropolitano
+    case .ramalLinea4:
+        return estacionesRamalLinea4
+    }
+}
+
+func cantidadEstaciones(
+    desde origenID: String,
+    hasta destinoID: String,
+    sistema: SistemaTransporte
+) -> Int {
+
+    let estaciones = obtenerListaSistema(sistema)
+
+    guard
+        let indiceOrigen = estaciones.firstIndex(where: { $0.id == origenID }),
+        let indiceDestino = estaciones.firstIndex(where: { $0.id == destinoID })
+    else {
+        return 0
+    }
+
+    return abs(indiceDestino - indiceOrigen)
+}
+
+func contarTransbordos(_ pasos: [PasoRuta]) -> Int {
+    guard pasos.count > 1 else {
+        return 0
+    }
+
+    var transbordos = 0
+    var medioAnterior = pasos[0].medio
+
+    for paso in pasos.dropFirst() {
+        if paso.medio != medioAnterior {
+            transbordos += 1
+            medioAnterior = paso.medio
+        }
+    }
+
+    return transbordos
+}
+
+func mostrarDetalleRuta(
+    _ ruta: RutaCalculada,
+    origen: Estacion,
+    destino: Estacion
+) {
+
+    print("")
+    print("╔════════════════════════════════════════════════════════════╗")
+    print("║                    METRO LIMA GO                          ║")
+    print("║                    RUTA RECOMENDADA                       ║")
+    print("╚════════════════════════════════════════════════════════════╝")
+
+    print("")
+    print("ORIGEN")
+    print("  \(origen.nombre)")
+    print("  \(origen.sistema.rawValue)")
+
+    print("")
+    print("DESTINO")
+    print("  \(destino.nombre)")
+    print("  \(destino.sistema.rawValue)")
+
+    print("")
+    print("TIPO DE RUTA")
+    print("  \(ruta.tipo.rawValue)")
+
+    if ruta.pasos.isEmpty {
+        print("")
+        print("Ya te encuentras en el destino seleccionado.")
+        return
+    }
+
+    print("")
+    print("────────────────────────────────────────────────────────────")
+
+    var numeroTramo = 1
+    var totalEstaciones = 0
+
+    for paso in ruta.pasos {
+
+        guard
+            let estacionOrigen = buscarEstacionPorID(paso.origenID),
+            let estacionDestino = buscarEstacionPorID(paso.destinoID)
+        else {
+            continue
+        }
+
+        print("")
+
+        if let transporte = paso.transporte {
+
+            print("TRANSBORDO | TRANSPORTE COMPLEMENTARIO")
+            print("")
+            print("Ruta: \(transporte.ruta)")
+            print("Operador: \(transporte.empresa)")
+            print("")
+            print("Subida:")
+            print("  \(transporte.paraderoSubida)")
+            print("")
+            print("      ↓")
+            print("")
+            print("Bajada:")
+            print("  \(transporte.paraderoBajada)")
+            print("")
+            print("Tiempo referencial: ~\(paso.tiempo) min")
+
+        } else {
+
+            print("TRAMO \(numeroTramo) | \(paso.medio)")
+            print("")
+
+            let cantidad = cantidadEstaciones(
+                desde: paso.origenID,
+                hasta: paso.destinoID,
+                sistema: estacionOrigen.sistema
+            )
+
+            totalEstaciones += cantidad
+
+            print("  \(estacionOrigen.nombre)")
+            print("       │")
+
+            if cantidad == 1 {
+                print("       │  Avanza 1 estación")
+            } else {
+                print("       │  Avanza \(cantidad) estaciones")
+            }
+
+            print("       ▼")
+            print("  \(estacionDestino.nombre)")
+            print("")
+            print("Tiempo referencial: ~\(paso.tiempo) min")
+
+            numeroTramo += 1
+        }
+
+        print("")
+        print("────────────────────────────────────────────────────────────")
+    }
+
+    let transbordos = contarTransbordos(ruta.pasos)
+
+    print("")
+    print("RESUMEN DEL VIAJE")
+    print("")
+    print("Estaciones recorridas: \(totalEstaciones)")
+    print("Transbordos: \(transbordos)")
+    print("Tiempo total referencial: ~\(ruta.tiempoTotal) min")
+
+    print("")
+    print("╔════════════════════════════════════════════════════════════╗")
+    print("║                    FIN DE LA RUTA                         ║")
+    print("╚════════════════════════════════════════════════════════════╝")
+}

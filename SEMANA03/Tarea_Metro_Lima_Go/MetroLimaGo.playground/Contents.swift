@@ -114,3 +114,221 @@ let estacionesLinea2: [Estacion] = [
     Estacion(id: "L2-E26", codigo: "E26", nombre: "Prolongación Javier Prado", distrito: "Ate", sistema: .linea2, estado: .enConstruccion, accesible: true, tieneAscensor: true),
     Estacion(id: "L2-E27", codigo: "E27", nombre: "Municipalidad de Ate", distrito: "Ate", sistema: .linea2, estado: .enConstruccion, accesible: true, tieneAscensor: true)
 ]
+
+let estacionesMetropolitano: [Estacion] = [
+    Estacion(id: "MET-01", codigo: "MET-01", nombre: "Chimpu Ocllo", distrito: "Carabayllo", sistema: .metropolitano, estado: .operativa, accesible: true, tieneAscensor: false),
+    Estacion(id: "MET-02", codigo: "MET-02", nombre: "Los Incas", distrito: "Comas", sistema: .metropolitano, estado: .operativa, accesible: true, tieneAscensor: false),
+    Estacion(id: "MET-03", codigo: "MET-03", nombre: "Andrés Belaunde", distrito: "Comas", sistema: .metropolitano, estado: .operativa, accesible: true, tieneAscensor: false),
+    Estacion(id: "MET-04", codigo: "MET-04", nombre: "22 de Agosto", distrito: "Comas", sistema: .metropolitano, estado: .operativa, accesible: true, tieneAscensor: false),
+    Estacion(id: "MET-05", codigo: "MET-05", nombre: "Las Vegas", distrito: "Comas", sistema: .metropolitano, estado: .operativa, accesible: true, tieneAscensor: false),
+    Estacion(id: "MET-06", codigo: "MET-06", nombre: "Universidad", distrito: "Comas", sistema: .metropolitano, estado: .operativa, accesible: true, tieneAscensor: false),
+    Estacion(id: "MET-07", codigo: "MET-07", nombre: "Naranjal", distrito: "Independencia", sistema: .metropolitano, estado: .operativa, accesible: true, tieneAscensor: true),
+    Estacion(id: "MET-08", codigo: "MET-08", nombre: "Izaguirre", distrito: "Independencia", sistema: .metropolitano, estado: .operativa, accesible: true, tieneAscensor: false),
+    Estacion(id: "MET-09", codigo: "MET-09", nombre: "Pacífico", distrito: "Independencia", sistema: .metropolitano, estado: .operativa, accesible: true, tieneAscensor: false),
+    Estacion(id: "MET-10", codigo: "MET-10", nombre: "Independencia", distrito: "Independencia", sistema: .metropolitano, estado: .operativa, accesible: true, tieneAscensor: false),
+    Estacion(id: "MET-11", codigo: "MET-11", nombre: "Los Jazmines", distrito: "Independencia", sistema: .metropolitano, estado: .operativa, accesible: true, tieneAscensor: false),
+    Estacion(id: "MET-12", codigo: "MET-12", nombre: "Tomás Valle", distrito: "San Martín de Porres", sistema: .metropolitano, estado: .operativa, accesible: true, tieneAscensor: false),
+    Estacion(id: "MET-13", codigo: "MET-13", nombre: "El Milagro", distrito: "San Martín de Porres", sistema: .metropolitano, estado: .operativa, accesible: true, tieneAscensor: false),
+    Estacion(id: "MET-14", codigo: "MET-14", nombre: "Honorio Delgado", distrito: "San Martín de Porres", sistema: .metropolitano, estado: .operativa, accesible: true, tieneAscensor: false),
+    Estacion(id: "MET-15", codigo: "MET-15", nombre: "UNI", distrito: "Rímac", sistema: .metropolitano, estado: .operativa, accesible: true, tieneAscensor: false),
+    Estacion(id: "MET-16", codigo: "MET-16", nombre: "Parque del Trabajo", distrito: "Rímac", sistema: .metropolitano, estado: .operativa, accesible: true, tieneAscensor: false),
+    Estacion(id: "MET-17", codigo: "MET-17", nombre: "Caquetá", distrito: "Rímac", sistema: .metropolitano, estado: .operativa, accesible: true, tieneAscensor: false),
+
+    Estacion(id: "MET-18", codigo: "MET-18", nombre: "Ramón Castilla", distrito: "Cercado de Lima", sistema: .metropolitano, estado: .operativa, accesible: true, tieneAscensor: false),
+    Estacion(id: "MET-19", codigo: "MET-19", nombre: "Tacna", distrito: "Cercado de Lima", sistema: .metropolitano, estado: .operativa, accesible: true, tieneAscensor: false),
+    Estacion(id: "MET-20", codigo: "MET-20", nombre: "Jirón de la Unión", distrito: "Cercado de Lima", sistema: .metropolitano, estado: .operativa, accesible: true, tieneAscensor: false),
+    Estacion(id: "MET-21", codigo: "MET-21", nombre: "Colmena", distrito: "Cercado de Lima", sistema: .metropolitano, estado: .operativa, accesible: true, tieneAscensor: false),
+
+    Estacion(id: "MET-22", codigo: "MET-22", nombre: "Dos de Mayo", distrito: "Cercado de Lima", sistema: .metropolitano, estado: .operativa, accesible: true, tieneAscensor: false),
+    Estacion(id: "MET-23", codigo: "MET-23", nombre: "Quilca", distrito: "Cercado de Lima", sistema: .metropolitano, estado: .operativa, accesible: true, tieneAscensor: false),
+    Estacion(id: "MET-24", codigo: "MET-24", nombre: "España", distrito: "Cercado de Lima", sistema: .metropolitano, estado: .operativa, accesible: true, tieneAscensor: false),
+
+    Estacion(id: "MET-25", codigo: "MET-25", nombre: "Central", distrito: "Cercado de Lima", sistema: .metropolitano, estado: .operativa, accesible: true, tieneAscensor: true),
+    Estacion(id: "MET-26", codigo: "MET-26", nombre: "Estadio Nacional", distrito: "Cercado de Lima", sistema: .metropolitano, estado: .operativa, accesible: true, tieneAscensor: false),
+    Estacion(id: "MET-27", codigo: "MET-27", nombre: "México", distrito: "La Victoria", sistema: .metropolitano, estado: .operativa, accesible: true, tieneAscensor: false),
+    Estacion(id: "MET-28", codigo: "MET-28", nombre: "Canadá", distrito: "La Victoria", sistema: .metropolitano, estado: .operativa, accesible: true, tieneAscensor: false),
+    Estacion(id: "MET-29", codigo: "MET-29", nombre: "Javier Prado", distrito: "San Isidro", sistema: .metropolitano, estado: .operativa, accesible: true, tieneAscensor: false),
+    Estacion(id: "MET-30", codigo: "MET-30", nombre: "Andrés Reyes", distrito: "San Isidro", sistema: .metropolitano, estado: .operativa, accesible: true, tieneAscensor: false),
+    Estacion(id: "MET-31", codigo: "MET-31", nombre: "Canaval y Moreyra", distrito: "San Isidro", sistema: .metropolitano, estado: .operativa, accesible: true, tieneAscensor: false),
+    Estacion(id: "MET-32", codigo: "MET-32", nombre: "Aramburú", distrito: "San Isidro", sistema: .metropolitano, estado: .operativa, accesible: true, tieneAscensor: false),
+    Estacion(id: "MET-33", codigo: "MET-33", nombre: "Domingo Orué", distrito: "Surquillo", sistema: .metropolitano, estado: .operativa, accesible: true, tieneAscensor: false),
+    Estacion(id: "MET-34", codigo: "MET-34", nombre: "Angamos", distrito: "Surquillo", sistema: .metropolitano, estado: .operativa, accesible: true, tieneAscensor: false),
+    Estacion(id: "MET-35", codigo: "MET-35", nombre: "Ricardo Palma", distrito: "Miraflores", sistema: .metropolitano, estado: .operativa, accesible: true, tieneAscensor: false),
+    Estacion(id: "MET-36", codigo: "MET-36", nombre: "Benavides", distrito: "Miraflores", sistema: .metropolitano, estado: .operativa, accesible: true, tieneAscensor: false),
+    Estacion(id: "MET-37", codigo: "MET-37", nombre: "28 de Julio", distrito: "Miraflores", sistema: .metropolitano, estado: .operativa, accesible: true, tieneAscensor: false),
+    Estacion(id: "MET-38", codigo: "MET-38", nombre: "Plaza de Flores", distrito: "Barranco", sistema: .metropolitano, estado: .operativa, accesible: true, tieneAscensor: false),
+    Estacion(id: "MET-39", codigo: "MET-39", nombre: "Balta", distrito: "Barranco", sistema: .metropolitano, estado: .operativa, accesible: true, tieneAscensor: false),
+    Estacion(id: "MET-40", codigo: "MET-40", nombre: "Bulevar", distrito: "Barranco", sistema: .metropolitano, estado: .operativa, accesible: true, tieneAscensor: false),
+    Estacion(id: "MET-41", codigo: "MET-41", nombre: "Estadio Unión", distrito: "Barranco", sistema: .metropolitano, estado: .operativa, accesible: true, tieneAscensor: false),
+    Estacion(id: "MET-42", codigo: "MET-42", nombre: "Escuela Militar", distrito: "Chorrillos", sistema: .metropolitano, estado: .operativa, accesible: true, tieneAscensor: false),
+    Estacion(id: "MET-43", codigo: "MET-43", nombre: "Terán", distrito: "Chorrillos", sistema: .metropolitano, estado: .operativa, accesible: true, tieneAscensor: false),
+    Estacion(id: "MET-44", codigo: "MET-44", nombre: "Rosario de Villa", distrito: "Chorrillos", sistema: .metropolitano, estado: .operativa, accesible: true, tieneAscensor: false),
+    Estacion(id: "MET-45", codigo: "MET-45", nombre: "Matellini", distrito: "Chorrillos", sistema: .metropolitano, estado: .operativa, accesible: true, tieneAscensor: true)
+]
+
+let estacionesRamalLinea4: [Estacion] = [
+    Estacion(id: "L4-01", codigo: "L4-01", nombre: "Gambetta", distrito: "Callao", sistema: .ramalLinea4, estado: .enConstruccion, accesible: true, tieneAscensor: true),
+    Estacion(id: "L4-02", codigo: "L4-02", nombre: "Canta Callao", distrito: "Callao", sistema: .ramalLinea4, estado: .enConstruccion, accesible: true, tieneAscensor: true),
+    Estacion(id: "L4-03", codigo: "L4-03", nombre: "Bocanegra", distrito: "Callao", sistema: .ramalLinea4, estado: .enConstruccion, accesible: true, tieneAscensor: true),
+    Estacion(id: "L4-04", codigo: "L4-04", nombre: "Aeropuerto", distrito: "Callao", sistema: .ramalLinea4, estado: .enConstruccion, accesible: true, tieneAscensor: true),
+    Estacion(id: "L4-05", codigo: "L4-05", nombre: "El Olivar", distrito: "Callao", sistema: .ramalLinea4, estado: .enConstruccion, accesible: true, tieneAscensor: true),
+    Estacion(id: "L4-06", codigo: "L4-06", nombre: "Quilca", distrito: "Callao", sistema: .ramalLinea4, estado: .enConstruccion, accesible: true, tieneAscensor: true),
+    Estacion(id: "L4-07", codigo: "L4-07", nombre: "Morales Duárez", distrito: "Callao", sistema: .ramalLinea4, estado: .enConstruccion, accesible: true, tieneAscensor: true),
+    Estacion(id: "L4-08", codigo: "L4-08", nombre: "Carmen de la Legua", distrito: "Carmen de la Legua Reynoso", sistema: .ramalLinea4, estado: .enConstruccion, accesible: true, tieneAscensor: true)
+]
+
+let todasLasEstaciones =
+    estacionesLinea1 +
+    estacionesLinea2 +
+    estacionesMetropolitano +
+    estacionesRamalLinea4
+func normalizarTexto(_ texto: String) -> String {
+    return texto
+        .folding(options: [.diacriticInsensitive, .caseInsensitive], locale: .current)
+        .trimmingCharacters(in: .whitespacesAndNewlines)
+}
+
+func distanciaEdicion(_ texto1: String, _ texto2: String) -> Int {
+    let a = Array(texto1)
+    let b = Array(texto2)
+
+    var matriz = Array(
+        repeating: Array(repeating: 0, count: b.count + 1),
+        count: a.count + 1
+    )
+
+    for i in 0...a.count {
+        matriz[i][0] = i
+    }
+
+    for j in 0...b.count {
+        matriz[0][j] = j
+    }
+
+    if !a.isEmpty && !b.isEmpty {
+        for i in 1...a.count {
+            for j in 1...b.count {
+                if a[i - 1] == b[j - 1] {
+                    matriz[i][j] = matriz[i - 1][j - 1]
+                } else {
+                    matriz[i][j] = min(
+                        matriz[i - 1][j] + 1,
+                        matriz[i][j - 1] + 1,
+                        matriz[i - 1][j - 1] + 1
+                    )
+                }
+            }
+        }
+    }
+
+    return matriz[a.count][b.count]
+    
+}
+
+
+// RF01 - LISTAR ESTACIONES POR SISTEMA
+
+func estacionesDelSistema(_ sistema: SistemaTransporte) -> [Estacion] {
+    return todasLasEstaciones.filter {
+        $0.sistema == sistema
+    }
+}
+
+func mostrarTablaEstaciones(_ estaciones: [Estacion]) {
+    print("")
+    print("================================================================================")
+    print("CÓDIGO     ESTACIÓN                         DISTRITO                    ESTADO")
+    print("================================================================================")
+
+    for estacion in estaciones {
+        let codigo = estacion.codigo.padding(
+            toLength: 10,
+            withPad: " ",
+            startingAt: 0
+        )
+
+        let nombre = estacion.nombre.padding(
+            toLength: 32,
+            withPad: " ",
+            startingAt: 0
+        )
+
+        let distrito = estacion.distrito.padding(
+            toLength: 28,
+            withPad: " ",
+            startingAt: 0
+        )
+
+        print("\(codigo)\(nombre)\(distrito)\(estacion.estado.rawValue)")
+    }
+
+    print("================================================================================")
+    print("Total de estaciones: \(estaciones.count)")
+}
+
+// RF02 - BUSCAR ESTACIONES
+
+func buscarEstaciones(_ texto: String) -> [Estacion] {
+    let consulta = normalizarTexto(texto)
+
+    guard !consulta.isEmpty else {
+        return []
+    }
+
+    let coincidencias = todasLasEstaciones.filter { estacion in
+        let nombre = normalizarTexto(estacion.nombre)
+        let codigo = normalizarTexto(estacion.codigo)
+        let distrito = normalizarTexto(estacion.distrito)
+
+        return nombre.contains(consulta) ||
+               codigo.contains(consulta) ||
+               distrito.contains(consulta)
+    }
+
+    if !coincidencias.isEmpty {
+        return coincidencias
+    }
+
+    guard consulta.count >= 5 else {
+        return []
+    }
+
+    return todasLasEstaciones.filter { estacion in
+        let nombre = normalizarTexto(estacion.nombre)
+
+        return distanciaEdicion(consulta, nombre) <= 2
+    }
+}
+var transportesComplementarios: [TransporteComplementario] = []
+
+// RF03 - MOSTRAR INFORMACIÓN DE UNA ESTACIÓN
+
+func mostrarInformacionEstacion(_ estacion: Estacion) {
+    let tieneTransporte = transportesComplementarios.contains {
+        $0.origenID == estacion.id
+    }
+
+    print("")
+    print("==================================================")
+    print("            INFORMACIÓN DE ESTACIÓN")
+    print("==================================================")
+    print("Nombre: \(estacion.nombre)")
+    print("Código: \(estacion.codigo)")
+    print("Distrito: \(estacion.distrito)")
+    print("Sistema: \(estacion.sistema.rawValue)")
+    print("Estado: \(estacion.estado.rawValue)")
+    print("Accesibilidad: \(estacion.accesible ? "Sí" : "No")")
+    print("Ascensor: \(estacion.tieneAscensor ? "Sí" : "No")")
+
+    if estacion.estado != .operativa {
+        print("Transporte complementario: No disponible")
+    } else {
+        print(
+            "Transporte complementario: \(tieneTransporte ? "Disponible" : "No registrado")"
+        )
+    }
+
+    print("==================================================")
+}
+
+

@@ -1225,3 +1225,223 @@ func mostrarRutaDisponible(
         destino: destino
     )
 }
+
+// RF09 - VALIDAR ENTRADAS Y MANTENER EL MENÚ
+
+func seleccionarEstacion(_ resultados: [Estacion]) -> Estacion? {
+    if resultados.isEmpty {
+        print("\nNo se encontró la estación.")
+        return nil
+    }
+
+    if resultados.count == 1 {
+        return resultados[0]
+    }
+
+    print("\nSe encontraron varias coincidencias:")
+
+    for (indice, estacion) in resultados.enumerated() {
+        print(
+            "\(indice + 1). \(estacion.nombre) | " +
+            "\(estacion.sistema.rawValue) | " +
+            "\(estacion.distrito) | " +
+            "\(estacion.estado.rawValue)"
+        )
+    }
+
+    print("\nSeleccione una opción:")
+
+    guard
+        let entrada = readLine(),
+        let opcion = Int(entrada),
+        opcion >= 1,
+        opcion <= resultados.count
+    else {
+        print("Opción no válida.")
+        return nil
+    }
+
+    return resultados[opcion - 1]
+}
+
+func obtenerEstacion(_ texto: String) -> Estacion? {
+    let consulta = normalizarTexto(texto)
+
+    let destinosEspeciales: [String: String] = [
+        "centro historico": "MET-20",
+        "estadio nacional": "MET-26",
+        "gamarra": "L1-15",
+        "aeropuerto": "L4-04"
+    ]
+
+    if let id = destinosEspeciales[consulta] {
+        return buscarEstacionPorID(id)
+    }
+
+    return seleccionarEstacion(
+        buscarEstaciones(texto)
+    )
+}
+
+func opcionListarEstaciones() {
+    var volver = false
+
+    while !volver {
+        print("")
+        print("==================================================")
+        print("           ESTACIONES POR SISTEMA")
+        print("==================================================")
+        print("1. Línea 1")
+        print("2. Línea 2")
+        print("3. Metropolitano")
+        print("4. Ramal Línea 4")
+        print("0. Volver")
+        print("==================================================")
+        print("Seleccione una opción:")
+
+        let opcion = readLine() ?? ""
+
+        switch opcion {
+        case "1":
+            mostrarTablaEstaciones(estacionesLinea1)
+
+        case "2":
+            mostrarTablaEstaciones(estacionesLinea2)
+
+        case "3":
+            mostrarTablaEstaciones(estacionesMetropolitano)
+
+        case "4":
+            mostrarTablaEstaciones(estacionesRamalLinea4)
+
+        case "0":
+            volver = true
+
+        default:
+            print("\nOpción no válida. Intente nuevamente.")
+        }
+    }
+}
+
+func opcionBuscarEstacion() {
+    print("\nIngrese nombre, código o distrito de la estación:")
+
+    guard let texto = readLine() else {
+        print("Entrada no válida.")
+        return
+    }
+
+    let resultados = buscarEstaciones(texto)
+
+    guard let estacion = seleccionarEstacion(resultados) else {
+        return
+    }
+
+    mostrarInformacionEstacion(estacion)
+}
+
+func opcionTransporteComplementario() {
+    print("\nIngrese una estación:")
+
+    guard
+        let texto = readLine(),
+        let estacion = obtenerEstacion(texto)
+    else {
+        return
+    }
+
+    mostrarTransporteComplementario(
+        desde: estacion
+    )
+}
+
+func opcionCalcularRuta() {
+    print("\nIngrese estación de origen:")
+
+    guard
+        let textoOrigen = readLine(),
+        let origen = obtenerEstacion(textoOrigen)
+    else {
+        print("No se pudo identificar el origen.")
+        return
+    }
+
+    print("")
+    print("Ingrese estación o destino:")
+    print("(Ejemplo: Estadio Nacional, Gamarra, Centro Histórico, Aeropuerto)")
+
+    guard
+        let textoDestino = readLine(),
+        let destino = obtenerEstacion(textoDestino)
+    else {
+        print("No se pudo identificar el destino.")
+        return
+    }
+
+    guard let ruta = calcularRutaDisponible(
+        desde: origen,
+        hasta: destino
+    ) else {
+        print("")
+        print("No se encontró una ruta disponible")
+        print("entre el origen y el destino seleccionados.")
+        return
+    }
+
+    mostrarRutaDisponible(
+        ruta,
+        origen: origen,
+        destino: destino
+    )
+}
+
+func mostrarMenuPrincipal() {
+    var continuar = true
+
+    while continuar {
+        print("")
+        print("==================================================")
+        print("                 METRO LIMA GO")
+        print("==================================================")
+        print("1. Ver estaciones por sistema")
+        print("2. Buscar estación")
+        print("3. Ver puntos de conexión entre sistemas")
+        print("4. Consultar transporte complementario")
+        print("5. Calcular ruta")
+        print("0. Salir")
+        print("==================================================")
+        print("Seleccione una opción:")
+
+        let opcion = readLine() ?? ""
+
+        switch opcion {
+        case "1":
+            opcionListarEstaciones()
+
+        case "2":
+            opcionBuscarEstacion()
+
+        case "3":
+            mostrarPuntosConexion()
+
+        case "4":
+            opcionTransporteComplementario()
+
+        case "5":
+            opcionCalcularRuta()
+
+        case "0":
+            print("")
+            print("==================================================")
+            print("Gracias por utilizar Metro Lima Go.")
+            print("==================================================")
+            continuar = false
+
+        default:
+            print("")
+            print("Opción no válida. Intente nuevamente.")
+        }
+    }
+}
+
+mostrarMenuPrincipal()

@@ -49,4 +49,27 @@ class Biblioteca {
         print("Error: no existe \(titulo)")
         return false
     }
+    
+    // Devuelve un libro si estaba prestado
+    func devolver(titulo: String) -> Bool {
+
+        for i in 0..<libros.count {
+
+            if libros[i].titulo == titulo {
+
+                if libros[i].estado == .prestado {
+                    libros[i].estado = .disponible
+                    print("Devolucion registrada: \(titulo)")
+                    return true
+                } else {
+                    print("Error: \(titulo) ya esta disponible")
+                    return false
+                }
+            }
+        }
+
+        print("Error: no existe \(titulo)")
+        return false
+    }
 }
+

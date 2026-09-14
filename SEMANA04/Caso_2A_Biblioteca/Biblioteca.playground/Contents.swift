@@ -28,4 +28,25 @@ class Biblioteca {
     func agregar(libro: Libro) {
         libros.append(libro)
     }
+    // Presta un libro si esta disponible
+    func prestar(titulo: String) -> Bool {
+
+        for i in 0..<libros.count {
+
+            if libros[i].titulo == titulo {
+
+                if libros[i].estado == .disponible {
+                    libros[i].estado = .prestado
+                    print("Prestamo aprobado: \(titulo)")
+                    return true
+                } else {
+                    print("Error: \(titulo) ya esta prestado")
+                    return false
+                }
+            }
+        }
+
+        print("Error: no existe \(titulo)")
+        return false
+    }
 }

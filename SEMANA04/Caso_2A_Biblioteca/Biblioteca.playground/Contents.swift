@@ -22,6 +22,10 @@ struct Libro {
 // clase principal de la biblioteca
 
 class Biblioteca {
-    var Biblioteca: [Libro] = []
+    var libros: [Libro] = []
     
+    // Agrega un libro al arreglo
+    func agregar(libro: Libro) {
+        libros.append(libro)
+    }
 }

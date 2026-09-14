@@ -71,5 +71,21 @@ class Biblioteca {
         print("Error: no existe \(titulo)")
         return false
     }
+    // Muestra todos los libros con su estado
+    func inventario() {
+
+        print("===== INVENTARIO =====")
+
+        for libro in libros {
+
+            switch libro.estado {
+            case .disponible:
+                print("\(libro.titulo) (\(libro.autor)) - disponible")
+
+            case .prestado:
+                print("\(libro.titulo) (\(libro.autor)) - prestado")
+            }
+        }
+    }
 }
 

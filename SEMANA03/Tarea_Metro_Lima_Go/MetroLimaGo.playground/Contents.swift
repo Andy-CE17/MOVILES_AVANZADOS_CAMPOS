@@ -2,11 +2,33 @@ import Foundation
 
 // ENUMS
 
-enum SistemaTransporte: String {
-    case linea1 = "Línea 1"
-    case linea2 = "Línea 2"
-    case metropolitano = "Metropolitano"
-    case ramalLinea4 = "Ramal Línea 4"
+enum SistemaTransporte: Hashable {
+    case linea1
+    case linea2
+    case metropolitano
+    case ramalLinea4
+    case personalizada(nombre: String, prefijo: String)
+
+    // Conserva el acceso .rawValue usado por las pantallas existentes.
+    var rawValue: String {
+        switch self {
+        case .linea1: return "Línea 1"
+        case .linea2: return "Línea 2"
+        case .metropolitano: return "Metropolitano"
+        case .ramalLinea4: return "Ramal Línea 4"
+        case .personalizada(let nombre, _): return nombre
+        }
+    }
+
+    var prefijo: String {
+        switch self {
+        case .linea1: return "L1"
+        case .linea2: return "L2"
+        case .metropolitano: return "MET"
+        case .ramalLinea4: return "L4"
+        case .personalizada(_, let prefijo): return prefijo
+        }
+    }
 }
 
 enum EstadoEstacion: String {
@@ -40,6 +62,7 @@ struct Conexion {
     let destinoID: String
     let estado: EstadoEstacion
     let descripcion: String
+    var tiempoReferencial: Int = 5
 }
 
 struct TarjetaTransporte {
@@ -50,10 +73,12 @@ struct TarjetaTransporte {
 var tarjeta = TarjetaTransporte(identificador: "DEMO-001", saldo: 10)
 // Tarifa plana por viaje, simulada para el ejercicio; no es una tarifa oficial.
 var tarifaSimulada: Decimal = Decimal(string: "1.50")!
+var sistemasPersonalizados: [SistemaTransporte] = []
+var estacionesPersonalizadas: [SistemaTransporte: [Estacion]] = [:]
 var datosAgregados: [String] = []
 
 var sistemasDisponibles: [SistemaTransporte] {
-    return [.linea1, .linea2, .metropolitano, .ramalLinea4]
+    return [.linea1, .linea2, .metropolitano, .ramalLinea4] + sistemasPersonalizados
 }
 
 struct TransporteComplementario {
@@ -196,7 +221,8 @@ var todasLasEstaciones: [Estacion] {
     return estacionesLinea1 +
     estacionesLinea2 +
     estacionesMetropolitano +
-    estacionesRamalLinea4
+    estacionesRamalLinea4 +
+    sistemasPersonalizados.flatMap { estacionesPersonalizadas[$0] ?? [] }
 }
 
 // Se conservan las dos ramas del Metropolitano al insertar estaciones.
@@ -428,7 +454,7 @@ func mostrarInformacionEstacion(_ estacion: Estacion) {
 }
 
 
-let conexionesSistemas: [Conexion] = [
+var conexionesSistemas: [Conexion] = [
     Conexion(
         origenID: "L1-15",
         destinoID: "L2-E16",
@@ -485,6 +511,7 @@ func mostrarPuntosConexion() {
         print("Distrito: \(origen.distrito)")
         print("Estado de conexión: \(conexion.estado.rawValue)")
         print("Detalle: \(conexion.descripcion)")
+        print("Tiempo referencial: ~\(conexion.tiempoReferencial) min")
     }
 
     print("")
@@ -583,6 +610,28 @@ func transportesDesde(_ estacionID: String) -> [TransporteComplementario] {
     return (crearGrafoActual()[estacionID] ?? []).compactMap { $0.transporte }
 }
 
+func integrarConexiones(
+    en grafo: inout [String: [PasoRuta]],
+    incluirFuturas: Bool
+) {
+    for conexion in conexionesSistemas {
+        guard let origen = buscarEstacionPorID(conexion.origenID),
+              let destino = buscarEstacionPorID(conexion.destinoID) else {
+            continue
+        }
+        let esFuturo = conexion.estado != .operativa ||
+            origen.estado != .operativa || destino.estado != .operativa
+        if esFuturo && !incluirFuturas {
+            continue
+        }
+        agregarPaso(PasoRuta(
+            origenID: origen.id, destinoID: destino.id,
+            medio: "Conexión entre sistemas",
+            tiempo: conexion.tiempoReferencial,
+            esFuturo: esFuturo, transporte: nil
+        ), al: &grafo)
+    }
+}
 
 func agregarPaso(
     _ paso: PasoRuta,
@@ -725,6 +774,13 @@ func crearGrafoActual() -> [String: [PasoRuta]] {
         agregarPaso(paso, al: &grafo)
     }
 
+    for sistema in sistemasPersonalizados {
+        conectarSecuencia(
+            obtenerListaSistema(sistema), medio: sistema.rawValue,
+            minutos: 3, grafo: &grafo
+        )
+    }
+    integrarConexiones(en: &grafo, incluirFuturas: false)
 
     return grafo
 }
@@ -889,6 +945,8 @@ func obtenerListaSistema(_ sistema: SistemaTransporte) -> [Estacion] {
         return estacionesMetropolitano
     case .ramalLinea4:
         return estacionesRamalLinea4
+    case .personalizada:
+        return estacionesPersonalizadas[sistema] ?? []
     }
 }
 
@@ -1112,19 +1170,13 @@ func crearGrafoFuturo() -> [String: [PasoRuta]] {
         agregarPaso(paso, al: &grafo)
     }
 
-    for conexion in conexionesSistemas {
-        let paso = PasoRuta(
-            origenID: conexion.origenID,
-            destinoID: conexion.destinoID,
-            medio: "Conexión entre sistemas",
-            tiempo: 5,
-            esFuturo: true,
-            transporte: nil
+    for sistema in sistemasPersonalizados {
+        conectarSecuenciaFutura(
+            obtenerListaSistema(sistema), medio: sistema.rawValue,
+            minutos: 3, grafo: &grafo
         )
-
-        agregarPaso(paso, al: &grafo)
     }
-
+    integrarConexiones(en: &grafo, incluirFuturas: true)
 
     return grafo
 }
@@ -1542,6 +1594,7 @@ func guardarEstaciones(_ estaciones: [Estacion], del sistema: SistemaTransporte)
     case .linea2: estacionesLinea2 = estaciones
     case .metropolitano: estacionesMetropolitano = estaciones
     case .ramalLinea4: estacionesRamalLinea4 = estaciones
+    case .personalizada: estacionesPersonalizadas[sistema] = estaciones
     }
 }
 
@@ -1643,6 +1696,65 @@ func insertarEstacionAdministrador() {
     print("Estación insertada. El recorrido ahora pasa por la nueva estación.")
 }
 
+func crearLineaAdministrador() {
+    guard let nombre = leerTextoObligatorio("Nombre de la línea:") else { return }
+    guard !sistemasDisponibles.contains(where: { normalizarTexto($0.rawValue) == normalizarTexto(nombre) }) else {
+        print("Ya existe una línea con ese nombre.")
+        return
+    }
+    guard let prefijo = pedirIdentificador("Código/prefijo de la línea:",
+                                           reservados: sistemasDisponibles.map { $0.prefijo }),
+          let cantidad = leerEntero("Cantidad de estaciones (1 a 200):", entre: 1...200) else { return }
+    let sistema = SistemaTransporte.personalizada(nombre: nombre, prefijo: prefijo)
+    var estaciones: [Estacion] = []
+    for numero in 1...cantidad {
+        print("\nESTACIÓN \(numero) DE \(cantidad) | Prefijo de referencia: \(prefijo)")
+        guard let estacion = pedirEstacion(del: sistema, pendientes: estaciones) else { return }
+        estaciones.append(estacion)
+    }
+    // Publica la línea solo cuando todas sus estaciones están completas y validadas.
+    sistemasPersonalizados.append(sistema)
+    guardarEstaciones(estaciones, del: sistema)
+    datosAgregados.append("Línea \(nombre) [\(prefijo)]: \(estaciones.count) estaciones")
+    for estacion in estaciones {
+        datosAgregados.append("Estación \(estacion.id): \(estacion.nombre) | \(nombre)")
+    }
+    print("Línea creada. Use Crear conexión para unirla con otra línea.")
+}
+
+func crearConexionAdministrador() {
+    guard let origen = pedirEstacionExistente("Estación A:"),
+          let destino = pedirEstacionExistente("Estación B:") else { return }
+    guard origen.sistema != destino.sistema else {
+        print("Seleccione estaciones de líneas/sistemas diferentes.")
+        return
+    }
+    guard !conexionesSistemas.contains(where: {
+        ($0.origenID == origen.id && $0.destinoID == destino.id) ||
+        ($0.origenID == destino.id && $0.destinoID == origen.id)
+    }) else {
+        print("La conexión ya existe.")
+        return
+    }
+    guard let tiempo = leerEntero("Tiempo estimado de conexión en minutos (1 a 1440):",
+                                  entre: 1...1440) else { return }
+    let estado: EstadoEstacion
+    if origen.estado == .operativa && destino.estado == .operativa {
+        estado = .operativa
+    } else if origen.estado == .proyectada || destino.estado == .proyectada {
+        estado = .proyectada
+    } else {
+        estado = .enConstruccion
+    }
+    let descripcion = "\(origen.nombre) - \(origen.sistema.rawValue) ↔ \(destino.nombre) - \(destino.sistema.rawValue)"
+    conexionesSistemas.append(Conexion(
+        origenID: origen.id, destinoID: destino.id, estado: estado,
+        descripcion: descripcion, tiempoReferencial: tiempo
+    ))
+    datosAgregados.append("Conexión: \(descripcion) | \(tiempo) min | \(estado.rawValue)")
+    print("Conexión creada: \(estado.rawValue). Puedes usarla en ambos sentidos.")
+}
+
 
 func modoAdministrador() {
     print("\nADMINISTRACIÓN · Ingrese la clave:")
@@ -1655,19 +1767,23 @@ func modoAdministrador() {
         print("\nADMINISTRACIÓN | Cambios disponibles durante esta sesión")
         print("1. Agregar una estación")
         print("2. Insertar una estación entre dos estaciones existentes")
-        print("3. Cambiar tarifa del viaje")
-        print("4. Ver datos agregados")
+        print("3. Crear una línea nueva completa")
+        print("4. Crear una conexión entre dos líneas/sistemas")
+        print("5. Cambiar tarifa del viaje")
+        print("6. Ver datos agregados")
         print("0. Volver")
         guard let opcion = leerEntrada() else { return }
         switch opcion {
         case "1": agregarEstacionAdministrador()
         case "2": insertarEstacionAdministrador()
-        case "3":
+        case "3": crearLineaAdministrador()
+        case "4": crearConexionAdministrador()
+        case "5":
             guard let monto = leerMonto("Nueva tarifa por viaje:") else { return }
             tarifaSimulada = monto
             datosAgregados.append("Tarifa actualizada a \(formatearMonto(monto))")
             print("Tarifa actualizada: \(formatearMonto(monto))")
-        case "4":
+        case "6":
             print(datosAgregados.isEmpty ? "No hay datos agregados en esta sesión." : datosAgregados.joined(separator: "\n"))
         case "0": return
         default: print("Opción no válida.")

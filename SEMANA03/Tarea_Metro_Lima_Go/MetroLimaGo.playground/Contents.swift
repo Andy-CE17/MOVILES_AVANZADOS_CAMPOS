@@ -385,9 +385,7 @@ var transportesComplementarios: [TransporteComplementario] = [
 // RF03 - MOSTRAR INFORMACIÓN DE UNA ESTACIÓN
 
 func mostrarInformacionEstacion(_ estacion: Estacion) {
-    let tieneTransporte = transportesComplementarios.contains {
-        $0.origenID == estacion.id
-    }
+    let tieneTransporte = !transportesDesde(estacion.id).isEmpty
 
     print("")
     print("==================================================")
@@ -497,9 +495,7 @@ func mostrarTransporteComplementario(desde estacion: Estacion) {
         return
     }
 
-    let rutasDisponibles = transportesComplementarios.filter {
-        $0.origenID == estacion.id
-    }
+    let rutasDisponibles = transportesDesde(estacion.id)
 
     if rutasDisponibles.isEmpty {
         print("")
@@ -899,29 +895,30 @@ func cantidadEstaciones(
     sistema: SistemaTransporte
 ) -> Int {
 
-    let estaciones = obtenerListaSistema(sistema)
-
-    guard
-        let indiceOrigen = estaciones.firstIndex(where: { $0.id == origenID }),
-        let indiceDestino = estaciones.firstIndex(where: { $0.id == destinoID })
-    else {
-        return 0
+    // Cuenta enlaces reales; las posiciones del arreglo no representan las bifurcaciones.
+    let grafo = crearGrafoFuturo().mapValues { pasos in
+        pasos.filter {
+            $0.transporte == nil &&
+            buscarEstacionPorID($0.origenID)?.sistema == sistema &&
+            buscarEstacionPorID($0.destinoID)?.sistema == sistema
+        }
     }
-
-    return abs(indiceDestino - indiceOrigen)
+    return buscarCamino(desde: origenID, hasta: destinoID, grafo: grafo)?.count ?? 0
 }
 
 func contarTransbordos(_ pasos: [PasoRuta]) -> Int {
-    guard pasos.count > 1 else {
-        return 0
-    }
-
     var transbordos = 0
-    var medioAnterior = pasos[0].medio
+    var medioAnterior: String? = nil
 
-    for paso in pasos.dropFirst() {
-        if paso.medio != medioAnterior {
+    for paso in pasos {
+        if esConexion(paso) {
+            // La conexión cuenta una vez, no al entrar y nuevamente al salir.
             transbordos += 1
+            medioAnterior = nil
+        } else if let anterior = medioAnterior, paso.medio != anterior {
+            transbordos += 1
+            medioAnterior = paso.medio
+        } else {
             medioAnterior = paso.medio
         }
     }
@@ -934,114 +931,50 @@ func mostrarDetalleRuta(
     origen: Estacion,
     destino: Estacion
 ) {
-
-    print("")
-    print("╔════════════════════════════════════════════════════════════╗")
-    print("║                    METRO LIMA GO                          ║")
-    print("║                    RUTA RECOMENDADA                       ║")
-    print("╚════════════════════════════════════════════════════════════╝")
-
-    print("")
-    print("ORIGEN")
-    print("  \(origen.nombre)")
-    print("  \(origen.sistema.rawValue)")
-
-    print("")
-    print("DESTINO")
-    print("  \(destino.nombre)")
-    print("  \(destino.sistema.rawValue)")
-
-    print("")
-    print("TIPO DE RUTA")
-    print("  \(ruta.tipo.rawValue)")
+    print("\n==================================================")
+    print("                  TU PLAN DE VIAJE")
+    print("==================================================")
+    print("SALIDA   \(origen.nombre) | \(origen.sistema.rawValue)")
+    print("LLEGADA  \(destino.nombre) | \(destino.sistema.rawValue)")
+    print("--------------------------------------------------")
+    print("Tiempo estimado: \(ruta.tiempoTotal) min")
+    print("Estaciones por recorrer: \(estacionesEnPasos(ruta.pasos))")
+    print("Transbordos: \(contarTransbordos(ruta.pasos))")
+    print("Tarifa estimada: \(formatearMonto(tarifaEstimada(ruta)))")
 
     if ruta.pasos.isEmpty {
-        print("")
-        print("Ya te encuentras en el destino seleccionado.")
+        print("\nYa estás en tu destino. No necesitas realizar un viaje.")
         return
     }
 
-    print("")
-    print("────────────────────────────────────────────────────────────")
-
-    var numeroTramo = 1
-    var totalEstaciones = 0
-
-    for paso in ruta.pasos {
-
-        guard
-            let estacionOrigen = buscarEstacionPorID(paso.origenID),
-            let estacionDestino = buscarEstacionPorID(paso.destinoID)
-        else {
-            continue
-        }
-
-        print("")
-
-        if let transporte = paso.transporte {
-
-            print("TRANSBORDO | TRANSPORTE COMPLEMENTARIO")
-            print("")
-            print("Ruta: \(transporte.ruta)")
-            print("Operador: \(transporte.empresa)")
-            print("")
-            print("Subida:")
-            print("  \(transporte.paraderoSubida)")
-            print("")
-            print("      ↓")
-            print("")
-            print("Bajada:")
-            print("  \(transporte.paraderoBajada)")
-            print("")
-            print("Tiempo referencial: ~\(paso.tiempo) min")
-
+    print("\nCÓMO LLEGAR")
+    for (indice, tramo) in agruparTramos(ruta.pasos).enumerated() {
+        guard let primero = tramo.first, let ultimo = tramo.last,
+              let salida = buscarEstacionPorID(primero.origenID),
+              let llegada = buscarEstacionPorID(ultimo.destinoID) else { continue }
+        let minutos = tramo.reduce(0) { $0 + $1.tiempo }
+        print("\n\(indice + 1). \(primero.medio.uppercased())")
+        if let bus = primero.transporte {
+            print("   Toma \(bus.ruta) | \(bus.empresa)")
+            print("   Sube en: \(bus.paraderoSubida)")
+            print("   Baja en: \(bus.paraderoBajada)")
+            print("   Une \(salida.sistema.rawValue) con \(llegada.sistema.rawValue)")
+        } else if esConexion(primero) {
+            print("   Cambia de \(salida.sistema.rawValue) a \(llegada.sistema.rawValue)")
+            print("   \(salida.nombre) → \(llegada.nombre)")
         } else {
-
-            print("TRAMO \(numeroTramo) | \(paso.medio)")
-            print("")
-
-            let cantidad = cantidadEstaciones(
-                desde: paso.origenID,
-                hasta: paso.destinoID,
-                sistema: estacionOrigen.sistema
-            )
-
-            totalEstaciones += cantidad
-
-            print("  \(estacionOrigen.nombre)")
-            print("       │")
-
-            if cantidad == 1 {
-                print("       │  Avanza 1 estación")
-            } else {
-                print("       │  Avanza \(cantidad) estaciones")
-            }
-
-            print("       ▼")
-            print("  \(estacionDestino.nombre)")
-            print("")
-            print("Tiempo referencial: ~\(paso.tiempo) min")
-
-            numeroTramo += 1
+            print("   Sube en: \(salida.nombre)")
+            print("   Baja en: \(llegada.nombre)")
+            let cantidad = tramo.count
+            print("   Avanza \(cantidad) \(cantidad == 1 ? "estación" : "estaciones")")
         }
-
-        print("")
-        print("────────────────────────────────────────────────────────────")
+        print("   Tiempo: \(minutos) min")
+        if tramo.contains(where: { $0.esFuturo }) {
+            print("   NO DISPONIBLE AÚN: incluye estaciones o conexiones futuras.")
+        }
     }
-
-    let transbordos = contarTransbordos(ruta.pasos)
-
-    print("")
-    print("RESUMEN DEL VIAJE")
-    print("")
-    print("Estaciones recorridas: \(totalEstaciones)")
-    print("Transbordos: \(transbordos)")
-    print("Tiempo total referencial: ~\(ruta.tiempoTotal) min")
-
-    print("")
-    print("╔════════════════════════════════════════════════════════════╗")
-    print("║                    FIN DE LA RUTA                         ║")
-    print("╚════════════════════════════════════════════════════════════╝")
+    print("\nLlegarás a \(destino.nombre).")
+    print("==================================================")
 }
 
 // RF08 - DIFERENCIAR RUTAS ACTUALES Y FUTURAS
@@ -1365,43 +1298,34 @@ func opcionTransporteComplementario() {
 }
 
 func opcionCalcularRuta() {
-    print("\nIngrese estación de origen:")
+    print("\n==================================================")
+    print("                  PLANIFICAR VIAJE")
+    print("==================================================")
+    guard let origen = pedirPuntoViaje("PASO 1 DE 2 · ¿Desde dónde sales?"),
+          let destino = pedirPuntoViaje("PASO 2 DE 2 · ¿A dónde quieres llegar?") else { return }
 
-    guard
-        let textoOrigen = readLine(),
-        let origen = obtenerEstacion(textoOrigen)
-    else {
-        print("No se pudo identificar el origen.")
+    guard let ruta = calcularRutaDisponible(desde: origen, hasta: destino) else {
+        print("\nNo hay una ruta que conecte estas estaciones.")
+        print("Puedes elegir otro destino o agregar una conexión desde Administración.")
         return
     }
+    mostrarRutaDisponible(ruta, origen: origen, destino: destino)
+    guard !ruta.pasos.isEmpty else { return }
 
-    print("")
-    print("Ingrese estación o destino:")
-    print("(Ejemplo: Estadio Nacional, Gamarra, Centro Histórico, Aeropuerto)")
-
-    guard
-        let textoDestino = readLine(),
-        let destino = obtenerEstacion(textoDestino)
-    else {
-        print("No se pudo identificar el destino.")
+    if ruta.tipo == .futura {
+        print("\nEste recorrido todavía no está disponible en su totalidad.")
+        print("El seguimiento permite revisar sus pasos; no indica que esté operativo.")
+    }
+    guard leerSiNo("\n¿Iniciar el seguimiento del viaje? (s/n)") == true else { return }
+    print("\nPAGO DEL VIAJE")
+    print("Tarifa: \(formatearMonto(tarifaEstimada(ruta))) | Saldo: \(formatearMonto(tarjeta.saldo))")
+    guard let pagar = leerSiNo("¿Pagar con tu tarjeta? (s/n)") else { return }
+    if pagar && !cobrarViaje(tarifaEstimada(ruta)) {
+        print("No se inició el viaje. Recarga tu tarjeta en la opción 6.")
         return
     }
-
-    guard let ruta = calcularRutaDisponible(
-        desde: origen,
-        hasta: destino
-    ) else {
-        print("")
-        print("No se encontró una ruta disponible")
-        print("entre el origen y el destino seleccionados.")
-        return
-    }
-
-    mostrarRutaDisponible(
-        ruta,
-        origen: origen,
-        destino: destino
-    )
+    if !pagar { print("Seguimiento iniciado sin cobro a la tarjeta.") }
+    simularViaje(ruta)
 }
 
 func leerEntrada() -> String? {
@@ -1471,6 +1395,131 @@ func gestionarTarjeta() {
     }
 }
 
+func leerSiNo(_ mensaje: String) -> Bool? {
+    while true {
+        print(mensaje)
+        guard let entrada = leerEntrada() else { return nil }
+        switch normalizarTexto(entrada) {
+        case "s", "si": return true
+        case "n", "no": return false
+        default: print("Respuesta no válida. Escriba s o n.")
+        }
+    }
+}
+
+func tarifaEstimada(_ ruta: RutaCalculada) -> Decimal {
+    return ruta.pasos.isEmpty ? 0 : tarifaSimulada
+}
+
+func esConexion(_ paso: PasoRuta) -> Bool {
+    return paso.transporte == nil &&
+        buscarEstacionPorID(paso.origenID)?.sistema !=
+        buscarEstacionPorID(paso.destinoID)?.sistema
+}
+
+func estacionesEnPasos(_ pasos: [PasoRuta]) -> Int {
+    return pasos.filter { $0.transporte == nil && !esConexion($0) }.count
+}
+
+func agruparTramos(_ pasos: [PasoRuta]) -> [[PasoRuta]] {
+    var tramos: [[PasoRuta]] = []
+    for paso in pasos {
+        if let ultimo = tramos.last?.last,
+           paso.transporte == nil, ultimo.transporte == nil,
+           !esConexion(paso), !esConexion(ultimo),
+           paso.medio == ultimo.medio, ultimo.destinoID == paso.origenID {
+            tramos[tramos.count - 1].append(paso)
+        } else {
+            tramos.append([paso])
+        }
+    }
+    return tramos
+}
+
+func pedirPuntoViaje(_ mensaje: String) -> Estacion? {
+    while true {
+        print("\n\(mensaje)")
+        print("Escribe nombre, código o distrito. 0 para volver.")
+        guard let texto = leerEntrada(), texto != "0" else { return nil }
+        if let estacion = obtenerEstacion(texto) {
+            print("Seleccionaste: \(estacion.nombre) | \(estacion.sistema.rawValue)")
+            return estacion
+        }
+        print("Intenta nuevamente con otra búsqueda.")
+    }
+}
+
+func simularViaje(_ ruta: RutaCalculada) {
+    guard let primerPaso = ruta.pasos.first,
+          let salida = buscarEstacionPorID(primerPaso.origenID),
+          let ultimoPaso = ruta.pasos.last,
+          let destinoFinal = buscarEstacionPorID(ultimoPaso.destinoID) else { return }
+    print("\n==================================================")
+    print("                  VIAJE EN CURSO")
+    print("==================================================")
+    if ruta.tipo == .futura {
+        print("RECORRIDO FUTURO · Todavía no disponible en su totalidad.")
+    }
+    print("Estás en: \(salida.nombre) | \(salida.sistema.rawValue)")
+    print("Tu destino: \(destinoFinal.nombre)")
+    print("Avanza con Enter al llegar a cada estación o completar una conexión.")
+    var tiempoRestante = ruta.tiempoTotal
+    var medioAnterior: String? = nil
+    for (indice, paso) in ruta.pasos.enumerated() {
+        guard let origen = buscarEstacionPorID(paso.origenID),
+              let destino = buscarEstacionPorID(paso.destinoID) else { return }
+        print("\n--------------------------------------------------")
+        if esConexion(paso) {
+            print("TRANSBORDO · Cambia de \(origen.sistema.rawValue) a \(destino.sistema.rawValue)")
+        } else if let bus = paso.transporte {
+            print("\(medioAnterior == nil ? "TOMA EL BUS" : "TRANSBORDO") · \(bus.ruta) | \(bus.empresa)")
+            print("Sube en: \(bus.paraderoSubida)")
+            print("Baja en: \(bus.paraderoBajada)")
+        } else if medioAnterior != paso.medio {
+            print("\(medioAnterior == nil ? "SUBE A" : "TRANSBORDO · SUBE A"): \(paso.medio)")
+        }
+        print("Siguiente parada: \(destino.nombre) | \(destino.sistema.rawValue)")
+        print("Tiempo de este paso: \(paso.tiempo) min")
+        if paso.esFuturo { print("Este paso aún no está operativo.") }
+        while true {
+            print("[Enter] Llegué a \(destino.nombre)    [0] Terminar seguimiento")
+            guard let entrada = leerEntrada(), entrada != "0" else {
+                print("Seguimiento finalizado. Los cobros aprobados se mantienen.")
+                return
+            }
+            if entrada.isEmpty { break }
+            print("Presiona Enter para avanzar o escribe 0 para volver al menú.")
+        }
+        tiempoRestante -= paso.tiempo
+        let completados = indice + 1
+        let avance = completados * 20 / ruta.pasos.count
+        let barra = String(repeating: "#", count: avance) + String(repeating: "-", count: 20 - avance)
+        let pendientes = Array(ruta.pasos.dropFirst(completados))
+        let estaciones = estacionesEnPasos(pendientes)
+        let conexiones = pendientes.filter { esConexion($0) }.count
+        let buses = pendientes.filter { $0.transporte != nil }.count
+        print("\n[\(barra)] \(completados * 100 / ruta.pasos.count)% del recorrido")
+        print("Llegaste a: \(destino.nombre)")
+        print("Sistema: \(destino.sistema.rawValue)")
+        print("")
+        print("Faltan: \(estaciones) \(estaciones == 1 ? "estación" : "estaciones")")
+        if conexiones > 0 { print("Conexiones pendientes: \(conexiones)") }
+        if buses > 0 { print("Trayectos en bus pendientes: \(buses)") }
+        print("Tiempo aproximado restante: \(tiempoRestante) min")
+        medioAnterior = esConexion(paso) ? nil : paso.medio
+    }
+    print("\n==================================================")
+    print("                 DESTINO ALCANZADO")
+    print("Llegaste a \(destinoFinal.nombre).")
+    print("Tiempo estimado del recorrido: \(ruta.tiempoTotal) min")
+    print("==================================================")
+}
+
+func transportesDesde(_ estacionID: String) -> [TransporteComplementario] {
+    // El grafo ya crea el transporte inverso con sus paraderos correctos.
+    return (crearGrafoActual()[estacionID] ?? []).compactMap { $0.transporte }
+}
+
 func mostrarMenuPrincipal() {
     var continuar = true
 
@@ -1483,7 +1532,7 @@ func mostrarMenuPrincipal() {
         print("2. Buscar estación")
         print("3. Ver puntos de conexión entre sistemas")
         print("4. Consultar transporte complementario")
-        print("5. Calcular ruta")
+        print("5. Planificar un viaje")
         print("6. Mi tarjeta: saldo y recargas")
         print("0. Salir")
         print("==================================================")

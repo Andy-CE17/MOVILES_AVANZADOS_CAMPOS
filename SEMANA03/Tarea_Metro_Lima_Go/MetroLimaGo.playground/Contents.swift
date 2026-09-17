@@ -42,6 +42,15 @@ struct Conexion {
     let descripcion: String
 }
 
+struct TarjetaTransporte {
+    let identificador: String
+    var saldo: Decimal
+}
+
+var tarjeta = TarjetaTransporte(identificador: "DEMO-001", saldo: 10)
+// Tarifa plana por viaje, simulada para el ejercicio; no es una tarifa oficial.
+var tarifaSimulada: Decimal = Decimal(string: "1.50")!
+
 struct TransporteComplementario {
     let ruta: String
     let empresa: String
@@ -1395,6 +1404,73 @@ func opcionCalcularRuta() {
     )
 }
 
+func leerEntrada() -> String? {
+    return readLine()?.trimmingCharacters(in: .whitespacesAndNewlines)
+}
+
+func leerMonto(_ mensaje: String) -> Decimal? {
+    while true {
+        print(mensaje)
+        guard let entrada = leerEntrada() else { return nil }
+        let texto = entrada.replacingOccurrences(of: ",", with: ".")
+        // Decimal evita errores de redondeo; no se aceptan NaN, infinito ni exponentes.
+        if texto.range(of: "^[0-9]{1,7}(\\.[0-9]{1,2})?$", options: .regularExpression) != nil,
+           let monto = Decimal(string: texto, locale: Locale(identifier: "en_US_POSIX")),
+           monto > 0, monto <= 1_000_000 {
+            return monto
+        }
+        print("Monto inválido. Ingrese un valor positivo de hasta S/ 1000000.00, con máximo 2 decimales.")
+    }
+}
+
+func formatearMonto(_ monto: Decimal) -> String {
+    return "S/ " + String(format: "%.2f", locale: Locale(identifier: "en_US_POSIX"),
+                         NSDecimalNumber(decimal: monto).doubleValue)
+}
+
+@discardableResult
+func cobrarViaje(_ monto: Decimal) -> Bool {
+    print("Tarifa: \(formatearMonto(monto))")
+    guard tarjeta.saldo >= monto else {
+        print("Saldo insuficiente.")
+        print("Saldo actual: \(formatearMonto(tarjeta.saldo))")
+        return false
+    }
+    tarjeta.saldo -= monto
+    print("Cobro aprobado.")
+    print("Saldo restante: \(formatearMonto(tarjeta.saldo))")
+    return true
+}
+
+func gestionarTarjeta() {
+    while true {
+        print("\nTARJETA DE TRANSPORTE | \(tarjeta.identificador)")
+        print("1. Consultar saldo")
+        print("2. Recargar tarjeta")
+        print("3. Pagar un viaje")
+        print("0. Volver")
+        print("Tarifa por viaje: \(formatearMonto(tarifaSimulada))")
+        guard let opcion = leerEntrada() else { return }
+        switch opcion {
+        case "1":
+            print("Saldo actual: \(formatearMonto(tarjeta.saldo))")
+        case "2":
+            guard let monto = leerMonto("Ingrese monto de recarga:") else { return }
+            guard tarjeta.saldo + monto <= 1_000_000 else {
+                print("La recarga supera el saldo máximo permitido: S/ 1000000.00.")
+                continue
+            }
+            tarjeta.saldo += monto
+            print("Recarga realizada.")
+            print("Nuevo saldo: \(formatearMonto(tarjeta.saldo))")
+        case "3":
+            cobrarViaje(tarifaSimulada)
+        case "0": return
+        default: print("Opción no válida.")
+        }
+    }
+}
+
 func mostrarMenuPrincipal() {
     var continuar = true
 
@@ -1408,11 +1484,12 @@ func mostrarMenuPrincipal() {
         print("3. Ver puntos de conexión entre sistemas")
         print("4. Consultar transporte complementario")
         print("5. Calcular ruta")
+        print("6. Mi tarjeta: saldo y recargas")
         print("0. Salir")
         print("==================================================")
         print("Seleccione una opción:")
 
-        let opcion = readLine() ?? ""
+        guard let opcion = leerEntrada() else { return }
 
         switch opcion {
         case "1":
@@ -1429,6 +1506,9 @@ func mostrarMenuPrincipal() {
 
         case "5":
             opcionCalcularRuta()
+
+        case "6":
+            gestionarTarjeta()
 
         case "0":
             print("")

@@ -347,6 +347,12 @@ func buscarEstaciones(_ texto: String) -> [Estacion] {
         return []
     }
 
+    // Un identificador completo no debe confundirse con coincidencias parciales.
+    let exactas = todasLasEstaciones.filter {
+        normalizarTexto($0.id) == consulta || normalizarTexto($0.codigo) == consulta
+    }
+    if !exactas.isEmpty { return exactas }
+
     let coincidencias = todasLasEstaciones.filter { estacion in
         let nombre = normalizarTexto(estacion.nombre)
         let codigo = normalizarTexto(estacion.codigo)
@@ -1297,17 +1303,8 @@ func seleccionarEstacion(_ resultados: [Estacion]) -> Estacion? {
         )
     }
 
-    print("\nSeleccione una opción:")
-
-    guard
-        let entrada = readLine(),
-        let opcion = Int(entrada),
-        opcion >= 1,
-        opcion <= resultados.count
-    else {
-        print("Opción no válida.")
-        return nil
-    }
+    guard let opcion = leerEntero("Seleccione una estación (0 para volver):",
+                                  entre: 0...resultados.count), opcion != 0 else { return nil }
 
     return resultados[opcion - 1]
 }
@@ -1367,7 +1364,7 @@ func opcionListarEstaciones() {
 func opcionBuscarEstacion() {
     print("\nIngrese nombre, código o distrito de la estación:")
 
-    guard let texto = readLine() else {
+    guard let texto = leerEntrada() else {
         print("Entrada no válida.")
         return
     }
@@ -1385,7 +1382,7 @@ func opcionTransporteComplementario() {
     print("\nIngrese una estación:")
 
     guard
-        let texto = readLine(),
+        let texto = leerEntrada(),
         let estacion = obtenerEstacion(texto)
     else {
         return
@@ -1640,6 +1637,10 @@ func guardarEstaciones(_ estaciones: [Estacion], del sistema: SistemaTransporte)
 func pedirIdentificador(_ mensaje: String, reservados: [String]) -> String? {
     while true {
         guard let texto = leerTextoObligatorio(mensaje) else { return nil }
+        guard texto != "0" else {
+            print("El identificador 0 está reservado para volver al menú. Ingrese otro.")
+            continue
+        }
         guard !reservados.contains(where: { normalizarTexto($0) == normalizarTexto(texto) }) else {
             print("ID o código duplicado. Ingrese otro identificador.")
             continue
@@ -1933,7 +1934,7 @@ func mostrarMenuPrincipal() {
 
         default:
             print("")
-            print("Opción no válida. Intente nuevamente.")
+            print("Opción no válida. Elige un número del 0 al 8.")
         }
     }
 }

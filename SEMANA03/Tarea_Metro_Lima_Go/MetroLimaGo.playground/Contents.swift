@@ -65,6 +65,27 @@ struct Conexion {
     var tiempoReferencial: Int = 5
 }
 
+struct LugarCercano {
+    let nombre: String
+    let categoria: String
+    let distanciaMetros: Int
+}
+
+let categoriasLugares = [
+    "Centro comercial", "Hospital / clínica", "Universidad / instituto",
+    "Parque", "Mercado", "Restaurante", "Banco", "Lugar turístico",
+    "Paradero", "Otro"
+]
+
+// Registro inicial propuesto para el ejercicio; las distancias son aproximadas.
+// Las altas del administrador se conservan únicamente durante esta ejecución.
+var lugaresPorEstacion: [String: [LugarCercano]] = [
+    "L1-15": [
+        LugarCercano(nombre: "Emporio Comercial de Gamarra",
+                     categoria: "Centro comercial", distanciaMetros: 200)
+    ]
+]
+
 struct TarjetaTransporte {
     let identificador: String
     var saldo: Decimal
@@ -450,7 +471,22 @@ func mostrarInformacionEstacion(_ estacion: Estacion) {
         )
     }
 
+    mostrarLugaresCercanos(de: estacion)
     print("==================================================")
+}
+
+func mostrarLugaresCercanos(de estacion: Estacion) {
+    let lugares = lugaresPorEstacion[estacion.id] ?? []
+    guard !lugares.isEmpty else {
+        print("\nLugares cercanos: No hay información registrada.")
+        return
+    }
+    print("\nLUGARES CERCANOS · \(estacion.nombre)")
+    for (indice, lugar) in lugares.enumerated() {
+        print("\(indice + 1). \(lugar.nombre)")
+        print("   Categoría: \(lugar.categoria)")
+        print("   Distancia aproximada: \(lugar.distanciaMetros) m")
+    }
 }
 
 
@@ -1031,6 +1067,7 @@ func mostrarDetalleRuta(
 
     if ruta.pasos.isEmpty {
         print("\nYa estás en tu destino. No necesitas realizar un viaje.")
+        mostrarLugaresCercanos(de: destino)
         return
     }
 
@@ -1061,6 +1098,7 @@ func mostrarDetalleRuta(
         }
     }
     print("\nLlegarás a \(destino.nombre).")
+    mostrarLugaresCercanos(de: destino)
     print("==================================================")
 }
 
@@ -1561,6 +1599,7 @@ func simularViaje(_ ruta: RutaCalculada) {
         print("\n[\(barra)] \(completados * 100 / ruta.pasos.count)% del recorrido")
         print("Llegaste a: \(destino.nombre)")
         print("Sistema: \(destino.sistema.rawValue)")
+        mostrarLugaresCercanos(de: destino)
         print("")
         print("Faltan: \(estaciones) \(estaciones == 1 ? "estación" : "estaciones")")
         if conexiones > 0 { print("Conexiones pendientes: \(conexiones)") }
@@ -1755,6 +1794,49 @@ func crearConexionAdministrador() {
     print("Conexión creada: \(estado.rawValue). Puedes usarla en ambos sentidos.")
 }
 
+func agregarLugarCercanoAdministrador() {
+    guard let estacion = pedirEstacionExistente("¿A qué estación pertenece el lugar?"),
+          let nombre = leerTextoObligatorio("Nombre del lugar:") else { return }
+
+    print("\nCATEGORÍA DEL LUGAR")
+    for (indice, categoria) in categoriasLugares.enumerated() {
+        print("\(indice + 1). \(categoria)")
+    }
+    guard let opcion = leerEntero("Seleccione una categoría (0 para volver):",
+                                  entre: 0...categoriasLugares.count), opcion != 0,
+          let distancia = leerEntero("Distancia aproximada en metros (0 o más):",
+                                     entre: 0...Int.max) else { return }
+
+    let lugar = LugarCercano(nombre: nombre, categoria: categoriasLugares[opcion - 1],
+                            distanciaMetros: distancia)
+    lugaresPorEstacion[estacion.id, default: []].append(lugar)
+    datosAgregados.append("Lugar cercano: \(nombre) | \(estacion.nombre) [\(estacion.id)] | \(lugar.categoria) | \(distancia) m")
+    print("\nLugar registrado en \(estacion.nombre).")
+    mostrarLugaresCercanos(de: estacion)
+}
+
+func verLugaresCercanosRegistrados() {
+    let estaciones = todasLasEstaciones.filter {
+        !(lugaresPorEstacion[$0.id] ?? []).isEmpty
+    }
+    print("\nLUGARES CERCANOS REGISTRADOS")
+    guard !estaciones.isEmpty else {
+        print("No hay información registrada.")
+        return
+    }
+    for estacion in estaciones {
+        print("\n--------------------------------------------------")
+        print("\(estacion.nombre) | \(estacion.sistema.rawValue) | ID: \(estacion.id)")
+        mostrarLugaresCercanos(de: estacion)
+    }
+}
+
+func opcionConsultarLugaresCercanos() {
+    print("\nCONSULTAR LUGARES CERCANOS")
+    guard let estacion = pedirEstacionExistente("Selecciona una estación:") else { return }
+    print("\n\(estacion.nombre) | \(estacion.sistema.rawValue)")
+    mostrarLugaresCercanos(de: estacion)
+}
 
 func modoAdministrador() {
     print("\nADMINISTRACIÓN · Ingrese la clave:")
@@ -1770,7 +1852,9 @@ func modoAdministrador() {
         print("3. Crear una línea nueva completa")
         print("4. Crear una conexión entre dos líneas/sistemas")
         print("5. Cambiar tarifa del viaje")
-        print("6. Ver datos agregados")
+        print("6. Agregar lugar cercano a una estación")
+        print("7. Ver lugares cercanos registrados")
+        print("8. Ver datos agregados")
         print("0. Volver")
         guard let opcion = leerEntrada() else { return }
         switch opcion {
@@ -1783,7 +1867,9 @@ func modoAdministrador() {
             tarifaSimulada = monto
             datosAgregados.append("Tarifa actualizada a \(formatearMonto(monto))")
             print("Tarifa actualizada: \(formatearMonto(monto))")
-        case "6":
+        case "6": agregarLugarCercanoAdministrador()
+        case "7": verLugaresCercanosRegistrados()
+        case "8":
             print(datosAgregados.isEmpty ? "No hay datos agregados en esta sesión." : datosAgregados.joined(separator: "\n"))
         case "0": return
         default: print("Opción no válida.")
@@ -1805,7 +1891,8 @@ func mostrarMenuPrincipal() {
         print("4. Consultar buses de conexión")
         print("5. Planificar un viaje")
         print("6. Mi tarjeta: saldo y recargas")
-        print("7. Administrar líneas y estaciones")
+        print("7. Consultar lugares cercanos")
+        print("8. Administrar líneas y estaciones")
         print("0. Salir")
         print("==================================================")
         print("Seleccione una opción:")
@@ -1832,6 +1919,9 @@ func mostrarMenuPrincipal() {
             gestionarTarjeta()
 
         case "7":
+            opcionConsultarLugaresCercanos()
+
+        case "8":
             modoAdministrador()
 
         case "0":

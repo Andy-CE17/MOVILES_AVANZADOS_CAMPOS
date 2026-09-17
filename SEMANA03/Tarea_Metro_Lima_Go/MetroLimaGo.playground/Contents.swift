@@ -50,6 +50,11 @@ struct TarjetaTransporte {
 var tarjeta = TarjetaTransporte(identificador: "DEMO-001", saldo: 10)
 // Tarifa plana por viaje, simulada para el ejercicio; no es una tarifa oficial.
 var tarifaSimulada: Decimal = Decimal(string: "1.50")!
+var datosAgregados: [String] = []
+
+var sistemasDisponibles: [SistemaTransporte] {
+    return [.linea1, .linea2, .metropolitano, .ramalLinea4]
+}
 
 struct TransporteComplementario {
     let ruta: String
@@ -65,7 +70,7 @@ struct TransporteComplementario {
 
 // DATOS DE LA RED
 
-let estacionesLinea1: [Estacion] = [
+var estacionesLinea1: [Estacion] = [
     Estacion(id: "L1-01", codigo: "L1-01", nombre: "Villa El Salvador", distrito: "Villa El Salvador", sistema: .linea1, estado: .operativa, accesible: true, tieneAscensor: true),
     Estacion(id: "L1-02", codigo: "L1-02", nombre: "Parque Industrial", distrito: "Villa El Salvador", sistema: .linea1, estado: .operativa, accesible: true, tieneAscensor: true),
     Estacion(id: "L1-03", codigo: "L1-03", nombre: "Pumacahua", distrito: "Villa El Salvador", sistema: .linea1, estado: .operativa, accesible: true, tieneAscensor: false),
@@ -94,7 +99,7 @@ let estacionesLinea1: [Estacion] = [
     Estacion(id: "L1-26", codigo: "L1-26", nombre: "Bayóvar", distrito: "San Juan de Lurigancho", sistema: .linea1, estado: .operativa, accesible: true, tieneAscensor: true)
 ]
 
-let estacionesLinea2: [Estacion] = [
+var estacionesLinea2: [Estacion] = [
     Estacion(id: "L2-E01", codigo: "E01", nombre: "Puerto del Callao", distrito: "Callao", sistema: .linea2, estado: .enConstruccion, accesible: true, tieneAscensor: true),
     Estacion(id: "L2-E02", codigo: "E02", nombre: "Buenos Aires", distrito: "Callao", sistema: .linea2, estado: .enConstruccion, accesible: true, tieneAscensor: true),
     Estacion(id: "L2-E03", codigo: "E03", nombre: "Juan Pablo II", distrito: "Callao", sistema: .linea2, estado: .enConstruccion, accesible: true, tieneAscensor: true),
@@ -124,7 +129,7 @@ let estacionesLinea2: [Estacion] = [
     Estacion(id: "L2-E27", codigo: "E27", nombre: "Municipalidad de Ate", distrito: "Ate", sistema: .linea2, estado: .enConstruccion, accesible: true, tieneAscensor: true)
 ]
 
-let estacionesMetropolitano: [Estacion] = [
+var estacionesMetropolitano: [Estacion] = [
     Estacion(id: "MET-01", codigo: "MET-01", nombre: "Chimpu Ocllo", distrito: "Carabayllo", sistema: .metropolitano, estado: .operativa, accesible: true, tieneAscensor: false),
     Estacion(id: "MET-02", codigo: "MET-02", nombre: "Los Incas", distrito: "Comas", sistema: .metropolitano, estado: .operativa, accesible: true, tieneAscensor: false),
     Estacion(id: "MET-03", codigo: "MET-03", nombre: "Andrés Belaunde", distrito: "Comas", sistema: .metropolitano, estado: .operativa, accesible: true, tieneAscensor: false),
@@ -175,7 +180,7 @@ let estacionesMetropolitano: [Estacion] = [
     Estacion(id: "MET-45", codigo: "MET-45", nombre: "Matellini", distrito: "Chorrillos", sistema: .metropolitano, estado: .operativa, accesible: true, tieneAscensor: true)
 ]
 
-let estacionesRamalLinea4: [Estacion] = [
+var estacionesRamalLinea4: [Estacion] = [
     Estacion(id: "L4-01", codigo: "L4-01", nombre: "Gambetta", distrito: "Callao", sistema: .ramalLinea4, estado: .enConstruccion, accesible: true, tieneAscensor: true),
     Estacion(id: "L4-02", codigo: "L4-02", nombre: "Canta Callao", distrito: "Callao", sistema: .ramalLinea4, estado: .enConstruccion, accesible: true, tieneAscensor: true),
     Estacion(id: "L4-03", codigo: "L4-03", nombre: "Bocanegra", distrito: "Callao", sistema: .ramalLinea4, estado: .enConstruccion, accesible: true, tieneAscensor: true),
@@ -186,11 +191,22 @@ let estacionesRamalLinea4: [Estacion] = [
     Estacion(id: "L4-08", codigo: "L4-08", nombre: "Carmen de la Legua", distrito: "Carmen de la Legua Reynoso", sistema: .ramalLinea4, estado: .enConstruccion, accesible: true, tieneAscensor: true)
 ]
 
-let todasLasEstaciones =
-    estacionesLinea1 +
+// Se recalcula para incluir inmediatamente las altas del administrador.
+var todasLasEstaciones: [Estacion] {
+    return estacionesLinea1 +
     estacionesLinea2 +
     estacionesMetropolitano +
     estacionesRamalLinea4
+}
+
+// Se conservan las dos ramas del Metropolitano al insertar estaciones.
+var secuenciasMetropolitano: [[String]] = [
+    Array(estacionesMetropolitano.prefix(17)).map { $0.id },
+    ["MET-17", "MET-18", "MET-19", "MET-20", "MET-21", "MET-25"],
+    ["MET-17", "MET-22", "MET-23", "MET-24", "MET-25"],
+    Array(estacionesMetropolitano.suffix(21)).map { $0.id }
+]
+
 func normalizarTexto(_ texto: String) -> String {
     return texto
         .folding(options: [.diacriticInsensitive, .caseInsensitive], locale: .current)
@@ -287,9 +303,10 @@ func buscarEstaciones(_ texto: String) -> [Estacion] {
     let coincidencias = todasLasEstaciones.filter { estacion in
         let nombre = normalizarTexto(estacion.nombre)
         let codigo = normalizarTexto(estacion.codigo)
+        let id = normalizarTexto(estacion.id)
         let distrito = normalizarTexto(estacion.distrito)
 
-        return nombre.contains(consulta) ||
+        return id == consulta || nombre.contains(consulta) ||
                codigo.contains(consulta) ||
                distrito.contains(consulta)
     }
@@ -561,6 +578,12 @@ struct RutaCalculada {
     let tiempoTotal: Int
 }
 
+func transportesDesde(_ estacionID: String) -> [TransporteComplementario] {
+    // El grafo ya crea el transporte inverso con sus paraderos correctos.
+    return (crearGrafoActual()[estacionID] ?? []).compactMap { $0.transporte }
+}
+
+
 func agregarPaso(
     _ paso: PasoRuta,
     al grafo: inout [String: [PasoRuta]],
@@ -646,41 +669,20 @@ func crearGrafoActual() -> [String: [PasoRuta]] {
         grafo: &grafo
     )
 
-    let metNorte = Array(estacionesMetropolitano.prefix(17))
+    conectarSecuencia(
+        estacionesRamalLinea4,
+        medio: SistemaTransporte.ramalLinea4.rawValue,
+        minutos: 3,
+        grafo: &grafo
+    )
 
-    let metRama1 = estacionesMetropolitano.filter {
-        [
-            "MET-17",
-            "MET-18",
-            "MET-19",
-            "MET-20",
-            "MET-21",
-            "MET-25"
-        ].contains($0.id)
+    let ramas = secuenciasMetropolitano.map { ids in
+        ids.compactMap { buscarEstacionPorID($0) }
     }
-
-    let metRama2 = estacionesMetropolitano.filter {
-        [
-            "MET-17",
-            "MET-22",
-            "MET-23",
-            "MET-24",
-            "MET-25"
-        ].contains($0.id)
-    }
-
-    let metSur = estacionesMetropolitano.filter {
-        guard let numero = Int(
-            $0.id.replacingOccurrences(
-                of: "MET-",
-                with: ""
-            )
-        ) else {
-            return false
-        }
-
-        return numero >= 25
-    }
+    let metNorte = ramas[0]
+    let metRama1 = ramas[1]
+    let metRama2 = ramas[2]
+    let metSur = ramas[3]
 
     conectarSecuencia(
         metNorte,
@@ -722,6 +724,7 @@ func crearGrafoActual() -> [String: [PasoRuta]] {
 
         agregarPaso(paso, al: &grafo)
     }
+
 
     return grafo
 }
@@ -859,7 +862,7 @@ func calcularRuta(
     )
 
     let tipo: TipoRuta =
-        (usaBus || medios.count > 1)
+        (usaBus || medios.count > 1 || origen.sistema != destino.sistema)
         ? .multimodal
         : .directa
 
@@ -924,6 +927,32 @@ func contarTransbordos(_ pasos: [PasoRuta]) -> Int {
     }
 
     return transbordos
+}
+
+func esConexion(_ paso: PasoRuta) -> Bool {
+    return paso.transporte == nil &&
+        buscarEstacionPorID(paso.origenID)?.sistema !=
+        buscarEstacionPorID(paso.destinoID)?.sistema
+}
+
+func estacionesEnPasos(_ pasos: [PasoRuta]) -> Int {
+    return pasos.filter { $0.transporte == nil && !esConexion($0) }.count
+}
+
+// Agrupa solo la presentación; el cálculo y el seguimiento conservan los pasos del grafo.
+func agruparTramos(_ pasos: [PasoRuta]) -> [[PasoRuta]] {
+    var tramos: [[PasoRuta]] = []
+    for paso in pasos {
+        if let ultimo = tramos.last?.last,
+           paso.transporte == nil, ultimo.transporte == nil,
+           !esConexion(paso), !esConexion(ultimo),
+           paso.medio == ultimo.medio, ultimo.destinoID == paso.origenID {
+            tramos[tramos.count - 1].append(paso)
+        } else {
+            tramos.append([paso])
+        }
+    }
+    return tramos
 }
 
 func mostrarDetalleRuta(
@@ -1034,27 +1063,13 @@ func crearGrafoFuturo() -> [String: [PasoRuta]] {
         grafo: &grafo
     )
 
-    let metNorte = Array(estacionesMetropolitano.prefix(17))
-
-    let metRama1 = estacionesMetropolitano.filter {
-        ["MET-17", "MET-18", "MET-19", "MET-20", "MET-21", "MET-25"]
-            .contains($0.id)
+    let ramas = secuenciasMetropolitano.map { ids in
+        ids.compactMap { buscarEstacionPorID($0) }
     }
-
-    let metRama2 = estacionesMetropolitano.filter {
-        ["MET-17", "MET-22", "MET-23", "MET-24", "MET-25"]
-            .contains($0.id)
-    }
-
-    let metSur = estacionesMetropolitano.filter {
-        guard let numero = Int(
-            $0.id.replacingOccurrences(of: "MET-", with: "")
-        ) else {
-            return false
-        }
-
-        return numero >= 25
-    }
+    let metNorte = ramas[0]
+    let metRama1 = ramas[1]
+    let metRama2 = ramas[2]
+    let metSur = ramas[3]
 
     conectarSecuenciaFutura(
         metNorte,
@@ -1109,6 +1124,7 @@ func crearGrafoFuturo() -> [String: [PasoRuta]] {
 
         agregarPaso(paso, al: &grafo)
     }
+
 
     return grafo
 }
@@ -1209,6 +1225,13 @@ func seleccionarEstacion(_ resultados: [Estacion]) -> Estacion? {
 func obtenerEstacion(_ texto: String) -> Estacion? {
     let consulta = normalizarTexto(texto)
 
+    // Un ID o código exacto tiene prioridad sobre coincidencias parciales y alias.
+    if let estacion = todasLasEstaciones.first(where: {
+        normalizarTexto($0.id) == consulta || normalizarTexto($0.codigo) == consulta
+    }) {
+        return estacion
+    }
+
     let destinosEspeciales: [String: String] = [
         "centro historico": "MET-20",
         "estadio nacional": "MET-26",
@@ -1233,33 +1256,19 @@ func opcionListarEstaciones() {
         print("==================================================")
         print("           ESTACIONES POR SISTEMA")
         print("==================================================")
-        print("1. Línea 1")
-        print("2. Línea 2")
-        print("3. Metropolitano")
-        print("4. Ramal Línea 4")
+        for (indice, sistema) in sistemasDisponibles.enumerated() {
+            print("\(indice + 1). \(sistema.rawValue)")
+        }
         print("0. Volver")
         print("==================================================")
         print("Seleccione una opción:")
 
-        let opcion = readLine() ?? ""
-
-        switch opcion {
-        case "1":
-            mostrarTablaEstaciones(estacionesLinea1)
-
-        case "2":
-            mostrarTablaEstaciones(estacionesLinea2)
-
-        case "3":
-            mostrarTablaEstaciones(estacionesMetropolitano)
-
-        case "4":
-            mostrarTablaEstaciones(estacionesRamalLinea4)
-
-        case "0":
+        guard let opcion = leerEntrada() else { return }
+        if opcion == "0" {
             volver = true
-
-        default:
+        } else if let numero = Int(opcion), numero >= 1, numero <= sistemasDisponibles.count {
+            mostrarTablaEstaciones(obtenerListaSistema(sistemasDisponibles[numero - 1]))
+        } else {
             print("\nOpción no válida. Intente nuevamente.")
         }
     }
@@ -1297,6 +1306,19 @@ func opcionTransporteComplementario() {
     )
 }
 
+func pedirPuntoViaje(_ mensaje: String) -> Estacion? {
+    while true {
+        print("\n\(mensaje)")
+        print("Escribe nombre, código o distrito. 0 para volver.")
+        guard let texto = leerEntrada(), texto != "0" else { return nil }
+        if let estacion = obtenerEstacion(texto) {
+            print("Seleccionaste: \(estacion.nombre) | \(estacion.sistema.rawValue)")
+            return estacion
+        }
+        print("Intenta nuevamente con otra búsqueda.")
+    }
+}
+
 func opcionCalcularRuta() {
     print("\n==================================================")
     print("                  PLANIFICAR VIAJE")
@@ -1328,8 +1350,47 @@ func opcionCalcularRuta() {
     simularViaje(ruta)
 }
 
+// ENTRADAS COMPARTIDAS: nil permite salir limpiamente al terminar la entrada.
+
 func leerEntrada() -> String? {
     return readLine()?.trimmingCharacters(in: .whitespacesAndNewlines)
+}
+
+func leerTextoObligatorio(_ mensaje: String) -> String? {
+    while true {
+        print(mensaje)
+        guard let texto = leerEntrada() else { return nil }
+        if !texto.isEmpty { return texto }
+        print("El texto no puede estar vacío.")
+    }
+}
+
+func leerEntero(_ mensaje: String, entre rango: ClosedRange<Int>) -> Int? {
+    while true {
+        print(mensaje)
+        guard let entrada = leerEntrada() else { return nil }
+        if let valor = Int(entrada), rango.contains(valor) { return valor }
+        print("Ingrese un número entero entre \(rango.lowerBound) y \(rango.upperBound).")
+    }
+}
+
+func leerSiNo(_ mensaje: String) -> Bool? {
+    while true {
+        print(mensaje)
+        guard let entrada = leerEntrada() else { return nil }
+        switch normalizarTexto(entrada) {
+        case "s", "si": return true
+        case "n", "no": return false
+        default: print("Respuesta no válida. Escriba s o n.")
+        }
+    }
+}
+
+// TARJETA Y TARIFA SIMULADA
+
+func formatearMonto(_ monto: Decimal) -> String {
+    return "S/ " + String(format: "%.2f", locale: Locale(identifier: "en_US_POSIX"),
+                         NSDecimalNumber(decimal: monto).doubleValue)
 }
 
 func leerMonto(_ mensaje: String) -> Decimal? {
@@ -1347,9 +1408,8 @@ func leerMonto(_ mensaje: String) -> Decimal? {
     }
 }
 
-func formatearMonto(_ monto: Decimal) -> String {
-    return "S/ " + String(format: "%.2f", locale: Locale(identifier: "en_US_POSIX"),
-                         NSDecimalNumber(decimal: monto).doubleValue)
+func tarifaEstimada(_ ruta: RutaCalculada) -> Decimal {
+    return ruta.pasos.isEmpty ? 0 : tarifaSimulada
 }
 
 @discardableResult
@@ -1395,59 +1455,7 @@ func gestionarTarjeta() {
     }
 }
 
-func leerSiNo(_ mensaje: String) -> Bool? {
-    while true {
-        print(mensaje)
-        guard let entrada = leerEntrada() else { return nil }
-        switch normalizarTexto(entrada) {
-        case "s", "si": return true
-        case "n", "no": return false
-        default: print("Respuesta no válida. Escriba s o n.")
-        }
-    }
-}
-
-func tarifaEstimada(_ ruta: RutaCalculada) -> Decimal {
-    return ruta.pasos.isEmpty ? 0 : tarifaSimulada
-}
-
-func esConexion(_ paso: PasoRuta) -> Bool {
-    return paso.transporte == nil &&
-        buscarEstacionPorID(paso.origenID)?.sistema !=
-        buscarEstacionPorID(paso.destinoID)?.sistema
-}
-
-func estacionesEnPasos(_ pasos: [PasoRuta]) -> Int {
-    return pasos.filter { $0.transporte == nil && !esConexion($0) }.count
-}
-
-func agruparTramos(_ pasos: [PasoRuta]) -> [[PasoRuta]] {
-    var tramos: [[PasoRuta]] = []
-    for paso in pasos {
-        if let ultimo = tramos.last?.last,
-           paso.transporte == nil, ultimo.transporte == nil,
-           !esConexion(paso), !esConexion(ultimo),
-           paso.medio == ultimo.medio, ultimo.destinoID == paso.origenID {
-            tramos[tramos.count - 1].append(paso)
-        } else {
-            tramos.append([paso])
-        }
-    }
-    return tramos
-}
-
-func pedirPuntoViaje(_ mensaje: String) -> Estacion? {
-    while true {
-        print("\n\(mensaje)")
-        print("Escribe nombre, código o distrito. 0 para volver.")
-        guard let texto = leerEntrada(), texto != "0" else { return nil }
-        if let estacion = obtenerEstacion(texto) {
-            print("Seleccionaste: \(estacion.nombre) | \(estacion.sistema.rawValue)")
-            return estacion
-        }
-        print("Intenta nuevamente con otra búsqueda.")
-    }
-}
+// SEGUIMIENTO: reutiliza exactamente los pasos calculados por buscarCamino().
 
 func simularViaje(_ ruta: RutaCalculada) {
     guard let primerPaso = ruta.pasos.first,
@@ -1515,9 +1523,156 @@ func simularViaje(_ ruta: RutaCalculada) {
     print("==================================================")
 }
 
-func transportesDesde(_ estacionID: String) -> [TransporteComplementario] {
-    // El grafo ya crea el transporte inverso con sus paraderos correctos.
-    return (crearGrafoActual()[estacionID] ?? []).compactMap { $0.transporte }
+// ADMINISTRACIÓN EN MEMORIA
+
+func seleccionarSistema() -> SistemaTransporte? {
+    for (indice, sistema) in sistemasDisponibles.enumerated() {
+        print("\(indice + 1). \(sistema.rawValue)")
+    }
+    guard let numero = leerEntero("Seleccione una línea (0 para volver):",
+                                  entre: 0...sistemasDisponibles.count), numero != 0 else {
+        return nil
+    }
+    return sistemasDisponibles[numero - 1]
+}
+
+func guardarEstaciones(_ estaciones: [Estacion], del sistema: SistemaTransporte) {
+    switch sistema {
+    case .linea1: estacionesLinea1 = estaciones
+    case .linea2: estacionesLinea2 = estaciones
+    case .metropolitano: estacionesMetropolitano = estaciones
+    case .ramalLinea4: estacionesRamalLinea4 = estaciones
+    }
+}
+
+func pedirIdentificador(_ mensaje: String, reservados: [String]) -> String? {
+    while true {
+        guard let texto = leerTextoObligatorio(mensaje) else { return nil }
+        guard !reservados.contains(where: { normalizarTexto($0) == normalizarTexto(texto) }) else {
+            print("ID o código duplicado. Ingrese otro identificador.")
+            continue
+        }
+        return texto
+    }
+}
+
+func pedirEstacion(del sistema: SistemaTransporte, pendientes: [Estacion] = []) -> Estacion? {
+    let existentes = todasLasEstaciones + pendientes
+    // También evita que el ID de una estación coincida con el código de otra.
+    let reservados = existentes.flatMap { [$0.id, $0.codigo] }
+    guard let id = pedirIdentificador("ID de la estación:", reservados: reservados),
+          let codigo = pedirIdentificador("Código de la estación:", reservados: reservados),
+          let nombre = leerTextoObligatorio("Nombre:"),
+          let distrito = leerTextoObligatorio("Distrito:"),
+          let estado = leerEntero("Estado: 1. Operativa | 2. En construcción | 3. Proyectada",
+                                  entre: 1...3),
+          let accesible = leerSiNo("¿Es accesible? (s/n)"),
+          let ascensor = leerSiNo("¿Tiene ascensor? (s/n)") else {
+        return nil
+    }
+    let estados: [EstadoEstacion] = [.operativa, .enConstruccion, .proyectada]
+    return Estacion(id: id, codigo: codigo, nombre: nombre, distrito: distrito,
+                    sistema: sistema, estado: estados[estado - 1],
+                    accesible: accesible, tieneAscensor: ascensor)
+}
+
+func pedirEstacionExistente(_ mensaje: String, sistema: SistemaTransporte? = nil) -> Estacion? {
+    while true {
+        print(mensaje + " (ID, código o nombre; 0 para volver)")
+        guard let texto = leerEntrada(), texto != "0" else { return nil }
+        let candidatas = todasLasEstaciones.filter { sistema == nil || $0.sistema == sistema }
+        let consulta = normalizarTexto(texto)
+        if let exacta = candidatas.first(where: {
+            normalizarTexto($0.id) == consulta || normalizarTexto($0.codigo) == consulta
+        }) { return exacta }
+        let resultados = buscarEstaciones(texto).filter { sistema == nil || $0.sistema == sistema }
+        if let estacion = seleccionarEstacion(resultados) { return estacion }
+        print("Seleccione una estación válida de la línea indicada.")
+    }
+}
+
+func agregarEstacionAdministrador() {
+    guard let sistema = seleccionarSistema(),
+          let estacion = pedirEstacion(del: sistema) else { return }
+    var estaciones = obtenerListaSistema(sistema)
+    estaciones.append(estacion)
+    guardarEstaciones(estaciones, del: sistema)
+    if sistema == .metropolitano {
+        // El final de la línea se define como la prolongación del ramal sur.
+        secuenciasMetropolitano[3].append(estacion.id)
+    }
+    datosAgregados.append("Estación \(estacion.id): \(estacion.nombre) al final de \(sistema.rawValue)")
+    print("Estación agregada. Ya está disponible en búsquedas y rutas según su estado.")
+}
+
+func insertarEstacionAdministrador() {
+    guard let sistema = seleccionarSistema() else { return }
+    let estaciones = obtenerListaSistema(sistema)
+    mostrarTablaEstaciones(estaciones)
+    guard let anterior = pedirEstacionExistente("Estación anterior:", sistema: sistema),
+          let siguiente = pedirEstacionExistente("Estación siguiente:", sistema: sistema) else { return }
+
+    var secuencias = sistema == .metropolitano ? secuenciasMetropolitano : [estaciones.map { $0.id }]
+    var posicion: (rama: Int, indice: Int)? = nil
+    for (rama, ids) in secuencias.enumerated() {
+        for indice in ids.indices.dropLast() {
+            if (ids[indice] == anterior.id && ids[indice + 1] == siguiente.id) ||
+                (ids[indice] == siguiente.id && ids[indice + 1] == anterior.id) {
+                posicion = (rama, indice + 1)
+            }
+        }
+    }
+    guard let posicion = posicion else {
+        print("Las estaciones deben ser distintas y consecutivas en el mismo ramal.")
+        return
+    }
+    guard let nueva = pedirEstacion(del: sistema) else { return }
+    secuencias[posicion.rama].insert(nueva.id, at: posicion.indice)
+    var actualizadas = estaciones
+    if sistema == .metropolitano {
+        secuenciasMetropolitano = secuencias
+        let anteriorReal = secuencias[posicion.rama][posicion.indice - 1]
+        if let indice = actualizadas.firstIndex(where: { $0.id == anteriorReal }) {
+            actualizadas.insert(nueva, at: indice + 1)
+        }
+    } else {
+        actualizadas.insert(nueva, at: posicion.indice)
+    }
+    guardarEstaciones(actualizadas, del: sistema)
+    datosAgregados.append("Estación \(nueva.id): \(nueva.nombre), entre \(anterior.nombre) y \(siguiente.nombre)")
+    print("Estación insertada. El recorrido ahora pasa por la nueva estación.")
+}
+
+
+func modoAdministrador() {
+    print("\nADMINISTRACIÓN · Ingrese la clave:")
+    guard let clave = leerEntrada() else { return }
+    guard clave == "1234" else {
+        print("Clave incorrecta.")
+        return
+    }
+    while true {
+        print("\nADMINISTRACIÓN | Cambios disponibles durante esta sesión")
+        print("1. Agregar una estación")
+        print("2. Insertar una estación entre dos estaciones existentes")
+        print("3. Cambiar tarifa del viaje")
+        print("4. Ver datos agregados")
+        print("0. Volver")
+        guard let opcion = leerEntrada() else { return }
+        switch opcion {
+        case "1": agregarEstacionAdministrador()
+        case "2": insertarEstacionAdministrador()
+        case "3":
+            guard let monto = leerMonto("Nueva tarifa por viaje:") else { return }
+            tarifaSimulada = monto
+            datosAgregados.append("Tarifa actualizada a \(formatearMonto(monto))")
+            print("Tarifa actualizada: \(formatearMonto(monto))")
+        case "4":
+            print(datosAgregados.isEmpty ? "No hay datos agregados en esta sesión." : datosAgregados.joined(separator: "\n"))
+        case "0": return
+        default: print("Opción no válida.")
+        }
+    }
 }
 
 func mostrarMenuPrincipal() {
@@ -1528,12 +1683,13 @@ func mostrarMenuPrincipal() {
         print("==================================================")
         print("                 METRO LIMA GO")
         print("==================================================")
-        print("1. Ver estaciones por sistema")
+        print("1. Ver estaciones y líneas")
         print("2. Buscar estación")
-        print("3. Ver puntos de conexión entre sistemas")
-        print("4. Consultar transporte complementario")
+        print("3. Ver conexiones entre líneas")
+        print("4. Consultar buses de conexión")
         print("5. Planificar un viaje")
         print("6. Mi tarjeta: saldo y recargas")
+        print("7. Administrar líneas y estaciones")
         print("0. Salir")
         print("==================================================")
         print("Seleccione una opción:")
@@ -1558,6 +1714,9 @@ func mostrarMenuPrincipal() {
 
         case "6":
             gestionarTarjeta()
+
+        case "7":
+            modoAdministrador()
 
         case "0":
             print("")

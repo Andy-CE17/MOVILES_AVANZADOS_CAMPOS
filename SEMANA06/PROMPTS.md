@@ -77,7 +77,7 @@ Una `struct` también podría enviarse a la siguiente pantalla y la aplicación 
 
 ### ¿Funcionó a la primera?
 
-La estructura y las fórmulas funcionaron. Durante la verificación visual fue necesario ajustar el botón para que utilizara el estilo de sistema y se mostrara correctamente en el simulador. También se revisaron las conexiones del Storyboard y el Bundle ID antes de la compilación final.
+La estructura y las fórmulas funcionaron. Durante la verificación visual fue necesario ajustar el botón para que utilizara el estilo de sistema y corregir la transparencia de las etiquetas de resultados. También se revisaron las conexiones del Storyboard y el Bundle ID antes de la compilación final.
 
 ### ¿Qué hizo distinto la IA?
 

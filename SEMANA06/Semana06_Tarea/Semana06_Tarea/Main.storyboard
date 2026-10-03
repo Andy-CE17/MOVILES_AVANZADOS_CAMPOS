@@ -89,33 +89,38 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="18" translatesAutoresizingMaskIntoConstraints="NO" id="stack-resultado">
+                            <stackView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" axis="vertical" spacing="18" layoutMarginsRelativeArrangement="YES" translatesAutoresizingMaskIntoConstraints="NO" id="stack-resultado">
                                 <rect key="frame" x="32" y="132" width="329" height="300"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="fila-subtotal">
-                                        <subviews><label text="Subtotal" id="label-subtotal"/><label text="S/. 0.00" textAlignment="right" id="valor-subtotal"/></subviews>
+                                        <subviews><label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Subtotal" translatesAutoresizingMaskIntoConstraints="NO" id="label-subtotal"/><label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="S/. 0.00" textAlignment="right" translatesAutoresizingMaskIntoConstraints="NO" id="valor-subtotal"/></subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="fila-igv">
-                                        <subviews><label text="IGV (18%)" id="label-igv"/><label text="S/. 0.00" textAlignment="right" id="valor-igv"/></subviews>
+                                        <subviews><label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="IGV (18%)" translatesAutoresizingMaskIntoConstraints="NO" id="label-igv"/><label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="S/. 0.00" textAlignment="right" translatesAutoresizingMaskIntoConstraints="NO" id="valor-igv"/></subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="fila-base">
-                                        <subviews><label text="Monto base" id="label-base"/><label text="S/. 0.00" textAlignment="right" id="valor-base"/></subviews>
+                                        <subviews><label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Monto base" translatesAutoresizingMaskIntoConstraints="NO" id="label-base"/><label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="S/. 0.00" textAlignment="right" translatesAutoresizingMaskIntoConstraints="NO" id="valor-base"/></subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="fila-intereses">
-                                        <subviews><label text="Intereses totales" id="label-intereses"/><label text="S/. 0.00" textAlignment="right" id="valor-intereses"/></subviews>
+                                        <subviews><label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Intereses totales" translatesAutoresizingMaskIntoConstraints="NO" id="label-intereses"/><label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="S/. 0.00" textAlignment="right" translatesAutoresizingMaskIntoConstraints="NO" id="valor-intereses"/></subviews>
                                     </stackView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="separador"><color key="backgroundColor" systemColor="separatorColor"/><constraints><constraint firstAttribute="height" constant="1" id="alto-separador"/></constraints></view>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="fila-total">
-                                        <subviews><label text="Total a pagar" id="label-total"><fontDescription key="fontDescription" type="boldSystem" pointSize="17"/></label><label text="S/. 0.00" textAlignment="right" id="valor-total"><fontDescription key="fontDescription" type="boldSystem" pointSize="17"/></label></subviews>
+                                        <subviews><label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Total a pagar" translatesAutoresizingMaskIntoConstraints="NO" id="label-total"><fontDescription key="fontDescription" type="boldSystem" pointSize="17"/></label><label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="S/. 0.00" textAlignment="right" translatesAutoresizingMaskIntoConstraints="NO" id="valor-total"><fontDescription key="fontDescription" type="boldSystem" pointSize="17"/></label></subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="fila-cuota">
-                                        <subviews><label text="Cuota mensual" id="label-cuota"><fontDescription key="fontDescription" type="boldSystem" pointSize="17"/><color key="textColor" systemColor="systemBlueColor"/></label><label text="S/. 0.00" textAlignment="right" id="valor-cuota"><fontDescription key="fontDescription" type="boldSystem" pointSize="17"/><color key="textColor" systemColor="systemBlueColor"/></label></subviews>
+                                        <subviews><label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Cuota mensual" translatesAutoresizingMaskIntoConstraints="NO" id="label-cuota"><fontDescription key="fontDescription" type="boldSystem" pointSize="17"/><color key="textColor" systemColor="systemBlueColor"/></label><label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="S/. 0.00" textAlignment="right" translatesAutoresizingMaskIntoConstraints="NO" id="valor-cuota"><fontDescription key="fontDescription" type="boldSystem" pointSize="17"/><color key="textColor" systemColor="systemBlueColor"/></label></subviews>
                                     </stackView>
                                 </subviews>
+                                <edgeInsets key="layoutMargins" top="24" left="20" bottom="24" right="20"/>
+                                <color key="backgroundColor" systemColor="secondarySystemGroupedBackgroundColor"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius"><real key="value" value="16"/></userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                             </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="safe-resultado"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" systemColor="systemGroupedBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="stack-resultado" firstAttribute="top" secondItem="safe-resultado" secondAttribute="top" constant="28" id="resultado-top"/>
                             <constraint firstItem="stack-resultado" firstAttribute="leading" secondItem="safe-resultado" secondAttribute="leading" constant="32" id="resultado-leading"/>
@@ -139,7 +144,9 @@
     </scenes>
     <resources>
         <systemColor name="separatorColor"><color red="0.2352941176" green="0.2352941176" blue="0.262745098" alpha="0.29" colorSpace="custom" customColorSpace="sRGB"/></systemColor>
+        <systemColor name="secondarySystemGroupedBackgroundColor"><color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/></systemColor>
         <systemColor name="systemBackgroundColor"><color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/></systemColor>
         <systemColor name="systemBlueColor"><color red="0.0" green="0.4784313725" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/></systemColor>
+        <systemColor name="systemGroupedBackgroundColor"><color red="0.9490196078" green="0.9490196078" blue="0.968627451" alpha="1" colorSpace="custom" customColorSpace="sRGB"/></systemColor>
     </resources>
 </document>

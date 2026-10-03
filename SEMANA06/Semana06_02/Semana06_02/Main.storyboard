@@ -52,9 +52,12 @@
                                         <constraints><constraint firstAttribute="height" constant="38" id="alto-dni"/></constraints>
                                         <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                     </textField>
-                                    <button opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="button-continuar">
+                                    <button opaque="NO" contentMode="scaleToFill" buttonType="system" translatesAutoresizingMaskIntoConstraints="NO" id="button-continuar">
                                         <constraints><constraint firstAttribute="height" constant="44" id="alto-continuar"/></constraints>
                                         <state key="normal" title="Continuar"/>
+                                        <connections>
+                                            <action selector="btnContinuar:" destination="vc-formulario" eventType="touchUpInside" id="accion-continuar"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>
@@ -68,6 +71,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="item-formulario"/>
+                    <connections>
+                        <outlet property="tfApellido" destination="input-apellido" id="outlet-input-apellido"/>
+                        <outlet property="tfDni" destination="input-dni" id="outlet-input-dni"/>
+                        <outlet property="tfNombre" destination="input-nombre" id="outlet-input-nombre"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="first-formulario" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -116,6 +124,11 @@
                             <constraint firstItem="safe-confirmacion" firstAttribute="trailing" secondItem="stack-confirmacion" secondAttribute="trailing" constant="32" id="confirm-trailing"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="tfApellido" destination="value-apellido" id="outlet-value-apellido"/>
+                        <outlet property="tfDni" destination="value-dni" id="outlet-value-dni"/>
+                        <outlet property="tfNombre" destination="value-nombre" id="outlet-value-nombre"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="first-confirmacion" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

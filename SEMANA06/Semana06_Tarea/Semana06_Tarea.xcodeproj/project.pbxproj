@@ -13,6 +13,7 @@
 		A10000000000000000000006 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000006 /* LaunchScreen.storyboard */; };
 		A10000000000000000000007 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000007 /* Assets.xcassets */; };
 		A10000000000000000000008 /* ResultadoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000010 /* ResultadoViewController.swift */; };
+		A10000000000000000000009 /* VentaModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000011 /* VentaModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +26,7 @@
 		B10000000000000000000008 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B10000000000000000000009 /* Semana06_Tarea.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Semana06_Tarea.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B10000000000000000000010 /* ResultadoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultadoViewController.swift; sourceTree = "<group>"; };
+		B10000000000000000000011 /* VentaModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VentaModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +49,7 @@
 				B10000000000000000000002 /* SceneDelegate.swift */,
 				B10000000000000000000003 /* NuevaVentaViewController.swift */,
 				B10000000000000000000010 /* ResultadoViewController.swift */,
+				B10000000000000000000011 /* VentaModel.swift */,
 				B10000000000000000000005 /* Main.storyboard */,
 				B10000000000000000000006 /* LaunchScreen.storyboard */,
 				B10000000000000000000007 /* Assets.xcassets */,
@@ -94,7 +97,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		C10000000000000000000002 /* Sources */ = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (A10000000000000000000001 /* AppDelegate.swift in Sources */, A10000000000000000000002 /* SceneDelegate.swift in Sources */, A10000000000000000000003 /* NuevaVentaViewController.swift in Sources */, A10000000000000000000008 /* ResultadoViewController.swift in Sources */,); runOnlyForDeploymentPostprocessing = 0; };
+		C10000000000000000000002 /* Sources */ = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (A10000000000000000000001 /* AppDelegate.swift in Sources */, A10000000000000000000002 /* SceneDelegate.swift in Sources */, A10000000000000000000003 /* NuevaVentaViewController.swift in Sources */, A10000000000000000000008 /* ResultadoViewController.swift in Sources */, A10000000000000000000009 /* VentaModel.swift in Sources */,); runOnlyForDeploymentPostprocessing = 0; };
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */

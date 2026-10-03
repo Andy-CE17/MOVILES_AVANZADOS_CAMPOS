@@ -13,42 +13,117 @@
                 <navigationController id="nav-001" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="nav-bar"/>
                     <connections>
-                        <segue destination="vc-001" kind="relationship" relationship="rootViewController" id="segue-root"/>
+                        <segue destination="vc-formulario" kind="relationship" relationship="rootViewController" id="segue-root"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="first-nav" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-780" y="88"/>
         </scene>
-        <scene sceneID="scene-001">
+        <scene sceneID="scene-formulario">
             <objects>
-                <viewController id="vc-001" customClass="ViewController" customModule="Semana06_02" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="view-001">
+                <viewController id="vc-formulario" customClass="ViewController" customModule="Semana06_02" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="view-formulario">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Semana06_02" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="label-001">
-                                <rect key="frame" x="119" y="402" width="155" height="29"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
-                            </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="stack-formulario">
+                                <rect key="frame" x="32" y="147" width="329" height="337"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="DATOS DEL CLIENTE" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="titulo-formulario">
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
+                                        <color key="textColor" systemColor="systemBlueColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Por favor ingresa los siguientes datos:" textAlignment="center" numberOfLines="0" translatesAutoresizingMaskIntoConstraints="NO" id="subtitulo-formulario">
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Apellidos" translatesAutoresizingMaskIntoConstraints="NO" id="etiqueta-apellido"/>
+                                    <textField opaque="NO" contentMode="scaleToFill" borderStyle="roundedRect" placeholder="Ingresa tus apellidos" textContentType="familyName" translatesAutoresizingMaskIntoConstraints="NO" id="input-apellido">
+                                        <constraints><constraint firstAttribute="height" constant="38" id="alto-apellido"/></constraints>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
+                                    </textField>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Nombres" translatesAutoresizingMaskIntoConstraints="NO" id="etiqueta-nombre"/>
+                                    <textField opaque="NO" contentMode="scaleToFill" borderStyle="roundedRect" placeholder="Ingresa tus nombres" textContentType="givenName" translatesAutoresizingMaskIntoConstraints="NO" id="input-nombre">
+                                        <constraints><constraint firstAttribute="height" constant="38" id="alto-nombre"/></constraints>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
+                                    </textField>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="DNI" translatesAutoresizingMaskIntoConstraints="NO" id="etiqueta-dni"/>
+                                    <textField opaque="NO" contentMode="scaleToFill" borderStyle="roundedRect" placeholder="Ingresa tu DNI" textContentType="none" translatesAutoresizingMaskIntoConstraints="NO" id="input-dni">
+                                        <constraints><constraint firstAttribute="height" constant="38" id="alto-dni"/></constraints>
+                                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                    </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="button-continuar">
+                                        <constraints><constraint firstAttribute="height" constant="44" id="alto-continuar"/></constraints>
+                                        <state key="normal" title="Continuar"/>
+                                    </button>
+                                </subviews>
+                            </stackView>
                         </subviews>
-                        <viewLayoutGuide key="safeArea" id="safe-001"/>
+                        <viewLayoutGuide key="safeArea" id="safe-formulario"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="label-001" firstAttribute="centerX" secondItem="view-001" secondAttribute="centerX" id="c-001"/>
-                            <constraint firstItem="label-001" firstAttribute="centerY" secondItem="view-001" secondAttribute="centerY" id="c-002"/>
+                            <constraint firstItem="stack-formulario" firstAttribute="top" secondItem="safe-formulario" secondAttribute="top" constant="44" id="form-top"/>
+                            <constraint firstItem="stack-formulario" firstAttribute="leading" secondItem="safe-formulario" secondAttribute="leading" constant="32" id="form-leading"/>
+                            <constraint firstItem="safe-formulario" firstAttribute="trailing" secondItem="stack-formulario" secondAttribute="trailing" constant="32" id="form-trailing"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Datos del cliente" id="item-001"/>
+                    <navigationItem key="navigationItem" id="item-formulario"/>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="first-001" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="first-formulario" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="0.0" y="88"/>
         </scene>
+        <scene sceneID="scene-confirmacion">
+            <objects>
+                <viewController storyboardIdentifier="ViewControllerConfirmacion" id="vc-confirmacion" customClass="ViewControllerConfirmacion" customModule="Semana06_02" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="view-confirmacion">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="18" translatesAutoresizingMaskIntoConstraints="NO" id="stack-confirmacion">
+                                <rect key="frame" x="32" y="120" width="329" height="259"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="DATOS INGRESADOS" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="titulo-confirmacion">
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Datos del cliente que fueron ingresados" textAlignment="center" numberOfLines="0" translatesAutoresizingMaskIntoConstraints="NO" id="subtitulo-confirmacion"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="fila-apellido">
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Apellidos:" translatesAutoresizingMaskIntoConstraints="NO" id="label-apellido"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="—" translatesAutoresizingMaskIntoConstraints="NO" id="value-apellido"/>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="fila-nombre">
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Nombres:" translatesAutoresizingMaskIntoConstraints="NO" id="label-nombre"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="—" translatesAutoresizingMaskIntoConstraints="NO" id="value-nombre"/>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="fila-dni">
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="DNI:" translatesAutoresizingMaskIntoConstraints="NO" id="label-dni"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="—" translatesAutoresizingMaskIntoConstraints="NO" id="value-dni"/>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="safe-confirmacion"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="stack-confirmacion" firstAttribute="top" secondItem="safe-confirmacion" secondAttribute="top" constant="60" id="confirm-top"/>
+                            <constraint firstItem="stack-confirmacion" firstAttribute="leading" secondItem="safe-confirmacion" secondAttribute="leading" constant="32" id="confirm-leading"/>
+                            <constraint firstItem="safe-confirmacion" firstAttribute="trailing" secondItem="stack-confirmacion" secondAttribute="trailing" constant="32" id="confirm-trailing"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="first-confirmacion" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="780" y="88"/>
+        </scene>
     </scenes>
     <resources>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
+        <systemColor name="systemBackgroundColor"><color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/></systemColor>
+        <systemColor name="systemBlueColor"><color red="0.0" green="0.4784313725" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/></systemColor>
     </resources>
 </document>

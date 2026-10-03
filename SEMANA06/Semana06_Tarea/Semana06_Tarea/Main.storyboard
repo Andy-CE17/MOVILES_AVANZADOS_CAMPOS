@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="nav-venta">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <scene sceneID="scene-nav">
+            <objects>
+                <navigationController id="nav-venta" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="nav-bar"/>
+                    <connections><segue destination="vc-nueva-venta" kind="relationship" relationship="rootViewController" id="segue-root"/></connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="first-nav" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-780" y="80"/>
+        </scene>
+        <scene sceneID="scene-nueva-venta">
+            <objects>
+                <viewController id="vc-nueva-venta" customClass="NuevaVentaViewController" customModule="Semana06_Tarea" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="view-nueva-venta">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Calculadora de venta a plazos" textAlignment="center" numberOfLines="0" translatesAutoresizingMaskIntoConstraints="NO" id="titulo-inicial">
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="safe-nueva-venta"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="titulo-inicial" firstAttribute="centerX" secondItem="view-nueva-venta" secondAttribute="centerX" id="titulo-center-x"/>
+                            <constraint firstItem="titulo-inicial" firstAttribute="centerY" secondItem="view-nueva-venta" secondAttribute="centerY" id="titulo-center-y"/>
+                            <constraint firstItem="titulo-inicial" firstAttribute="leading" secondItem="safe-nueva-venta" secondAttribute="leading" constant="32" id="titulo-leading"/>
+                            <constraint firstItem="safe-nueva-venta" firstAttribute="trailing" secondItem="titulo-inicial" secondAttribute="trailing" constant="32" id="titulo-trailing"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Nueva Venta" id="item-nueva-venta"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="first-nueva-venta" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="0.0" y="80"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor"><color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/></systemColor>
+    </resources>
+</document>

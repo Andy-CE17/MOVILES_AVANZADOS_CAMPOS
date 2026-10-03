@@ -70,6 +70,13 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Nueva Venta" id="item-nueva-venta"/>
+                    <connections>
+                        <outlet property="tfCantidad" destination="tf-cantidad" id="outlet-cantidad"/>
+                        <outlet property="tfElectrodomestico" destination="tf-electrodomestico" id="outlet-electrodomestico"/>
+                        <outlet property="tfInteresMensual" destination="tf-interes" id="outlet-interes"/>
+                        <outlet property="tfMeses" destination="tf-meses" id="outlet-meses"/>
+                        <outlet property="tfPrecioUnitario" destination="tf-precio" id="outlet-precio"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="first-nueva-venta" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -116,6 +123,14 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Resultado" id="item-resultado"/>
+                    <connections>
+                        <outlet property="lblBase" destination="valor-base" id="outlet-base"/>
+                        <outlet property="lblCuota" destination="valor-cuota" id="outlet-cuota"/>
+                        <outlet property="lblIgv" destination="valor-igv" id="outlet-igv"/>
+                        <outlet property="lblIntereses" destination="valor-intereses" id="outlet-intereses"/>
+                        <outlet property="lblSubtotal" destination="valor-subtotal" id="outlet-subtotal"/>
+                        <outlet property="lblTotal" destination="valor-total" id="outlet-total"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="first-resultado" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

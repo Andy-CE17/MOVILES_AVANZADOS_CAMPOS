@@ -22,7 +22,7 @@
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Peso (kg)" translatesAutoresizingMaskIntoConstraints="NO" id="weight-label">
                                 <rect key="frame" x="32" y="204" width="329" height="24"/>
-                                <fontDescription key="fontDescription" type="semiboldSystem" pointSize="20"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" borderStyle="roundedRect" placeholder="Ejemplo: 70" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="weight-field">
                                 <rect key="frame" x="32" y="240" width="329" height="48"/>
@@ -31,7 +31,7 @@
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Altura (m)" translatesAutoresizingMaskIntoConstraints="NO" id="height-label">
                                 <rect key="frame" x="32" y="320" width="329" height="24"/>
-                                <fontDescription key="fontDescription" type="semiboldSystem" pointSize="20"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" borderStyle="roundedRect" placeholder="Ejemplo: 1.70" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="height-field">
                                 <rect key="frame" x="32" y="356" width="329" height="48"/>
@@ -55,7 +55,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Introduce tu peso y altura" textAlignment="center" numberOfLines="0" translatesAutoresizingMaskIntoConstraints="NO" id="result-label">
                                 <rect key="frame" x="32" y="532" width="329" height="86"/>
                                 <color key="backgroundColor" red="0.92941176470588238" green="0.95294117647058818" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <fontDescription key="fontDescription" type="semiboldSystem" pointSize="20"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                 <color key="textColor" red="0.054901960784313725" green="0.21176470588235294" blue="0.49019607843137253" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </label>
                         </subviews>

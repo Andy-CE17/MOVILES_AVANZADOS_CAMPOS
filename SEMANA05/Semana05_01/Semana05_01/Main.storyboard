@@ -14,8 +14,31 @@
                     <view key="view" contentMode="scaleToFill" id="view-001">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Diseño y Desarrollo de Software" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="label-title">
+                                <rect key="frame" x="56.5" y="414" width="280" height="24"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <color key="textColor" systemColor="systemBlueColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Andy Luis Campos Escandón" textAlignment="center" adjustsFontSizeToFit="YES" minimumScaleFactor="0.65" translatesAutoresizingMaskIntoConstraints="NO" id="label-name">
+                                <rect key="frame" x="26.5" y="470" width="340" height="70"/>
+                                <color key="backgroundColor" red="0.07058823529411765" green="0.33333333333333331" blue="0.72549019607843135" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="26"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </label>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="safe-001"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="label-title" firstAttribute="centerX" secondItem="safe-001" secondAttribute="centerX" id="constraint-title-center-x"/>
+                            <constraint firstItem="label-title" firstAttribute="centerY" secondItem="safe-001" secondAttribute="centerY" id="constraint-title-center-y"/>
+                            <constraint firstItem="label-name" firstAttribute="top" secondItem="label-title" secondAttribute="bottom" constant="32" id="constraint-name-spacing"/>
+                            <constraint firstItem="label-name" firstAttribute="centerX" secondItem="safe-001" secondAttribute="centerX" id="constraint-name-center-x"/>
+                            <constraint firstItem="label-name" firstAttribute="width" constant="340" id="constraint-name-width"/>
+                            <constraint firstItem="label-name" firstAttribute="height" constant="70" id="constraint-name-height"/>
+                            <constraint firstItem="label-name" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="safe-001" secondAttribute="leading" constant="16" id="constraint-name-leading"/>
+                            <constraint firstItem="safe-001" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="label-name" secondAttribute="trailing" constant="16" id="constraint-name-trailing"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="first-001" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -26,6 +49,9 @@
     <resources>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemBlueColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

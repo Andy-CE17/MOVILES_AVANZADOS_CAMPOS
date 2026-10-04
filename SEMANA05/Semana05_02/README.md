@@ -65,7 +65,13 @@ Luego seleccionar un simulador de iPhone y presionar `Command + R`.
 
 ## Evidencias
 
-Las capturas del formulario y del resultado calculado se guardarán en la carpeta `Evidencias` después de ejecutar la aplicación en el simulador.
+### Formulario de la calculadora
+
+![Formulario de la calculadora de IMC](Evidencias/01_formulario_imc.png)
+
+### Resultado del cálculo
+
+![Resultado de la calculadora de IMC](Evidencias/02_resultado_imc.png)
 
 ## Rama de desarrollo
 

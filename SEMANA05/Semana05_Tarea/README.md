@@ -82,7 +82,13 @@ Luego seleccionar un simulador de iPhone y presionar `Command + R`.
 
 ## Evidencias
 
-Las capturas del formulario y del resultado se guardarán en la carpeta `Evidencias` después de ejecutar la aplicación en el simulador.
+### Formulario de la calculadora
+
+![Formulario de la calculadora de préstamos](Evidencias/01_formulario_prestamo.png)
+
+### Resultado del préstamo
+
+![Resultado de la calculadora de préstamos](Evidencias/02_resultado_prestamo.png)
 
 ## Rama de desarrollo
 

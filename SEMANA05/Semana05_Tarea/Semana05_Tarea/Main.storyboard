@@ -14,9 +14,131 @@
                     <view key="view" contentMode="scaleToFill" id="view-001">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Calculadora de préstamos" textAlignment="center" adjustsFontSizeToFit="YES" minimumScaleFactor="0.8" translatesAutoresizingMaskIntoConstraints="NO" id="title-label">
+                                <rect key="frame" x="24" y="85" width="345" height="41"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="30"/>
+                                <color key="textColor" red="0.035294117647058823" green="0.1803921568627451" blue="0.38823529411764707" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Calcula tu cuota mensual y el monto total" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="subtitle-label">
+                                <rect key="frame" x="24" y="134" width="345" height="22"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <color key="textColor" systemColor="secondaryLabelColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Capital inicial (S/)" translatesAutoresizingMaskIntoConstraints="NO" id="principal-label">
+                                <rect key="frame" x="28" y="190" width="337" height="21"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" borderStyle="roundedRect" placeholder="Ejemplo: 10000" translatesAutoresizingMaskIntoConstraints="NO" id="principal-field">
+                                <rect key="frame" x="28" y="219" width="337" height="46"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <textInputTraits key="textInputTraits" keyboardType="decimalPad" returnKeyType="next"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Tasa de interés anual (%)" translatesAutoresizingMaskIntoConstraints="NO" id="rate-label">
+                                <rect key="frame" x="28" y="283" width="337" height="21"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" borderStyle="roundedRect" placeholder="Ejemplo: 12" translatesAutoresizingMaskIntoConstraints="NO" id="rate-field">
+                                <rect key="frame" x="28" y="312" width="337" height="46"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <textInputTraits key="textInputTraits" keyboardType="decimalPad" returnKeyType="next"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Plazo del préstamo (años)" translatesAutoresizingMaskIntoConstraints="NO" id="years-label">
+                                <rect key="frame" x="28" y="376" width="337" height="21"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" borderStyle="roundedRect" placeholder="Ejemplo: 3" translatesAutoresizingMaskIntoConstraints="NO" id="years-field">
+                                <rect key="frame" x="28" y="405" width="337" height="46"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <textInputTraits key="textInputTraits" keyboardType="decimalPad" returnKeyType="done"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" translatesAutoresizingMaskIntoConstraints="NO" id="calculate-button">
+                                <rect key="frame" x="28" y="477" width="337" height="52"/>
+                                <color key="backgroundColor" systemColor="systemBlueColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="52" id="button-height"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                <state key="normal" title="Calcular préstamo">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="calcularPrestamo:" destination="vc-001" eventType="touchUpInside" id="calculate-action"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Ingresa los datos para calcular" textAlignment="center" numberOfLines="0" translatesAutoresizingMaskIntoConstraints="NO" id="status-label">
+                                <rect key="frame" x="28" y="547" width="337" height="24"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <color key="textColor" systemColor="secondaryLabelColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Cuota mensual&#10;S/ 0.00" textAlignment="center" numberOfLines="2" translatesAutoresizingMaskIntoConstraints="NO" id="monthly-label">
+                                <rect key="frame" x="28" y="589" width="337" height="74"/>
+                                <color key="backgroundColor" red="0.90980392156862744" green="0.94901960784313721" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="21"/>
+                                <color key="textColor" red="0.035294117647058823" green="0.1803921568627451" blue="0.38823529411764707" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Monto total a pagar&#10;S/ 0.00" textAlignment="center" numberOfLines="2" translatesAutoresizingMaskIntoConstraints="NO" id="total-label">
+                                <rect key="frame" x="28" y="675" width="337" height="74"/>
+                                <color key="backgroundColor" red="0.92156862745098034" green="0.97254901960784312" blue="0.93333333333333335" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="21"/>
+                                <color key="textColor" red="0.047058823529411764" green="0.34901960784313724" blue="0.16470588235294117" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </label>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="safe-001"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="title-label" firstAttribute="top" secondItem="safe-001" secondAttribute="top" constant="26" id="title-top"/>
+                            <constraint firstItem="title-label" firstAttribute="leading" secondItem="safe-001" secondAttribute="leading" constant="24" id="title-leading"/>
+                            <constraint firstItem="safe-001" firstAttribute="trailing" secondItem="title-label" secondAttribute="trailing" constant="24" id="title-trailing"/>
+                            <constraint firstItem="subtitle-label" firstAttribute="top" secondItem="title-label" secondAttribute="bottom" constant="8" id="subtitle-top"/>
+                            <constraint firstItem="subtitle-label" firstAttribute="leading" secondItem="title-label" secondAttribute="leading" id="subtitle-leading"/>
+                            <constraint firstItem="subtitle-label" firstAttribute="trailing" secondItem="title-label" secondAttribute="trailing" id="subtitle-trailing"/>
+                            <constraint firstItem="principal-label" firstAttribute="top" secondItem="subtitle-label" secondAttribute="bottom" constant="34" id="principal-label-top"/>
+                            <constraint firstItem="principal-label" firstAttribute="leading" secondItem="safe-001" secondAttribute="leading" constant="28" id="content-leading"/>
+                            <constraint firstItem="safe-001" firstAttribute="trailing" secondItem="principal-label" secondAttribute="trailing" constant="28" id="content-trailing"/>
+                            <constraint firstItem="principal-field" firstAttribute="top" secondItem="principal-label" secondAttribute="bottom" constant="8" id="principal-field-top"/>
+                            <constraint firstItem="principal-field" firstAttribute="leading" secondItem="principal-label" secondAttribute="leading" id="principal-field-leading"/>
+                            <constraint firstItem="principal-field" firstAttribute="trailing" secondItem="principal-label" secondAttribute="trailing" id="principal-field-trailing"/>
+                            <constraint firstItem="principal-field" firstAttribute="height" constant="46" id="principal-field-height"/>
+                            <constraint firstItem="rate-label" firstAttribute="top" secondItem="principal-field" secondAttribute="bottom" constant="18" id="rate-label-top"/>
+                            <constraint firstItem="rate-label" firstAttribute="leading" secondItem="principal-label" secondAttribute="leading" id="rate-label-leading"/>
+                            <constraint firstItem="rate-label" firstAttribute="trailing" secondItem="principal-label" secondAttribute="trailing" id="rate-label-trailing"/>
+                            <constraint firstItem="rate-field" firstAttribute="top" secondItem="rate-label" secondAttribute="bottom" constant="8" id="rate-field-top"/>
+                            <constraint firstItem="rate-field" firstAttribute="leading" secondItem="principal-label" secondAttribute="leading" id="rate-field-leading"/>
+                            <constraint firstItem="rate-field" firstAttribute="trailing" secondItem="principal-label" secondAttribute="trailing" id="rate-field-trailing"/>
+                            <constraint firstItem="rate-field" firstAttribute="height" constant="46" id="rate-field-height"/>
+                            <constraint firstItem="years-label" firstAttribute="top" secondItem="rate-field" secondAttribute="bottom" constant="18" id="years-label-top"/>
+                            <constraint firstItem="years-label" firstAttribute="leading" secondItem="principal-label" secondAttribute="leading" id="years-label-leading"/>
+                            <constraint firstItem="years-label" firstAttribute="trailing" secondItem="principal-label" secondAttribute="trailing" id="years-label-trailing"/>
+                            <constraint firstItem="years-field" firstAttribute="top" secondItem="years-label" secondAttribute="bottom" constant="8" id="years-field-top"/>
+                            <constraint firstItem="years-field" firstAttribute="leading" secondItem="principal-label" secondAttribute="leading" id="years-field-leading"/>
+                            <constraint firstItem="years-field" firstAttribute="trailing" secondItem="principal-label" secondAttribute="trailing" id="years-field-trailing"/>
+                            <constraint firstItem="years-field" firstAttribute="height" constant="46" id="years-field-height"/>
+                            <constraint firstItem="calculate-button" firstAttribute="top" secondItem="years-field" secondAttribute="bottom" constant="26" id="button-top"/>
+                            <constraint firstItem="calculate-button" firstAttribute="leading" secondItem="principal-label" secondAttribute="leading" id="button-leading"/>
+                            <constraint firstItem="calculate-button" firstAttribute="trailing" secondItem="principal-label" secondAttribute="trailing" id="button-trailing"/>
+                            <constraint firstItem="status-label" firstAttribute="top" secondItem="calculate-button" secondAttribute="bottom" constant="18" id="status-top"/>
+                            <constraint firstItem="status-label" firstAttribute="leading" secondItem="principal-label" secondAttribute="leading" id="status-leading"/>
+                            <constraint firstItem="status-label" firstAttribute="trailing" secondItem="principal-label" secondAttribute="trailing" id="status-trailing"/>
+                            <constraint firstItem="monthly-label" firstAttribute="top" secondItem="status-label" secondAttribute="bottom" constant="18" id="monthly-top"/>
+                            <constraint firstItem="monthly-label" firstAttribute="leading" secondItem="principal-label" secondAttribute="leading" id="monthly-leading"/>
+                            <constraint firstItem="monthly-label" firstAttribute="trailing" secondItem="principal-label" secondAttribute="trailing" id="monthly-trailing"/>
+                            <constraint firstItem="monthly-label" firstAttribute="height" constant="74" id="monthly-height"/>
+                            <constraint firstItem="total-label" firstAttribute="top" secondItem="monthly-label" secondAttribute="bottom" constant="12" id="total-top"/>
+                            <constraint firstItem="total-label" firstAttribute="leading" secondItem="principal-label" secondAttribute="leading" id="total-leading"/>
+                            <constraint firstItem="total-label" firstAttribute="trailing" secondItem="principal-label" secondAttribute="trailing" id="total-trailing"/>
+                            <constraint firstItem="total-label" firstAttribute="height" constant="74" id="total-height"/>
+                            <constraint firstItem="safe-001" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="total-label" secondAttribute="bottom" constant="24" id="total-bottom"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="annualRateTextField" destination="rate-field" id="outlet-rate"/>
+                        <outlet property="principalTextField" destination="principal-field" id="outlet-principal"/>
+                        <outlet property="monthlyPaymentLabel" destination="monthly-label" id="outlet-monthly"/>
+                        <outlet property="statusLabel" destination="status-label" id="outlet-status"/>
+                        <outlet property="totalPaymentLabel" destination="total-label" id="outlet-total"/>
+                        <outlet property="yearsTextField" destination="years-field" id="outlet-years"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="first-001" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -26,6 +148,12 @@
     <resources>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="secondaryLabelColor">
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemBlueColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

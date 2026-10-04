@@ -56,7 +56,13 @@ Para comprobar el diseño adaptable se puede girar el simulador con `Command + F
 
 ## Evidencias
 
-Las capturas de la aplicación en orientación vertical y horizontal se guardarán en la carpeta `Evidencias` después de ejecutarla en el simulador.
+### Orientación vertical
+
+![Aplicación en orientación vertical](Evidencias/01_orientacion_vertical.png)
+
+### Orientación horizontal
+
+![Aplicación en orientación horizontal](Evidencias/02_orientacion_horizontal.png)
 
 ## Rama de desarrollo
 

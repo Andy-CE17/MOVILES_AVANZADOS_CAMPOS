@@ -14,9 +14,86 @@
                     <view key="view" contentMode="scaleToFill" id="view-001">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Calculadora de IMC" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="title-label">
+                                <rect key="frame" x="24" y="114" width="345" height="36"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="30"/>
+                                <color key="textColor" systemColor="systemBlueColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Peso (kg)" translatesAutoresizingMaskIntoConstraints="NO" id="weight-label">
+                                <rect key="frame" x="32" y="204" width="329" height="24"/>
+                                <fontDescription key="fontDescription" type="semiboldSystem" pointSize="20"/>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" borderStyle="roundedRect" placeholder="Ejemplo: 70" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="weight-field">
+                                <rect key="frame" x="32" y="240" width="329" height="48"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <textInputTraits key="textInputTraits" keyboardType="decimalPad" returnKeyType="next"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Altura (m)" translatesAutoresizingMaskIntoConstraints="NO" id="height-label">
+                                <rect key="frame" x="32" y="320" width="329" height="24"/>
+                                <fontDescription key="fontDescription" type="semiboldSystem" pointSize="20"/>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" borderStyle="roundedRect" placeholder="Ejemplo: 1.70" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="height-field">
+                                <rect key="frame" x="32" y="356" width="329" height="48"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <textInputTraits key="textInputTraits" keyboardType="decimalPad" returnKeyType="done"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" translatesAutoresizingMaskIntoConstraints="NO" id="calculate-button">
+                                <rect key="frame" x="32" y="444" width="329" height="52"/>
+                                <color key="backgroundColor" systemColor="systemBlueColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="52" id="button-height"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                <state key="normal" title="Calcular IMC">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="calcularResultado:" destination="vc-001" eventType="touchUpInside" id="action-calculate"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Introduce tu peso y altura" textAlignment="center" numberOfLines="0" translatesAutoresizingMaskIntoConstraints="NO" id="result-label">
+                                <rect key="frame" x="32" y="532" width="329" height="86"/>
+                                <color key="backgroundColor" red="0.92941176470588238" green="0.95294117647058818" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="semiboldSystem" pointSize="20"/>
+                                <color key="textColor" red="0.054901960784313725" green="0.21176470588235294" blue="0.49019607843137253" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </label>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="safe-001"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="title-label" firstAttribute="top" secondItem="safe-001" secondAttribute="top" constant="55" id="title-top"/>
+                            <constraint firstItem="title-label" firstAttribute="leading" secondItem="safe-001" secondAttribute="leading" constant="24" id="title-leading"/>
+                            <constraint firstItem="safe-001" firstAttribute="trailing" secondItem="title-label" secondAttribute="trailing" constant="24" id="title-trailing"/>
+                            <constraint firstItem="weight-label" firstAttribute="top" secondItem="title-label" secondAttribute="bottom" constant="54" id="weight-label-top"/>
+                            <constraint firstItem="weight-label" firstAttribute="leading" secondItem="safe-001" secondAttribute="leading" constant="32" id="weight-label-leading"/>
+                            <constraint firstItem="safe-001" firstAttribute="trailing" secondItem="weight-label" secondAttribute="trailing" constant="32" id="weight-label-trailing"/>
+                            <constraint firstItem="weight-field" firstAttribute="top" secondItem="weight-label" secondAttribute="bottom" constant="12" id="weight-field-top"/>
+                            <constraint firstItem="weight-field" firstAttribute="leading" secondItem="weight-label" secondAttribute="leading" id="weight-field-leading"/>
+                            <constraint firstItem="weight-field" firstAttribute="trailing" secondItem="weight-label" secondAttribute="trailing" id="weight-field-trailing"/>
+                            <constraint firstItem="weight-field" firstAttribute="height" constant="48" id="weight-field-height"/>
+                            <constraint firstItem="height-label" firstAttribute="top" secondItem="weight-field" secondAttribute="bottom" constant="32" id="height-label-top"/>
+                            <constraint firstItem="height-label" firstAttribute="leading" secondItem="weight-label" secondAttribute="leading" id="height-label-leading"/>
+                            <constraint firstItem="height-label" firstAttribute="trailing" secondItem="weight-label" secondAttribute="trailing" id="height-label-trailing"/>
+                            <constraint firstItem="height-field" firstAttribute="top" secondItem="height-label" secondAttribute="bottom" constant="12" id="height-field-top"/>
+                            <constraint firstItem="height-field" firstAttribute="leading" secondItem="weight-label" secondAttribute="leading" id="height-field-leading"/>
+                            <constraint firstItem="height-field" firstAttribute="trailing" secondItem="weight-label" secondAttribute="trailing" id="height-field-trailing"/>
+                            <constraint firstItem="height-field" firstAttribute="height" constant="48" id="height-field-height"/>
+                            <constraint firstItem="calculate-button" firstAttribute="top" secondItem="height-field" secondAttribute="bottom" constant="40" id="button-top"/>
+                            <constraint firstItem="calculate-button" firstAttribute="leading" secondItem="weight-label" secondAttribute="leading" id="button-leading"/>
+                            <constraint firstItem="calculate-button" firstAttribute="trailing" secondItem="weight-label" secondAttribute="trailing" id="button-trailing"/>
+                            <constraint firstItem="result-label" firstAttribute="top" secondItem="calculate-button" secondAttribute="bottom" constant="36" id="result-top"/>
+                            <constraint firstItem="result-label" firstAttribute="leading" secondItem="weight-label" secondAttribute="leading" id="result-leading"/>
+                            <constraint firstItem="result-label" firstAttribute="trailing" secondItem="weight-label" secondAttribute="trailing" id="result-trailing"/>
+                            <constraint firstItem="result-label" firstAttribute="height" relation="greaterThanOrEqual" constant="86" id="result-height"/>
+                            <constraint firstItem="safe-001" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="result-label" secondAttribute="bottom" constant="24" id="result-bottom"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="heightTextField" destination="height-field" id="outlet-height"/>
+                        <outlet property="resultLabel" destination="result-label" id="outlet-result"/>
+                        <outlet property="weightTextField" destination="weight-field" id="outlet-weight"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="first-001" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -26,6 +103,9 @@
     <resources>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemBlueColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

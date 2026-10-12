@@ -15,4 +15,8 @@ class ViewControllerConfirmacion: UIViewController {
         tfNombre.text = pCliente.Nombre
         tfDni.text = pCliente.Dni
     }
+
+    @IBAction func btnVolver(_ sender: UIButton) {
+        dismiss(animated: true)
+    }
 }

@@ -17,6 +17,6 @@ class ViewControllerConfirmacion: UIViewController {
     }
 
     @IBAction func btnVolver(_ sender: UIButton) {
-        dismiss(animated: true)
+        navigationController?.popViewController(animated: true)
     }
 }

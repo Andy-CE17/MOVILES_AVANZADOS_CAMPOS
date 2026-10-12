@@ -18,14 +18,14 @@ class ViewController: UIViewController {
             pDni: tfDni.text ?? ""
         )
 
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        guard let pantallaConfirmacion = storyboard.instantiateViewController(
-            withIdentifier: "ViewControllerConfirmacion"
-        ) as? ViewControllerConfirmacion else {
-            return
-        }
+        performSegue(withIdentifier: "mostrarConfirmacion", sender: oCliente)
+    }
 
-        pantallaConfirmacion.pCliente = oCliente
-        present(pantallaConfirmacion, animated: true)
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "mostrarConfirmacion",
+           let pantallaConfirmacion = segue.destination as? ViewControllerConfirmacion,
+           let cliente = sender as? ClienteModel {
+            pantallaConfirmacion.pCliente = cliente
+        }
     }
 }

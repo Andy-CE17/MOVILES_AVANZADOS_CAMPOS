@@ -106,6 +106,7 @@
                         <outlet property="tfApellido" destination="input-apellido" id="outlet-input-apellido"/>
                         <outlet property="tfDni" destination="input-dni" id="outlet-input-dni"/>
                         <outlet property="tfNombre" destination="input-nombre" id="outlet-input-nombre"/>
+                        <segue destination="vc-confirmacion" kind="show" identifier="mostrarConfirmacion" id="segue-confirmacion"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="first-formulario" userLabel="First Responder" sceneMemberID="firstResponder"/>

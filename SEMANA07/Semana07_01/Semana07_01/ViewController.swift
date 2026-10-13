@@ -24,6 +24,9 @@ class ViewController: UIViewController,
 
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        let cell = tableView.dequeueReusableCell(withIdentifier: "celda")!
+        cell.textLabel?.text = listaProfesores[indexPath.row].nombre
+        cell.detailTextLabel?.text = String(listaProfesores[indexPath.row].cargo)
+        return cell
     }
 }

@@ -35,6 +35,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         )
     ]
 
+    private var culturaSeleccionada: Cultura?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Culturas Peruanas"
@@ -57,5 +59,19 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         cell.regionCultura.text = cultura.region
         cell.imagenCultura.image = UIImage(named: cultura.nombreImagen)
         return cell
+    }
+
+    func tableView(_ tableView: UITableView,
+                   didSelectRowAt indexPath: IndexPath) {
+        culturaSeleccionada = culturas[indexPath.row]
+        tableView.deselectRow(at: indexPath, animated: true)
+        performSegue(withIdentifier: "verDetalleCultura", sender: self)
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "verDetalleCultura",
+           let detalle = segue.destination as? DetalleCulturaViewController {
+            detalle.cultura = culturaSeleccionada
+        }
     }
 }

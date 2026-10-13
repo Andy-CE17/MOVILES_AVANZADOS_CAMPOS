@@ -176,11 +176,11 @@
                                     </view>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="detail-content" firstAttribute="top" secondItem="detail-scroll" secondAttribute="contentLayoutGuide.top" id="content-top"/>
-                                    <constraint firstItem="detail-content" firstAttribute="leading" secondItem="detail-scroll" secondAttribute="contentLayoutGuide.leading" id="content-leading"/>
-                                    <constraint firstItem="detail-content" firstAttribute="trailing" secondItem="detail-scroll" secondAttribute="contentLayoutGuide.trailing" id="content-trailing"/>
-                                    <constraint firstItem="detail-content" firstAttribute="bottom" secondItem="detail-scroll" secondAttribute="contentLayoutGuide.bottom" id="content-bottom"/>
-                                    <constraint firstItem="detail-content" firstAttribute="width" secondItem="detail-scroll" secondAttribute="frameLayoutGuide.width" id="content-width"/>
+                                    <constraint firstItem="detail-content" firstAttribute="top" secondItem="content-layout-guide" secondAttribute="top" id="content-top"/>
+                                    <constraint firstItem="detail-content" firstAttribute="leading" secondItem="content-layout-guide" secondAttribute="leading" id="content-leading"/>
+                                    <constraint firstItem="detail-content" firstAttribute="trailing" secondItem="content-layout-guide" secondAttribute="trailing" id="content-trailing"/>
+                                    <constraint firstItem="detail-content" firstAttribute="bottom" secondItem="content-layout-guide" secondAttribute="bottom" id="content-bottom"/>
+                                    <constraint firstItem="detail-content" firstAttribute="width" secondItem="frame-layout-guide" secondAttribute="width" id="content-width"/>
                                 </constraints>
                                 <viewLayoutGuide key="contentLayoutGuide" id="content-layout-guide"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="frame-layout-guide"/>

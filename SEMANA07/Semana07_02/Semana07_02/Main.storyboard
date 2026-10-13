@@ -54,6 +54,10 @@
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="view-controller" id="table-data-source"/>
+                                    <outlet property="delegate" destination="view-controller" id="table-delegate"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="safe-area"/>

@@ -19,7 +19,7 @@
                                 <rect key="frame" x="0.0" y="59" width="393" height="759"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="miCell" rowHeight="100" id="custom-cell">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="miCell" rowHeight="100" id="custom-cell" customClass="PersonasTableViewCell" customModule="Semana07_02" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="50" width="393" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="custom-cell" id="cell-content">
@@ -48,6 +48,10 @@
                                                 <constraint firstAttribute="trailingMargin" secondItem="persona-label" secondAttribute="trailing" id="label-trailing"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="personaImagen" destination="persona-image" id="outlet-persona-image"/>
+                                            <outlet property="personaNombre" destination="persona-label" id="outlet-persona-label"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>

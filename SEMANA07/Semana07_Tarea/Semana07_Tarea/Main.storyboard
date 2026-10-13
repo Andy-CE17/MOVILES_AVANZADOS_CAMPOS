@@ -26,8 +26,70 @@
                     <view key="view" contentMode="scaleToFill" id="main-view">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" separatorStyle="singleLine" rowHeight="104" estimatedRowHeight="104" translatesAutoresizingMaskIntoConstraints="NO" id="culturas-table">
+                                <rect key="frame" x="0.0" y="103" width="393" height="715"/>
+                                <color key="backgroundColor" systemColor="systemGroupedBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="culturaCell" rowHeight="104" id="cultura-cell" customClass="CulturaTableViewCell" customModule="Semana07_Tarea" customModuleProvider="target">
+                                        <rect key="frame" x="20" y="55" width="353" height="104"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cultura-cell" id="cultura-content">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="104"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="cultura-image">
+                                                    <rect key="frame" x="16" y="12" width="80" height="80"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="80" id="cultura-image-width"/>
+                                                        <constraint firstAttribute="height" constant="80" id="cultura-image-height"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nombre de la cultura" textAlignment="natural" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cultura-name">
+                                                    <rect key="frame" x="112" y="30" width="192" height="22"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Región" textAlignment="natural" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cultura-region">
+                                                    <rect key="frame" x="112" y="58" width="192" height="19"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <color key="textColor" systemColor="secondaryLabelColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="cultura-image" firstAttribute="leading" secondItem="cultura-content" secondAttribute="leadingMargin" id="cultura-image-leading"/>
+                                                <constraint firstItem="cultura-image" firstAttribute="centerY" secondItem="cultura-content" secondAttribute="centerY" id="cultura-image-center"/>
+                                                <constraint firstItem="cultura-name" firstAttribute="leading" secondItem="cultura-image" secondAttribute="trailing" constant="16" id="cultura-name-leading"/>
+                                                <constraint firstItem="cultura-name" firstAttribute="top" secondItem="cultura-content" secondAttribute="top" constant="30" id="cultura-name-top"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="cultura-name" secondAttribute="trailing" id="cultura-name-trailing"/>
+                                                <constraint firstItem="cultura-region" firstAttribute="leading" secondItem="cultura-name" secondAttribute="leading" id="cultura-region-leading"/>
+                                                <constraint firstItem="cultura-region" firstAttribute="top" secondItem="cultura-name" secondAttribute="bottom" constant="4" id="cultura-region-top"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="cultura-region" secondAttribute="trailing" id="cultura-region-trailing"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="imagenCultura" destination="cultura-image" id="outlet-cultura-image"/>
+                                            <outlet property="nombreCultura" destination="cultura-name" id="outlet-cultura-name"/>
+                                            <outlet property="regionCultura" destination="cultura-region" id="outlet-cultura-region"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="view-controller" id="culturas-data-source"/>
+                                    <outlet property="delegate" destination="view-controller" id="culturas-delegate"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="safe-area"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" systemColor="systemGroupedBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="culturas-table" firstAttribute="leading" secondItem="safe-area" secondAttribute="leading" id="culturas-table-leading"/>
+                            <constraint firstItem="safe-area" firstAttribute="trailing" secondItem="culturas-table" secondAttribute="trailing" id="culturas-table-trailing"/>
+                            <constraint firstItem="culturas-table" firstAttribute="top" secondItem="safe-area" secondAttribute="top" id="culturas-table-top"/>
+                            <constraint firstItem="safe-area" firstAttribute="bottom" secondItem="culturas-table" secondAttribute="bottom" id="culturas-table-bottom"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Culturas Peruanas" id="navigation-item"/>
                 </viewController>
@@ -37,8 +99,11 @@
         </scene>
     </scenes>
     <resources>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        <systemColor name="secondaryLabelColor">
+            <color red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemGroupedBackgroundColor">
+            <color red="0.94901960780000002" green="0.94901960780000002" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

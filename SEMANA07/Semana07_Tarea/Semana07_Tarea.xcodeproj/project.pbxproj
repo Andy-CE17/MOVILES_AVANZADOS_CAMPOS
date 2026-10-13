@@ -10,6 +10,7 @@
 		A10000000000000000000002 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000002 /* SceneDelegate.swift */; };
 		A10000000000000000000003 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000003 /* ViewController.swift */; };
 		A30000000000000000000001 /* Cultura.swift in Sources */ = {isa = PBXBuildFile; fileRef = B30000000000000000000001 /* Cultura.swift */; };
+		A30000000000000000000002 /* CulturaTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B30000000000000000000002 /* CulturaTableViewCell.swift */; };
 		A10000000000000000000005 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000005 /* Main.storyboard */; };
 		A10000000000000000000006 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000006 /* LaunchScreen.storyboard */; };
 		A10000000000000000000007 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000007 /* Assets.xcassets */; };
@@ -20,6 +21,7 @@
 		B10000000000000000000002 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		B10000000000000000000003 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		B30000000000000000000001 /* Cultura.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cultura.swift; sourceTree = "<group>"; };
+		B30000000000000000000002 /* CulturaTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CulturaTableViewCell.swift; sourceTree = "<group>"; };
 		B10000000000000000000005 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		B10000000000000000000006 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B10000000000000000000007 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -47,6 +49,7 @@
 				B10000000000000000000002 /* SceneDelegate.swift */,
 				B10000000000000000000003 /* ViewController.swift */,
 				B30000000000000000000001 /* Cultura.swift */,
+				B30000000000000000000002 /* CulturaTableViewCell.swift */,
 				B10000000000000000000005 /* Main.storyboard */,
 				B10000000000000000000006 /* LaunchScreen.storyboard */,
 				B10000000000000000000007 /* Assets.xcassets */,
@@ -94,7 +97,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		C10000000000000000000002 /* Sources */ = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (A10000000000000000000001 /* AppDelegate.swift in Sources */, A10000000000000000000002 /* SceneDelegate.swift in Sources */, A10000000000000000000003 /* ViewController.swift in Sources */, A30000000000000000000001 /* Cultura.swift in Sources */,); runOnlyForDeploymentPostprocessing = 0; };
+		C10000000000000000000002 /* Sources */ = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (A10000000000000000000001 /* AppDelegate.swift in Sources */, A10000000000000000000002 /* SceneDelegate.swift in Sources */, A10000000000000000000003 /* ViewController.swift in Sources */, A30000000000000000000001 /* Cultura.swift in Sources */, A30000000000000000000002 /* CulturaTableViewCell.swift in Sources */,); runOnlyForDeploymentPostprocessing = 0; };
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */

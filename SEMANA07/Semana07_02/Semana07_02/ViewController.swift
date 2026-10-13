@@ -21,4 +21,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         cell?.personaImagen.image = UIImage(named: personasImagenArreglo[indexPath.row])
         return cell!
     }
+
+    func tableView(_ tableView: UITableView,
+                   didSelectRowAt indexPath: IndexPath) {
+        let alerta = UIAlertController(
+            title: "El Docente que Selecciono es : ",
+            message: personasArreglo[indexPath.row],
+            preferredStyle: .alert
+        )
+
+        alerta.addAction(UIAlertAction(title: "OK", style: .cancel))
+        present(alerta, animated: true)
+    }
 }

@@ -7,8 +7,11 @@ class CatalogoViewController: UIViewController {
         Producto(nombre: "Refrigeradora", precio: 2000, stock: 5),
         Producto(nombre: "Licuadora", precio: 250, stock: 10),
         Producto(nombre: "Laptop", precio: 3500, stock: 3),
-        Producto(nombre: "Cocina", precio: 1200, stock: 4)
+        Producto(nombre: "Cocina", precio: 1200, stock: 4),
+        Producto(nombre: "Microondas", precio: 450, stock: 6)
     ]
+
+    // Prueba final: se necesitó un botón en Storyboard y una entrada en este arreglo.
 
     let carrito = CarritoModel()
 

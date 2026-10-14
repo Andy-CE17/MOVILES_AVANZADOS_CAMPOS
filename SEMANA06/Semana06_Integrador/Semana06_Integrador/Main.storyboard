@@ -84,6 +84,16 @@
                                             <action selector="productoTapped:" destination="vc-catalogo" eventType="touchUpInside" id="action-cocina"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="button-microondas">
+                                        <rect key="frame" x="0.0" y="330" width="337" height="48"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="48" id="height-microondas"/>
+                                        </constraints>
+                                        <buttonConfiguration key="configuration" style="filled" title="Microondas · S/ 450"/>
+                                        <connections>
+                                            <action selector="productoTapped:" destination="vc-catalogo" eventType="touchUpInside" id="action-microondas"/>
+                                        </connections>
+                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="button-carrito">
                                         <rect key="frame" x="0.0" y="330" width="337" height="44"/>
                                         <constraints>

@@ -5,6 +5,8 @@ class DatosClienteViewController: UIViewController {
     @IBOutlet weak var nombresTextField: UITextField!
     @IBOutlet weak var dniTextField: UITextField!
 
+    var carrito: CarritoModel!
+
     @IBAction func confirmarCompra(_ sender: UIButton) {
         performSegue(withIdentifier: "verBoleta", sender: sender)
     }

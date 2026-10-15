@@ -38,20 +38,20 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="104"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="cultura-image">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="cultura-image">
                                                     <rect key="frame" x="16" y="12" width="80" height="80"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="80" id="cultura-image-width"/>
                                                         <constraint firstAttribute="height" constant="80" id="cultura-image-height"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nombre de la cultura" textAlignment="natural" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cultura-name">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Nombre de la cultura" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cultura-name">
                                                     <rect key="frame" x="112" y="30" width="192" height="22"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Región" textAlignment="natural" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cultura-region">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Región" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cultura-region">
                                                     <rect key="frame" x="112" y="58" width="192" height="19"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" systemColor="secondaryLabelColor"/>
@@ -73,6 +73,7 @@
                                             <outlet property="imagenCultura" destination="cultura-image" id="outlet-cultura-image"/>
                                             <outlet property="nombreCultura" destination="cultura-name" id="outlet-cultura-name"/>
                                             <outlet property="regionCultura" destination="cultura-region" id="outlet-cultura-region"/>
+                                            <segue destination="options-controller" kind="show" identifier="verOpcionesCultura" id="options-segue"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -93,117 +94,109 @@
                     </view>
                     <navigationItem key="navigationItem" title="Culturas Peruanas" id="navigation-item"/>
                     <connections>
-                        <segue destination="detail-controller" kind="show" identifier="verDetalleCultura" id="detail-segue"/>
+                        <outlet property="tablaCulturas" destination="culturas-table" id="outlet-tabla-culturas"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="first-responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="0.0" y="0.0"/>
         </scene>
-
-        <scene sceneID="detail-scene">
+        <scene sceneID="options-scene">
             <objects>
-                <viewController id="detail-controller" customClass="DetalleCulturaViewController" customModule="Semana07_Tarea" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="detail-view">
+                <viewController id="options-controller" customClass="OpcionesCulturaViewController" customModule="Semana07_Tarea" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="options-view">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="detail-scroll">
-                                <rect key="frame" x="0.0" y="103" width="393" height="715"/>
-                                <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="detail-content">
-                                        <rect key="frame" x="0.0" y="0.0" width="393" height="637"/>
-                                        <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="detail-image">
-                                                <rect key="frame" x="20" y="20" width="353" height="240"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="240" id="detail-image-height"/>
-                                                </constraints>
-                                            </imageView>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nombre de la cultura" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" translatesAutoresizingMaskIntoConstraints="NO" id="detail-name">
-                                                <rect key="frame" x="20" y="280" width="353" height="34"/>
-                                                <fontDescription key="fontDescription" type="system" weight="bold" pointSize="28"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="REGIÓN" textAlignment="natural" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="region-title">
-                                                <rect key="frame" x="20" y="338" width="353" height="17"/>
-                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="13"/>
-                                                <color key="textColor" systemColor="secondaryLabelColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Región de la cultura" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" translatesAutoresizingMaskIntoConstraints="NO" id="detail-region">
-                                                <rect key="frame" x="20" y="363" width="353" height="24"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DESCRIPCIÓN" textAlignment="natural" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="description-title">
-                                                <rect key="frame" x="20" y="415" width="353" height="17"/>
-                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="13"/>
-                                                <color key="textColor" systemColor="secondaryLabelColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Descripción de la cultura seleccionada." textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" translatesAutoresizingMaskIntoConstraints="NO" id="detail-description">
-                                                <rect key="frame" x="20" y="440" width="353" height="177"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                        </subviews>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                        <constraints>
-                                            <constraint firstItem="detail-image" firstAttribute="top" secondItem="detail-content" secondAttribute="top" constant="20" id="detail-image-top"/>
-                                            <constraint firstItem="detail-image" firstAttribute="leading" secondItem="detail-content" secondAttribute="leading" constant="20" id="detail-image-leading"/>
-                                            <constraint firstAttribute="trailing" secondItem="detail-image" secondAttribute="trailing" constant="20" id="detail-image-trailing"/>
-                                            <constraint firstItem="detail-name" firstAttribute="top" secondItem="detail-image" secondAttribute="bottom" constant="20" id="detail-name-top"/>
-                                            <constraint firstItem="detail-name" firstAttribute="leading" secondItem="detail-content" secondAttribute="leading" constant="20" id="detail-name-leading"/>
-                                            <constraint firstAttribute="trailing" secondItem="detail-name" secondAttribute="trailing" constant="20" id="detail-name-trailing"/>
-                                            <constraint firstItem="region-title" firstAttribute="top" secondItem="detail-name" secondAttribute="bottom" constant="20" id="region-title-top"/>
-                                            <constraint firstItem="region-title" firstAttribute="leading" secondItem="detail-name" secondAttribute="leading" id="region-title-leading"/>
-                                            <constraint firstAttribute="trailing" secondItem="region-title" secondAttribute="trailing" constant="20" id="region-title-trailing"/>
-                                            <constraint firstItem="detail-region" firstAttribute="top" secondItem="region-title" secondAttribute="bottom" constant="5" id="detail-region-top"/>
-                                            <constraint firstItem="detail-region" firstAttribute="leading" secondItem="detail-name" secondAttribute="leading" id="detail-region-leading"/>
-                                            <constraint firstAttribute="trailing" secondItem="detail-region" secondAttribute="trailing" constant="20" id="detail-region-trailing"/>
-                                            <constraint firstItem="description-title" firstAttribute="top" secondItem="detail-region" secondAttribute="bottom" constant="24" id="description-title-top"/>
-                                            <constraint firstItem="description-title" firstAttribute="leading" secondItem="detail-name" secondAttribute="leading" id="description-title-leading"/>
-                                            <constraint firstAttribute="trailing" secondItem="description-title" secondAttribute="trailing" constant="20" id="description-title-trailing"/>
-                                            <constraint firstItem="detail-description" firstAttribute="top" secondItem="description-title" secondAttribute="bottom" constant="5" id="detail-description-top"/>
-                                            <constraint firstItem="detail-description" firstAttribute="leading" secondItem="detail-name" secondAttribute="leading" id="detail-description-leading"/>
-                                            <constraint firstAttribute="trailing" secondItem="detail-description" secondAttribute="trailing" constant="20" id="detail-description-trailing"/>
-                                            <constraint firstAttribute="bottom" secondItem="detail-description" secondAttribute="bottom" constant="20" id="detail-description-bottom"/>
-                                        </constraints>
-                                    </view>
-                                </subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="options-image">
+                                <rect key="frame" x="20" y="123" width="353" height="220"/>
                                 <constraints>
-                                    <constraint firstItem="detail-content" firstAttribute="top" secondItem="content-layout-guide" secondAttribute="top" id="content-top"/>
-                                    <constraint firstItem="detail-content" firstAttribute="leading" secondItem="content-layout-guide" secondAttribute="leading" id="content-leading"/>
-                                    <constraint firstItem="detail-content" firstAttribute="trailing" secondItem="content-layout-guide" secondAttribute="trailing" id="content-trailing"/>
-                                    <constraint firstItem="detail-content" firstAttribute="bottom" secondItem="content-layout-guide" secondAttribute="bottom" id="content-bottom"/>
-                                    <constraint firstItem="detail-content" firstAttribute="width" secondItem="frame-layout-guide" secondAttribute="width" id="content-width"/>
+                                    <constraint firstAttribute="height" constant="220" id="options-image-height"/>
                                 </constraints>
-                                <viewLayoutGuide key="contentLayoutGuide" id="content-layout-guide"/>
-                                <viewLayoutGuide key="frameLayoutGuide" id="frame-layout-guide"/>
-                            </scrollView>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Nombre de la cultura" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" translatesAutoresizingMaskIntoConstraints="NO" id="options-name">
+                                <rect key="frame" x="20" y="359" width="353" height="34"/>
+                                <fontDescription key="fontDescription" type="system" weight="bold" pointSize="28"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="¿Qué ofrece esta cultura?" textAlignment="natural" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="options-prompt">
+                                <rect key="frame" x="20" y="413" width="353" height="24"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" rowHeight="88" estimatedRowHeight="88" translatesAutoresizingMaskIntoConstraints="NO" id="options-table">
+                                <rect key="frame" x="0.0" y="449" width="393" height="369"/>
+                                <color key="backgroundColor" systemColor="systemGroupedBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="opcionCell" rowHeight="88" id="option-cell" customClass="OpcionTableViewCell" customModule="Semana07_Tarea" customModuleProvider="target">
+                                        <rect key="frame" x="20" y="55" width="353" height="88"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="option-cell" id="option-content">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="88"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="option-image">
+                                                    <rect key="frame" x="16" y="12" width="64" height="64"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="64" id="option-image-width"/>
+                                                        <constraint firstAttribute="height" constant="64" id="option-image-height"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Título de la opción" lineBreakMode="wordWrap" numberOfLines="2" translatesAutoresizingMaskIntoConstraints="NO" id="option-title">
+                                                    <rect key="frame" x="96" y="24" width="208" height="40"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="option-image" firstAttribute="leading" secondItem="option-content" secondAttribute="leadingMargin" id="option-image-leading"/>
+                                                <constraint firstItem="option-image" firstAttribute="centerY" secondItem="option-content" secondAttribute="centerY" id="option-image-center"/>
+                                                <constraint firstItem="option-title" firstAttribute="leading" secondItem="option-image" secondAttribute="trailing" constant="16" id="option-title-leading"/>
+                                                <constraint firstItem="option-title" firstAttribute="centerY" secondItem="option-content" secondAttribute="centerY" id="option-title-center"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="option-title" secondAttribute="trailing" id="option-title-trailing"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="imagenOpcion" destination="option-image" id="outlet-option-image"/>
+                                            <outlet property="tituloOpcion" destination="option-title" id="outlet-option-title"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="options-controller" id="options-data-source"/>
+                                    <outlet property="delegate" destination="options-controller" id="options-delegate"/>
+                                </connections>
+                            </tableView>
                         </subviews>
-                        <viewLayoutGuide key="safeArea" id="detail-safe-area"/>
+                        <viewLayoutGuide key="safeArea" id="options-safe-area"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="detail-scroll" firstAttribute="top" secondItem="detail-safe-area" secondAttribute="top" id="detail-scroll-top"/>
-                            <constraint firstItem="detail-scroll" firstAttribute="leading" secondItem="detail-safe-area" secondAttribute="leading" id="detail-scroll-leading"/>
-                            <constraint firstItem="detail-safe-area" firstAttribute="trailing" secondItem="detail-scroll" secondAttribute="trailing" id="detail-scroll-trailing"/>
-                            <constraint firstItem="detail-safe-area" firstAttribute="bottom" secondItem="detail-scroll" secondAttribute="bottom" id="detail-scroll-bottom"/>
+                            <constraint firstItem="options-image" firstAttribute="top" secondItem="options-safe-area" secondAttribute="top" constant="20" id="options-image-top"/>
+                            <constraint firstItem="options-image" firstAttribute="leading" secondItem="options-safe-area" secondAttribute="leading" constant="20" id="options-image-leading"/>
+                            <constraint firstItem="options-safe-area" firstAttribute="trailing" secondItem="options-image" secondAttribute="trailing" constant="20" id="options-image-trailing"/>
+                            <constraint firstItem="options-name" firstAttribute="top" secondItem="options-image" secondAttribute="bottom" constant="16" id="options-name-top"/>
+                            <constraint firstItem="options-name" firstAttribute="leading" secondItem="options-safe-area" secondAttribute="leading" constant="20" id="options-name-leading"/>
+                            <constraint firstItem="options-safe-area" firstAttribute="trailing" secondItem="options-name" secondAttribute="trailing" constant="20" id="options-name-trailing"/>
+                            <constraint firstItem="options-prompt" firstAttribute="top" secondItem="options-name" secondAttribute="bottom" constant="16" id="options-prompt-top"/>
+                            <constraint firstItem="options-prompt" firstAttribute="leading" secondItem="options-safe-area" secondAttribute="leading" constant="20" id="options-prompt-leading"/>
+                            <constraint firstItem="options-safe-area" firstAttribute="trailing" secondItem="options-prompt" secondAttribute="trailing" constant="20" id="options-prompt-trailing"/>
+                            <constraint firstItem="options-table" firstAttribute="top" secondItem="options-prompt" secondAttribute="bottom" constant="12" id="options-table-top"/>
+                            <constraint firstItem="options-table" firstAttribute="leading" secondItem="options-safe-area" secondAttribute="leading" id="options-table-leading"/>
+                            <constraint firstItem="options-safe-area" firstAttribute="trailing" secondItem="options-table" secondAttribute="trailing" id="options-table-trailing"/>
+                            <constraint firstItem="options-safe-area" firstAttribute="bottom" secondItem="options-table" secondAttribute="bottom" id="options-table-bottom"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Detalle de la Cultura" id="detail-navigation-item"/>
+                    <navigationItem key="navigationItem" title="Opciones de la Cultura" id="options-navigation-item"/>
                     <connections>
-                        <outlet property="descripcionDetalle" destination="detail-description" id="outlet-detail-description"/>
-                        <outlet property="imagenDetalle" destination="detail-image" id="outlet-detail-image"/>
-                        <outlet property="nombreDetalle" destination="detail-name" id="outlet-detail-name"/>
-                        <outlet property="regionDetalle" destination="detail-region" id="outlet-detail-region"/>
+                        <outlet property="imagenCultura" destination="options-image" id="outlet-options-image"/>
+                        <outlet property="nombreCultura" destination="options-name" id="outlet-options-name"/>
+                        <outlet property="tablaOpciones" destination="options-table" id="outlet-options-table"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="detail-first-responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="options-first-responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="900" y="0.0"/>
         </scene>

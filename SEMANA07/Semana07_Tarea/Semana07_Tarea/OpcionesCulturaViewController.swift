@@ -39,4 +39,17 @@ class OpcionesCulturaViewController: UIViewController,
         cell.imagenOpcion.image = UIImage(named: opcion.nombreImagen)
         return cell
     }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard segue.identifier == "verDetalleOpcion",
+              let celda = sender as? UITableViewCell,
+              let indexPath = tablaOpciones.indexPath(for: celda),
+              let destino = segue.destination
+                as? DetalleOpcionViewController,
+              let opcion = cultura?.opciones[indexPath.row] else {
+            return
+        }
+
+        destino.opcion = opcion
+    }
 }

@@ -8,10 +8,14 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Navigation Controller-->
         <scene sceneID="navigation-scene">
             <objects>
                 <navigationController id="navigation-controller" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="navigation-bar"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="navigation-bar">
+                        <rect key="frame" x="0.0" y="118" width="393" height="54"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    </navigationBar>
                     <connections>
                         <segue destination="view-controller" kind="relationship" relationship="rootViewController" id="root-segue"/>
                     </connections>
@@ -20,6 +24,7 @@
             </objects>
             <point key="canvasLocation" x="-900" y="0.0"/>
         </scene>
+        <!--Culturas Peruanas-->
         <scene sceneID="view-controller-scene">
             <objects>
                 <viewController id="view-controller" customClass="ViewController" customModule="Semana07_Tarea" customModuleProvider="target" sceneMemberID="viewController">
@@ -27,40 +32,40 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" separatorStyle="singleLine" rowHeight="104" estimatedRowHeight="104" translatesAutoresizingMaskIntoConstraints="NO" id="culturas-table">
-                                <rect key="frame" x="0.0" y="103" width="393" height="715"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" rowHeight="104" estimatedRowHeight="104" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="culturas-table">
+                                <rect key="frame" x="0.0" y="172" width="393" height="612"/>
                                 <color key="backgroundColor" systemColor="systemGroupedBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="culturaCell" rowHeight="104" id="cultura-cell" customClass="CulturaTableViewCell" customModule="Semana07_Tarea" customModuleProvider="target">
-                                        <rect key="frame" x="20" y="55" width="353" height="104"/>
+                                        <rect key="frame" x="20" y="55.333332061767578" width="353" height="104"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cultura-cell" id="cultura-content">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="104"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="322.66666666666669" height="104"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="cultura-image">
                                                     <rect key="frame" x="16" y="12" width="80" height="80"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="80" id="cultura-image-width"/>
                                                         <constraint firstAttribute="height" constant="80" id="cultura-image-height"/>
+                                                        <constraint firstAttribute="width" constant="80" id="cultura-image-width"/>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Nombre de la cultura" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cultura-name">
-                                                    <rect key="frame" x="112" y="30" width="192" height="22"/>
+                                                    <rect key="frame" x="111.99999999999999" y="30" width="202.66666666666663" height="22"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Región" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cultura-region">
-                                                    <rect key="frame" x="112" y="58" width="192" height="19"/>
+                                                    <rect key="frame" x="111.99999999999999" y="56" width="202.66666666666663" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" systemColor="secondaryLabelColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="cultura-image" firstAttribute="leading" secondItem="cultura-content" secondAttribute="leadingMargin" id="cultura-image-leading"/>
                                                 <constraint firstItem="cultura-image" firstAttribute="centerY" secondItem="cultura-content" secondAttribute="centerY" id="cultura-image-center"/>
+                                                <constraint firstItem="cultura-image" firstAttribute="leading" secondItem="cultura-content" secondAttribute="leadingMargin" id="cultura-image-leading"/>
                                                 <constraint firstItem="cultura-name" firstAttribute="leading" secondItem="cultura-image" secondAttribute="trailing" constant="16" id="cultura-name-leading"/>
                                                 <constraint firstItem="cultura-name" firstAttribute="top" secondItem="cultura-content" secondAttribute="top" constant="30" id="cultura-name-top"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="cultura-name" secondAttribute="trailing" id="cultura-name-trailing"/>
@@ -86,10 +91,10 @@
                         <viewLayoutGuide key="safeArea" id="safe-area"/>
                         <color key="backgroundColor" systemColor="systemGroupedBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="culturas-table" firstAttribute="leading" secondItem="safe-area" secondAttribute="leading" id="culturas-table-leading"/>
-                            <constraint firstItem="safe-area" firstAttribute="trailing" secondItem="culturas-table" secondAttribute="trailing" id="culturas-table-trailing"/>
-                            <constraint firstItem="culturas-table" firstAttribute="top" secondItem="safe-area" secondAttribute="top" id="culturas-table-top"/>
                             <constraint firstItem="safe-area" firstAttribute="bottom" secondItem="culturas-table" secondAttribute="bottom" id="culturas-table-bottom"/>
+                            <constraint firstItem="culturas-table" firstAttribute="leading" secondItem="safe-area" secondAttribute="leading" id="culturas-table-leading"/>
+                            <constraint firstItem="culturas-table" firstAttribute="top" secondItem="safe-area" secondAttribute="top" id="culturas-table-top"/>
+                            <constraint firstItem="safe-area" firstAttribute="trailing" secondItem="culturas-table" secondAttribute="trailing" id="culturas-table-trailing"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Culturas Peruanas" id="navigation-item"/>
@@ -101,6 +106,7 @@
             </objects>
             <point key="canvasLocation" x="0.0" y="0.0"/>
         </scene>
+        <!--Opciones de la Cultura-->
         <scene sceneID="options-scene">
             <objects>
                 <viewController id="options-controller" customClass="OpcionesCulturaViewController" customModule="Semana07_Tarea" customModuleProvider="target" sceneMemberID="viewController">
@@ -109,59 +115,60 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="options-image">
-                                <rect key="frame" x="20" y="123" width="353" height="220"/>
+                                <rect key="frame" x="20" y="192" width="353" height="220"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="220" id="options-image-height"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Nombre de la cultura" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" translatesAutoresizingMaskIntoConstraints="NO" id="options-name">
-                                <rect key="frame" x="20" y="359" width="353" height="34"/>
-                                <fontDescription key="fontDescription" type="system" weight="bold" pointSize="28"/>
+                                <rect key="frame" x="20" y="428" width="353" height="33.666666666666686"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="28"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="¿Qué ofrece esta cultura?" textAlignment="natural" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="options-prompt">
-                                <rect key="frame" x="20" y="413" width="353" height="24"/>
+                                <rect key="frame" x="20" y="477.66666666666669" width="353" height="24"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" rowHeight="88" estimatedRowHeight="88" translatesAutoresizingMaskIntoConstraints="NO" id="options-table">
-                                <rect key="frame" x="0.0" y="449" width="393" height="369"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" rowHeight="88" estimatedRowHeight="88" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="options-table">
+                                <rect key="frame" x="0.0" y="513.66666666666663" width="393" height="270.33333333333337"/>
                                 <color key="backgroundColor" systemColor="systemGroupedBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="opcionCell" rowHeight="88" id="option-cell" customClass="OpcionTableViewCell" customModule="Semana07_Tarea" customModuleProvider="target">
-                                        <rect key="frame" x="20" y="55" width="353" height="88"/>
+                                        <rect key="frame" x="20" y="55.333332061767578" width="353" height="88"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="option-cell" id="option-content">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="88"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="322.66666666666669" height="88"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="option-image">
                                                     <rect key="frame" x="16" y="12" width="64" height="64"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="64" id="option-image-width"/>
                                                         <constraint firstAttribute="height" constant="64" id="option-image-height"/>
+                                                        <constraint firstAttribute="width" constant="64" id="option-image-width"/>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Título de la opción" lineBreakMode="wordWrap" numberOfLines="2" translatesAutoresizingMaskIntoConstraints="NO" id="option-title">
-                                                    <rect key="frame" x="96" y="24" width="208" height="40"/>
+                                                    <rect key="frame" x="95.999999999999986" y="34" width="218.66666666666663" height="20.333333333333329"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="option-image" firstAttribute="leading" secondItem="option-content" secondAttribute="leadingMargin" id="option-image-leading"/>
                                                 <constraint firstItem="option-image" firstAttribute="centerY" secondItem="option-content" secondAttribute="centerY" id="option-image-center"/>
-                                                <constraint firstItem="option-title" firstAttribute="leading" secondItem="option-image" secondAttribute="trailing" constant="16" id="option-title-leading"/>
+                                                <constraint firstItem="option-image" firstAttribute="leading" secondItem="option-content" secondAttribute="leadingMargin" id="option-image-leading"/>
                                                 <constraint firstItem="option-title" firstAttribute="centerY" secondItem="option-content" secondAttribute="centerY" id="option-title-center"/>
+                                                <constraint firstItem="option-title" firstAttribute="leading" secondItem="option-image" secondAttribute="trailing" constant="16" id="option-title-leading"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="option-title" secondAttribute="trailing" id="option-title-trailing"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="imagenOpcion" destination="option-image" id="outlet-option-image"/>
                                             <outlet property="tituloOpcion" destination="option-title" id="outlet-option-title"/>
+                                            <segue destination="option-detail-controller" kind="show" identifier="verDetalleOpcion" id="option-detail-segue"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -174,19 +181,19 @@
                         <viewLayoutGuide key="safeArea" id="options-safe-area"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="options-image" firstAttribute="top" secondItem="options-safe-area" secondAttribute="top" constant="20" id="options-image-top"/>
                             <constraint firstItem="options-image" firstAttribute="leading" secondItem="options-safe-area" secondAttribute="leading" constant="20" id="options-image-leading"/>
+                            <constraint firstItem="options-image" firstAttribute="top" secondItem="options-safe-area" secondAttribute="top" constant="20" id="options-image-top"/>
                             <constraint firstItem="options-safe-area" firstAttribute="trailing" secondItem="options-image" secondAttribute="trailing" constant="20" id="options-image-trailing"/>
-                            <constraint firstItem="options-name" firstAttribute="top" secondItem="options-image" secondAttribute="bottom" constant="16" id="options-name-top"/>
                             <constraint firstItem="options-name" firstAttribute="leading" secondItem="options-safe-area" secondAttribute="leading" constant="20" id="options-name-leading"/>
+                            <constraint firstItem="options-name" firstAttribute="top" secondItem="options-image" secondAttribute="bottom" constant="16" id="options-name-top"/>
                             <constraint firstItem="options-safe-area" firstAttribute="trailing" secondItem="options-name" secondAttribute="trailing" constant="20" id="options-name-trailing"/>
-                            <constraint firstItem="options-prompt" firstAttribute="top" secondItem="options-name" secondAttribute="bottom" constant="16" id="options-prompt-top"/>
                             <constraint firstItem="options-prompt" firstAttribute="leading" secondItem="options-safe-area" secondAttribute="leading" constant="20" id="options-prompt-leading"/>
+                            <constraint firstItem="options-prompt" firstAttribute="top" secondItem="options-name" secondAttribute="bottom" constant="16" id="options-prompt-top"/>
                             <constraint firstItem="options-safe-area" firstAttribute="trailing" secondItem="options-prompt" secondAttribute="trailing" constant="20" id="options-prompt-trailing"/>
-                            <constraint firstItem="options-table" firstAttribute="top" secondItem="options-prompt" secondAttribute="bottom" constant="12" id="options-table-top"/>
-                            <constraint firstItem="options-table" firstAttribute="leading" secondItem="options-safe-area" secondAttribute="leading" id="options-table-leading"/>
-                            <constraint firstItem="options-safe-area" firstAttribute="trailing" secondItem="options-table" secondAttribute="trailing" id="options-table-trailing"/>
                             <constraint firstItem="options-safe-area" firstAttribute="bottom" secondItem="options-table" secondAttribute="bottom" id="options-table-bottom"/>
+                            <constraint firstItem="options-table" firstAttribute="leading" secondItem="options-safe-area" secondAttribute="leading" id="options-table-leading"/>
+                            <constraint firstItem="options-table" firstAttribute="top" secondItem="options-prompt" secondAttribute="bottom" constant="12" id="options-table-top"/>
+                            <constraint firstItem="options-safe-area" firstAttribute="trailing" secondItem="options-table" secondAttribute="trailing" id="options-table-trailing"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Opciones de la Cultura" id="options-navigation-item"/>
@@ -200,6 +207,93 @@
             </objects>
             <point key="canvasLocation" x="900" y="0.0"/>
         </scene>
+        <scene sceneID="option-detail-scene">
+            <objects>
+                <viewController id="option-detail-controller" customClass="DetalleOpcionViewController" customModule="Semana07_Tarea" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="option-detail-view">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="option-detail-scroll">
+                                <rect key="frame" x="0.0" y="103" width="393" height="715"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="option-detail-content">
+                                        <rect key="frame" x="0.0" y="0.0" width="393" height="557"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Título de la opción" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" translatesAutoresizingMaskIntoConstraints="NO" id="option-detail-title">
+                                                <rect key="frame" x="20" y="20" width="353" height="34"/>
+                                                <fontDescription key="fontDescription" type="system" weight="bold" pointSize="28"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="option-detail-image">
+                                                <rect key="frame" x="20" y="70" width="353" height="250"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="250" id="option-detail-image-height"/>
+                                                </constraints>
+                                            </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="DESCRIPCIÓN" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="option-description-heading">
+                                                <rect key="frame" x="20" y="344" width="353" height="17"/>
+                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="13"/>
+                                                <color key="textColor" systemColor="secondaryLabelColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Descripción de la opción seleccionada." lineBreakMode="wordWrap" numberOfLines="0" translatesAutoresizingMaskIntoConstraints="NO" id="option-detail-description">
+                                                <rect key="frame" x="20" y="373" width="353" height="164"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <constraints>
+                                            <constraint firstItem="option-detail-title" firstAttribute="top" secondItem="option-detail-content" secondAttribute="top" constant="20" id="option-detail-title-top"/>
+                                            <constraint firstItem="option-detail-title" firstAttribute="leading" secondItem="option-detail-content" secondAttribute="leading" constant="20" id="option-detail-title-leading"/>
+                                            <constraint firstAttribute="trailing" secondItem="option-detail-title" secondAttribute="trailing" constant="20" id="option-detail-title-trailing"/>
+                                            <constraint firstItem="option-detail-image" firstAttribute="top" secondItem="option-detail-title" secondAttribute="bottom" constant="16" id="option-detail-image-top"/>
+                                            <constraint firstItem="option-detail-image" firstAttribute="leading" secondItem="option-detail-content" secondAttribute="leading" constant="20" id="option-detail-image-leading"/>
+                                            <constraint firstAttribute="trailing" secondItem="option-detail-image" secondAttribute="trailing" constant="20" id="option-detail-image-trailing"/>
+                                            <constraint firstItem="option-description-heading" firstAttribute="top" secondItem="option-detail-image" secondAttribute="bottom" constant="24" id="option-description-heading-top"/>
+                                            <constraint firstItem="option-description-heading" firstAttribute="leading" secondItem="option-detail-content" secondAttribute="leading" constant="20" id="option-description-heading-leading"/>
+                                            <constraint firstAttribute="trailing" secondItem="option-description-heading" secondAttribute="trailing" constant="20" id="option-description-heading-trailing"/>
+                                            <constraint firstItem="option-detail-description" firstAttribute="top" secondItem="option-description-heading" secondAttribute="bottom" constant="8" id="option-detail-description-top"/>
+                                            <constraint firstItem="option-detail-description" firstAttribute="leading" secondItem="option-detail-content" secondAttribute="leading" constant="20" id="option-detail-description-leading"/>
+                                            <constraint firstAttribute="trailing" secondItem="option-detail-description" secondAttribute="trailing" constant="20" id="option-detail-description-trailing"/>
+                                            <constraint firstAttribute="bottom" secondItem="option-detail-description" secondAttribute="bottom" constant="20" id="option-detail-description-bottom"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="option-detail-content" firstAttribute="top" secondItem="option-detail-content-guide" secondAttribute="top" id="option-detail-content-top"/>
+                                    <constraint firstItem="option-detail-content" firstAttribute="leading" secondItem="option-detail-content-guide" secondAttribute="leading" id="option-detail-content-leading"/>
+                                    <constraint firstItem="option-detail-content" firstAttribute="trailing" secondItem="option-detail-content-guide" secondAttribute="trailing" id="option-detail-content-trailing"/>
+                                    <constraint firstItem="option-detail-content" firstAttribute="bottom" secondItem="option-detail-content-guide" secondAttribute="bottom" id="option-detail-content-bottom"/>
+                                    <constraint firstItem="option-detail-content" firstAttribute="width" secondItem="option-detail-frame-guide" secondAttribute="width" id="option-detail-content-width"/>
+                                </constraints>
+                                <viewLayoutGuide key="contentLayoutGuide" id="option-detail-content-guide"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="option-detail-frame-guide"/>
+                            </scrollView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="option-detail-safe-area"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="option-detail-scroll" firstAttribute="top" secondItem="option-detail-safe-area" secondAttribute="top" id="option-detail-scroll-top"/>
+                            <constraint firstItem="option-detail-scroll" firstAttribute="leading" secondItem="option-detail-safe-area" secondAttribute="leading" id="option-detail-scroll-leading"/>
+                            <constraint firstItem="option-detail-safe-area" firstAttribute="trailing" secondItem="option-detail-scroll" secondAttribute="trailing" id="option-detail-scroll-trailing"/>
+                            <constraint firstItem="option-detail-safe-area" firstAttribute="bottom" secondItem="option-detail-scroll" secondAttribute="bottom" id="option-detail-scroll-bottom"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Detalle" id="option-detail-navigation-item"/>
+                    <connections>
+                        <outlet property="descripcionOpcion" destination="option-detail-description" id="outlet-option-detail-description"/>
+                        <outlet property="imagenOpcion" destination="option-detail-image" id="outlet-option-detail-image"/>
+                        <outlet property="tituloOpcion" destination="option-detail-title" id="outlet-option-detail-title"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="option-detail-first-responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1800" y="0.0"/>
+        </scene>
     </scenes>
     <resources>
         <systemColor name="secondaryLabelColor">
@@ -209,7 +303,7 @@
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemGroupedBackgroundColor">
-            <color red="0.94901960780000002" green="0.94901960780000002" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

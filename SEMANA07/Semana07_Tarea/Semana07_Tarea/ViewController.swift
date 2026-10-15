@@ -10,9 +10,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             region: "Áncash",
             nombreImagen: "cultura_chavin",
             opciones: [
-                OpcionCultural(titulo: "Chavín de Huántar", descripcion: "Chavín de Huántar fue el principal centro ceremonial de esta cultura. Sus templos de piedra, plazas y galerías subterráneas recibieron peregrinos de diferentes regiones de los Andes.", nombreImagen: "cultura_chavin"),
-                OpcionCultural(titulo: "Lanzón Monolítico", descripcion: "El Lanzón Monolítico es una escultura de piedra ubicada dentro del templo de Chavín de Huántar. Representa una divinidad con rasgos humanos y animales y tuvo una función religiosa central.", nombreImagen: "cultura_chavin"),
-                OpcionCultural(titulo: "Cabezas clavas", descripcion: "Las cabezas clavas son esculturas de piedra que estuvieron colocadas en los muros del templo. Combinan rasgos humanos, felinos, aves y serpientes vinculados con la religión chavín.", nombreImagen: "cultura_chavin")
+                OpcionCultural(titulo: "Chavín de Huántar", descripcion: "Chavín de Huántar fue el principal centro ceremonial de esta cultura. Sus templos de piedra, plazas y galerías subterráneas recibieron peregrinos de diferentes regiones de los Andes.", nombreImagen: "opcion_chavin_huantar"),
+                OpcionCultural(titulo: "Lanzón Monolítico", descripcion: "El Lanzón Monolítico es una escultura de piedra ubicada dentro del templo de Chavín de Huántar. Representa una divinidad con rasgos humanos y animales y tuvo una función religiosa central.", nombreImagen: "opcion_chavin_lanzon"),
+                OpcionCultural(titulo: "Cabezas clavas", descripcion: "Las cabezas clavas son esculturas de piedra que estuvieron colocadas en los muros del templo. Combinan rasgos humanos, felinos, aves y serpientes vinculados con la religión chavín.", nombreImagen: "opcion_chavin_cabezas")
             ]
         ),
         Cultura(
@@ -20,9 +20,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             region: "Ica",
             nombreImagen: "cultura_nazca",
             opciones: [
-                OpcionCultural(titulo: "Líneas de Nazca", descripcion: "Las Líneas de Nazca son enormes geoglifos trazados sobre el desierto. Representan animales, plantas y figuras geométricas que pueden observarse con mayor claridad desde el aire.", nombreImagen: "cultura_nazca"),
-                OpcionCultural(titulo: "Acueductos de Cantalloc", descripcion: "Los acueductos de Cantalloc permitieron aprovechar el agua subterránea en una región desértica. Sus accesos en forma de espiral facilitaron la limpieza y conservación de los canales.", nombreImagen: "cultura_nazca"),
-                OpcionCultural(titulo: "Cerámica policroma", descripcion: "La cerámica nazca destacó por la variedad de colores y por sus representaciones de seres humanos, animales, plantas y seres mitológicos.", nombreImagen: "cultura_nazca")
+                OpcionCultural(titulo: "Líneas de Nazca", descripcion: "Las Líneas de Nazca son enormes geoglifos trazados sobre el desierto. Representan animales, plantas y figuras geométricas que pueden observarse con mayor claridad desde el aire.", nombreImagen: "opcion_nazca_lineas"),
+                OpcionCultural(titulo: "Acueductos de Cantalloc", descripcion: "Los acueductos de Cantalloc permitieron aprovechar el agua subterránea en una región desértica. Sus accesos en forma de espiral facilitaron la limpieza y conservación de los canales.", nombreImagen: "opcion_nazca_acueductos"),
+                OpcionCultural(titulo: "Cerámica policroma", descripcion: "La cerámica nazca destacó por la variedad de colores y por sus representaciones de seres humanos, animales, plantas y seres mitológicos.", nombreImagen: "opcion_nazca_ceramica")
             ]
         ),
         Cultura(

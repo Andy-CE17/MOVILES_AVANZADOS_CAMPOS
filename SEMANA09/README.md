@@ -62,10 +62,22 @@ swiftc \
 
 ![Resultado del caso propio](evidencias/03_caso_propio_resultado.png)
 
-### Boleta en Excel
+### Boleta actualizada en Excel
+
+La boleta usa sueldo de S/ 4,000.00, 26 días laborados, asignación familiar, AFP Habitat, 2 horas al 25%, 3 horas al 35% y adelanto de S/ 150.00. El neto calculado es S/ 3,073.92.
 
 ![Boleta calculada en Excel](evidencias/04_boleta_excel.png)
 
 ### Control cruzado entre guía, Excel y aplicación
 
 ![Control cruzado de resultados](evidencias/05_control_cruzado_excel.png)
+
+### Resultado de la boleta actualizada en la aplicación
+
+![Resultado equivalente en la aplicación](evidencias/06_boleta_app_actualizada.png)
+
+### Explicación de las tasas AFP
+
+La comisión depende de la AFP seleccionada. Habitat aplica 1.47%, mientras que el 1.60% corresponde a Prima o a la opción académica AFP Guía.
+
+![Parámetros y aclaración de las tasas AFP](evidencias/07_parametros_afp.png)

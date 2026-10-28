@@ -58,7 +58,6 @@ struct ContentView: View {
             resultado = nil
             mensajeError = ""
         }
-        .onAppear(perform: prepararEvidencia)
     }
 
     private var encabezado: some View {
@@ -229,15 +228,6 @@ struct ContentView: View {
         horas25 = texto(datos.horas25)
         horas35 = texto(datos.horas35)
         adelanto = texto(datos.adelanto)
-    }
-
-    private func prepararEvidencia() {
-        let argumentos = ProcessInfo.processInfo.arguments
-        guard let posicion = argumentos.firstIndex(of: "--evidence-case"), argumentos.indices.contains(posicion + 1),
-              let indice = Int(argumentos[posicion + 1]), Casos.todos.indices.contains(indice) else { return }
-        casoSeleccionado = indice
-        cargar(Casos.todos[indice].datos)
-        calcular()
     }
 
     private func soles(_ monto: Decimal) -> String {

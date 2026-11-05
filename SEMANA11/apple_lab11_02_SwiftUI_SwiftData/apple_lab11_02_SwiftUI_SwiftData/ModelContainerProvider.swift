@@ -8,7 +8,7 @@ class ModelContainerProvider {
     let container: ModelContainer
 
     private init() {
-        let schema = Schema([Alumno.self])
+        let schema = Schema([Alumno.self, Curso.self])
 
         do {
             let config = ModelConfiguration(

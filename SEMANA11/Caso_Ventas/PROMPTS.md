@@ -95,3 +95,15 @@
 **Formato esperado:** Interfaz UIKit coherente, legible y adaptable a modo claro u oscuro.
 
 **Uso de la respuesta:** Se aplicó un sistema visual verde esmeralda y naranja, tarjetas con profundidad, formularios ordenados y estilos consistentes en toda la aplicación.
+
+## Consulta 9 Accesibilidad del teclado en el inicio
+
+**Contexto:** En el iPhone, el teclado cubría parcialmente el formulario y dificultaba pasar del usuario a la contraseña.
+
+**Tarea:** Mejorar la interacción del teclado en la pantalla de inicio sin modificar la autenticación.
+
+**Restricciones:** Conservar las mismas credenciales, validaciones y lógica de sesión.
+
+**Formato esperado:** Botones Siguiente y Listo, navegación mediante Return, cierre al tocar fuera y desplazamiento del contenido al aparecer el teclado.
+
+**Uso de la respuesta:** Se agregó control completo del teclado y ajuste animado del formulario para mantener visibles ambos campos.

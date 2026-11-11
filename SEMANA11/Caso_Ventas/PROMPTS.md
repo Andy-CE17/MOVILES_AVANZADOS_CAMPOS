@@ -35,3 +35,15 @@
 **Formato esperado:** Proyecto compilable con pantallas UIKit creadas por código y persistencia local mediante Core Data.
 
 **Uso de la respuesta:** Se implementó el registro de usuarios, la validación de credenciales, la selección de rol y el acceso inicial a la aplicación.
+
+## Consulta 4 Navegación por roles
+
+**Contexto:** Después de autenticarse, cada rol debe acceder únicamente a las funciones que le corresponden.
+
+**Tarea:** Configurar las pestañas de Vendedor y Supervisor y agregar una pantalla de cuenta que permita cerrar la sesión.
+
+**Restricciones:** El Vendedor no debe tener acceso a los indicadores de supervisión ni a la administración del equipo. El Supervisor debe acceder al resumen y a todas las ventas.
+
+**Formato esperado:** Navegación UIKit mediante barra de pestañas, con títulos e iconos claros.
+
+**Uso de la respuesta:** Se configuraron cinco pestañas para cada rol y se agregó el cierre de sesión con confirmación.

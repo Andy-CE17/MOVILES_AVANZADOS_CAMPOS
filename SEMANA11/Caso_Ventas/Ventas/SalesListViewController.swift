@@ -17,6 +17,8 @@ final class SalesListViewController: UITableViewController, UISearchResultsUpdat
     override func viewDidLoad() {
         super.viewDidLoad()
         title = onlyCurrentSeller ? "Mis ventas" : "Ventas del equipo"
+        applyProfessionalTableStyle()
+        navigationItem.largeTitleDisplayMode = .always
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "sale")
         statusControl.selectedSegmentIndex = 0
         statusControl.addTarget(self, action: #selector(applyFilters), for: .valueChanged)
@@ -73,7 +75,7 @@ final class SalesListViewController: UITableViewController, UISearchResultsUpdat
         content.secondaryText = "\(sale.cliente.nombre) · \(sale.vendedor.nombre)\n\(sale.fecha.saleDateText) · \(status)"
         content.secondaryTextProperties.numberOfLines = 2
         content.image = UIImage(systemName: sale.anulada ? "xmark.circle.fill" : "checkmark.circle.fill")
-        content.imageProperties.tintColor = sale.anulada ? .systemRed : .systemGreen
+        content.imageProperties.tintColor = sale.anulada ? .systemRed : AppTheme.primary
         cell.contentConfiguration = content
         cell.accessoryType = .disclosureIndicator
         return cell
@@ -102,7 +104,7 @@ final class SaleDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Detalle de venta"
-        view.backgroundColor = .systemGroupedBackground
+        view.backgroundColor = AppTheme.background
         configureLayout(); refreshStatus()
     }
 
@@ -145,7 +147,7 @@ final class SaleDetailViewController: UIViewController {
 
     private func refreshStatus() {
         statusLabel.text = sale.anulada ? "● VENTA ANULADA" : "● VENTA VIGENTE"
-        statusLabel.textColor = sale.anulada ? .systemRed : .systemGreen
+        statusLabel.textColor = sale.anulada ? .systemRed : AppTheme.primary
         statusLabel.font = .boldSystemFont(ofSize: 18)
         cancellationLabel.text = sale.anulada ? "Motivo: \(sale.motivoAnulacion ?? "No indicado")" : ""
         cancelButton?.isHidden = sale.anulada

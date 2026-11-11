@@ -7,6 +7,8 @@ final class ClientsViewController: UITableViewController, UISearchResultsUpdatin
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Clientes"
+        applyProfessionalTableStyle()
+        navigationItem.largeTitleDisplayMode = .always
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "client")
         let search = UISearchController(searchResultsController: nil)
         search.searchResultsUpdater = self
@@ -37,7 +39,7 @@ final class ClientsViewController: UITableViewController, UISearchResultsUpdatin
         let total = service.validTotal(for: client).formatted(.currency(code: "PEN"))
         content.secondaryText = "Doc. \(client.documento)  ·  \(service.category(for: client))  ·  \(total)"
         content.image = UIImage(systemName: service.category(for: client) == "VIP" ? "star.circle.fill" : "person.crop.circle")
-        content.imageProperties.tintColor = service.category(for: client) == "VIP" ? .systemOrange : .systemGreen
+        content.imageProperties.tintColor = service.category(for: client) == "VIP" ? AppTheme.accent : AppTheme.primary
         cell.contentConfiguration = content
         cell.accessoryType = .disclosureIndicator
         return cell
@@ -70,18 +72,19 @@ final class ClientFormViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = client == nil ? "Nuevo cliente" : "Editar cliente"
-        view.backgroundColor = .systemGroupedBackground
+        view.backgroundColor = AppTheme.background
         documentField.keyboardType = .numberPad
         nameField.text = client?.nombre
         documentField.text = client?.documento
         let save = FormFactory.primaryButton(title: "Guardar", action: UIAction { [weak self] _ in self?.save() })
         let stack = UIStackView(arrangedSubviews: [nameField, documentField, save])
         stack.axis = .vertical; stack.spacing = 16; stack.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(stack)
+        let card = CardView(); card.translatesAutoresizingMaskIntoConstraints = false; card.addSubview(stack); view.addSubview(card)
         NSLayoutConstraint.activate([
-            stack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 24),
-            stack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
-            stack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24)
+            card.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            card.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20), card.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            stack.topAnchor.constraint(equalTo: card.topAnchor, constant: 22), stack.bottomAnchor.constraint(equalTo: card.bottomAnchor, constant: -22),
+            stack.leadingAnchor.constraint(equalTo: card.leadingAnchor, constant: 18), stack.trailingAnchor.constraint(equalTo: card.trailingAnchor, constant: -18)
         ])
     }
 

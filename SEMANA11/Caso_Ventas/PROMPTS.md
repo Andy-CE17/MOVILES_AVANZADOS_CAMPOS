@@ -83,3 +83,15 @@
 **Formato esperado:** Lista filtrable, detalle completo y tablero con ingresos, estados, ranking y alertas de stock.
 
 **Uso de la respuesta:** Se implementaron las funciones de supervisión, la anulación trazable y el resumen actualizado desde Core Data.
+
+## Consulta 8 Mejora visual
+
+**Contexto:** La aplicación ya cumple la lógica del Caso Ventas, pero necesita una presentación más realista y profesional para su demostración.
+
+**Tarea:** Mejorar colores, tarjetas, campos, botones, navegación, tablas y jerarquía visual en todas las pantallas.
+
+**Restricciones:** No modificar entidades, datos, cálculos, validaciones, permisos, relaciones ni reglas indicadas en la guía.
+
+**Formato esperado:** Interfaz UIKit coherente, legible y adaptable a modo claro u oscuro.
+
+**Uso de la respuesta:** Se aplicó un sistema visual verde esmeralda y naranja, tarjetas con profundidad, formularios ordenados y estilos consistentes en toda la aplicación.

@@ -8,6 +8,8 @@ final class ProductsViewController: UITableViewController, UISearchResultsUpdati
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Productos"
+        applyProfessionalTableStyle()
+        navigationItem.largeTitleDisplayMode = .always
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "product")
         let search = UISearchController(searchResultsController: nil)
         search.searchResultsUpdater = self
@@ -45,7 +47,7 @@ final class ProductsViewController: UITableViewController, UISearchResultsUpdati
         content.text = product.nombre
         content.secondaryText = "\(product.categoria)  ·  S/ \(product.precio.formatted(.number.precision(.fractionLength(2))))  ·  Stock: \(product.stock)"
         content.image = UIImage(systemName: product.stock <= 5 ? "exclamationmark.triangle.fill" : "shippingbox.fill")
-        content.imageProperties.tintColor = product.stock <= 5 ? .systemOrange : .systemGreen
+        content.imageProperties.tintColor = product.stock <= 5 ? AppTheme.accent : AppTheme.primary
         cell.contentConfiguration = content
         cell.accessoryType = canEdit ? .disclosureIndicator : .none
         return cell
@@ -81,7 +83,7 @@ final class ProductFormViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = product == nil ? "Nuevo producto" : "Editar producto"
-        view.backgroundColor = .systemGroupedBackground
+        view.backgroundColor = AppTheme.background
         priceField.keyboardType = .decimalPad
         stockField.keyboardType = .numberPad
         nameField.text = product?.nombre
@@ -90,11 +92,12 @@ final class ProductFormViewController: UIViewController {
         let save = FormFactory.primaryButton(title: "Guardar", action: UIAction { [weak self] _ in self?.save() })
         let stack = UIStackView(arrangedSubviews: [nameField, categoryField, priceField, stockField, save])
         stack.axis = .vertical; stack.spacing = 16; stack.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(stack)
+        let card = CardView(); card.translatesAutoresizingMaskIntoConstraints = false; card.addSubview(stack); view.addSubview(card)
         NSLayoutConstraint.activate([
-            stack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 24),
-            stack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
-            stack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24)
+            card.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            card.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20), card.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            stack.topAnchor.constraint(equalTo: card.topAnchor, constant: 22), stack.bottomAnchor.constraint(equalTo: card.bottomAnchor, constant: -22),
+            stack.leadingAnchor.constraint(equalTo: card.leadingAnchor, constant: 18), stack.trailingAnchor.constraint(equalTo: card.trailingAnchor, constant: -18)
         ])
     }
 

@@ -4,13 +4,14 @@ final class AccountViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Cuenta"
-        view.backgroundColor = .systemGroupedBackground
+        view.backgroundColor = AppTheme.background
+        navigationItem.largeTitleDisplayMode = .always
         configureLayout()
     }
 
     private func configureLayout() {
         let icon = UIImageView(image: UIImage(systemName: "person.crop.circle.fill"))
-        icon.tintColor = .systemGreen
+        icon.tintColor = AppTheme.primary
         icon.contentMode = .scaleAspectFit
         icon.heightAnchor.constraint(equalToConstant: 90).isActive = true
 
@@ -18,7 +19,7 @@ final class AccountViewController: UIViewController {
         name.textAlignment = .center
         let username = FormFactory.label("@\(SessionManager.shared.currentUser?.usuario ?? "")", color: .secondaryLabel)
         username.textAlignment = .center
-        let role = FormFactory.label(SessionManager.shared.currentUser?.rol ?? "", weight: .semibold, color: .systemGreen)
+        let role = FormFactory.label(SessionManager.shared.currentUser?.rol ?? "", weight: .semibold, color: AppTheme.primary)
         role.textAlignment = .center
 
         var configuration = UIButton.Configuration.tinted()
@@ -34,11 +35,12 @@ final class AccountViewController: UIViewController {
         stack.spacing = 12
         stack.setCustomSpacing(30, after: role)
         stack.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(stack)
+        let card = CardView(); card.translatesAutoresizingMaskIntoConstraints = false; card.addSubview(stack); view.addSubview(card)
         NSLayoutConstraint.activate([
-            stack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50),
-            stack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 28),
-            stack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -28)
+            card.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30),
+            card.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20), card.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            stack.topAnchor.constraint(equalTo: card.topAnchor, constant: 28), stack.bottomAnchor.constraint(equalTo: card.bottomAnchor, constant: -24),
+            stack.leadingAnchor.constraint(equalTo: card.leadingAnchor, constant: 24), stack.trailingAnchor.constraint(equalTo: card.trailingAnchor, constant: -24)
         ])
     }
 

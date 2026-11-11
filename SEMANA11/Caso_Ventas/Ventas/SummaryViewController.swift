@@ -11,6 +11,8 @@ final class SummaryViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Resumen"
+        applyProfessionalTableStyle()
+        navigationItem.largeTitleDisplayMode = .always
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "summary")
     }
 
@@ -37,7 +39,7 @@ final class SummaryViewController: UITableViewController {
         let container = UIView(frame: CGRect(x: 0, y: 0, width: 1, height: 210))
         let title = FormFactory.label("Indicadores generales", style: .title2, weight: .bold)
         let cards = UIStackView(arrangedSubviews: [
-            metricCard(value: income.soles, title: "Ingresos", color: .systemGreen),
+            metricCard(value: income.soles, title: "Ingresos", color: AppTheme.primary),
             metricCard(value: String(validSales.count), title: "Vigentes", color: .systemBlue),
             metricCard(value: String(cancelledSales.count), title: "Anuladas", color: .systemRed)
         ])
@@ -82,7 +84,7 @@ final class SummaryViewController: UITableViewController {
             content.text = "\(indexPath.row + 1). \(seller.0)"
             content.secondaryText = seller.1.soles
             content.image = UIImage(systemName: indexPath.row == 0 ? "trophy.fill" : "person.fill")
-            content.imageProperties.tintColor = indexPath.row == 0 ? .systemOrange : .systemGreen
+            content.imageProperties.tintColor = indexPath.row == 0 ? AppTheme.accent : AppTheme.primary
         } else {
             let product = lowStockProducts[indexPath.row]
             content.text = product.nombre

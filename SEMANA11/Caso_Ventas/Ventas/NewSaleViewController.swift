@@ -15,7 +15,8 @@ final class NewSaleViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Nueva venta"
-        view.backgroundColor = .systemGroupedBackground
+        view.backgroundColor = AppTheme.background
+        navigationItem.largeTitleDisplayMode = .always
         quantityField.keyboardType = .numberPad
         quantityField.text = "1"
         quantityField.addTarget(self, action: #selector(updateSummary), for: .editingChanged)
@@ -37,6 +38,8 @@ final class NewSaleViewController: UIViewController {
         configuration.image = UIImage(systemName: "chevron.right")
         configuration.imagePlacement = .trailing
         configuration.imagePadding = 8
+        configuration.baseForegroundColor = AppTheme.primary
+        configuration.cornerStyle = .large
         button.configuration = configuration
         button.contentHorizontalAlignment = .fill
         button.heightAnchor.constraint(equalToConstant: 48).isActive = true
@@ -46,7 +49,7 @@ final class NewSaleViewController: UIViewController {
     private func configureLayout() {
         let header = FormFactory.label("Datos de la venta", style: .title2, weight: .bold)
         summaryLabel.font = .monospacedSystemFont(ofSize: 16, weight: .regular)
-        summaryLabel.backgroundColor = .secondarySystemGroupedBackground
+        summaryLabel.backgroundColor = AppTheme.card
         summaryLabel.layer.cornerRadius = 12
         summaryLabel.clipsToBounds = true
         summaryLabel.textAlignment = .center
@@ -54,11 +57,12 @@ final class NewSaleViewController: UIViewController {
         let registerButton = FormFactory.primaryButton(title: "Registrar venta", action: UIAction { [weak self] _ in self?.registerSale() })
         let stack = UIStackView(arrangedSubviews: [header, productButton, clientButton, quantityField, summaryLabel, registerButton])
         stack.axis = .vertical; stack.spacing = 16; stack.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(stack)
+        let card = CardView(); card.translatesAutoresizingMaskIntoConstraints = false; card.addSubview(stack); view.addSubview(card)
         NSLayoutConstraint.activate([
-            stack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
-            stack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            stack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+            card.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 18),
+            card.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16), card.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            stack.topAnchor.constraint(equalTo: card.topAnchor, constant: 22), stack.bottomAnchor.constraint(equalTo: card.bottomAnchor, constant: -22),
+            stack.leadingAnchor.constraint(equalTo: card.leadingAnchor, constant: 18), stack.trailingAnchor.constraint(equalTo: card.trailingAnchor, constant: -18)
         ])
     }
 
@@ -114,7 +118,7 @@ final class ItemSelectionViewController: UITableViewController {
         super.init(style: .insetGrouped)
     }
     required init?(coder: NSCoder) { nil }
-    override func viewDidLoad() { super.viewDidLoad(); title = screenTitle; tableView.register(UITableViewCell.self, forCellReuseIdentifier: "item") }
+    override func viewDidLoad() { super.viewDidLoad(); title = screenTitle; applyProfessionalTableStyle(); tableView.register(UITableViewCell.self, forCellReuseIdentifier: "item") }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { items.count }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "item", for: indexPath)

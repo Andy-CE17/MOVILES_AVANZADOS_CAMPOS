@@ -23,3 +23,15 @@
 **Formato esperado:** Rama `ia-asistida`, carpeta independiente para el Caso Ventas, expediente completo y registro de prompts.
 
 **Uso de la respuesta:** Se creó la rama `ia-asistida` desde el último estado de `manual`. Los cambios locales anteriores se guardaron de forma reversible y el informe APA se excluyó de Git. Se prepararon el expediente y este registro; la construcción queda pendiente del visto bueno.
+
+## Consulta 3 Proyecto base y autenticación
+
+**Contexto:** El docente autorizó continuar el Caso Ventas dentro de `SEMANA11` y en la rama existente `ai-assisted`.
+
+**Tarea:** Crear el proyecto UIKit con Core Data e implementar registro, inicio de sesión y sesión activa para los roles Vendedor y Supervisor.
+
+**Restricciones:** Mantener las entidades y reglas indicadas por la guía, validar usuario único sin distinguir mayúsculas, exigir una contraseña mínima de seis caracteres y mostrar un error genérico al iniciar sesión.
+
+**Formato esperado:** Proyecto compilable con pantallas UIKit creadas por código y persistencia local mediante Core Data.
+
+**Uso de la respuesta:** Se implementó el registro de usuarios, la validación de credenciales, la selección de rol y el acceso inicial a la aplicación.

@@ -36,22 +36,32 @@ final class SummaryViewController: UITableViewController {
 
     private func metricsHeader() -> UIView {
         let income = validSales.reduce(0) { $0 + $1.total }
-        let container = UIView(frame: CGRect(x: 0, y: 0, width: 1, height: 210))
-        let title = FormFactory.label("Indicadores generales", style: .title2, weight: .bold)
+        let container = UIView(frame: CGRect(x: 0, y: 0, width: 1, height: 278))
+        let hero = BrandBackgroundView()
+        hero.layer.cornerRadius = 22; hero.layer.cornerCurve = .continuous; hero.clipsToBounds = true
+        hero.translatesAutoresizingMaskIntoConstraints = false
+        let caption = FormFactory.label("INGRESOS VIGENTES", style: .caption1, weight: .bold, color: UIColor.white.withAlphaComponent(0.72))
+        let amount = FormFactory.label(income.soles, style: .largeTitle, weight: .bold, color: .white)
+        amount.adjustsFontSizeToFitWidth = true
+        let salesIcon = UIImageView(image: UIImage(systemName: "chart.line.uptrend.xyaxis")); salesIcon.tintColor = .white
+        let amountRow = UIStackView(arrangedSubviews: [amount, salesIcon]); amountRow.axis = .horizontal; amountRow.alignment = .center; amountRow.spacing = 10
+        let heroStack = UIStackView(arrangedSubviews: [caption, amountRow]); heroStack.axis = .vertical; heroStack.spacing = 8; heroStack.translatesAutoresizingMaskIntoConstraints = false
+        hero.addSubview(heroStack)
+
         let cards = UIStackView(arrangedSubviews: [
-            metricCard(value: income.soles, title: "Ingresos", color: AppTheme.primary),
-            metricCard(value: String(validSales.count), title: "Vigentes", color: .systemBlue),
-            metricCard(value: String(cancelledSales.count), title: "Anuladas", color: .systemRed)
+            metricCard(value: String(validSales.count), title: "Ventas vigentes", color: AppTheme.primary),
+            metricCard(value: String(cancelledSales.count), title: "Ventas anuladas", color: .systemRed),
+            metricCard(value: String(lowStockProducts.count), title: "Alertas de stock", color: AppTheme.accent)
         ])
-        cards.axis = .horizontal; cards.distribution = .fillEqually; cards.spacing = 8
-        let stack = UIStackView(arrangedSubviews: [title, cards])
-        stack.axis = .vertical; stack.spacing = 14; stack.translatesAutoresizingMaskIntoConstraints = false
-        container.addSubview(stack)
+        cards.axis = .horizontal; cards.distribution = .fillEqually; cards.spacing = 8; cards.translatesAutoresizingMaskIntoConstraints = false
+        container.addSubview(hero); container.addSubview(cards)
         NSLayoutConstraint.activate([
-            stack.topAnchor.constraint(equalTo: container.topAnchor, constant: 18),
-            stack.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 16),
-            stack.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -16),
-            cards.heightAnchor.constraint(equalToConstant: 120)
+            hero.topAnchor.constraint(equalTo: container.topAnchor, constant: 10), hero.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 16),
+            hero.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -16), hero.heightAnchor.constraint(equalToConstant: 130),
+            heroStack.leadingAnchor.constraint(equalTo: hero.leadingAnchor, constant: 22), heroStack.trailingAnchor.constraint(equalTo: hero.trailingAnchor, constant: -22), heroStack.centerYAnchor.constraint(equalTo: hero.centerYAnchor),
+            salesIcon.widthAnchor.constraint(equalToConstant: 30), salesIcon.heightAnchor.constraint(equalToConstant: 30),
+            cards.topAnchor.constraint(equalTo: hero.bottomAnchor, constant: 12), cards.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 16),
+            cards.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -16), cards.heightAnchor.constraint(equalToConstant: 110)
         ])
         return container
     }

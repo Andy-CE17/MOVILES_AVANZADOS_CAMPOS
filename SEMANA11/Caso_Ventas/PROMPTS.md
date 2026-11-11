@@ -107,3 +107,27 @@
 **Formato esperado:** Botones Siguiente y Listo, navegación mediante Return, cierre al tocar fuera y desplazamiento del contenido al aparecer el teclado.
 
 **Uso de la respuesta:** Se agregó control completo del teclado y ajuste animado del formulario para mantener visibles ambos campos.
+
+## Consulta 10 Teclado del formulario de registro
+
+**Contexto:** La navegación Siguiente y Listo del inicio también debe estar disponible al crear una cuenta.
+
+**Tarea:** Permitir avanzar ordenadamente por los cuatro campos y mantener visible el campo activo.
+
+**Restricciones:** No modificar las validaciones ni los roles del registro.
+
+**Formato esperado:** Barra de teclado con Siguiente y Listo, tecla Return funcional y desplazamiento automático del formulario.
+
+**Uso de la respuesta:** Se agregó navegación continua y ajuste del contenido para todos los campos de registro.
+
+## Consulta 11 Rediseño de las vistas por rol
+
+**Contexto:** El estilo profesional debía extenderse a todas las pantallas que utilizan el Vendedor y el Supervisor.
+
+**Tarea:** Rediseñar inventario, clientes, ventas, resumen y estados vacíos con una presentación más realista.
+
+**Restricciones:** Conservar íntegramente los datos, cálculos, filtros, permisos y operaciones de Core Data.
+
+**Formato esperado:** Encabezados de marca, filas en tarjetas, etiquetas de estado y panel gerencial claramente diferenciados.
+
+**Uso de la respuesta:** Se rediseñaron las vistas interiores de ambos roles sin modificar la lógica funcional.

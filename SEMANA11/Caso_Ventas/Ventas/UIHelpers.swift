@@ -56,6 +56,90 @@ final class CardView: UIView {
     required init?(coder: NSCoder) { nil }
 }
 
+final class ScreenHeaderView: UIView {
+    init(title: String, subtitle: String, icon: String) {
+        super.init(frame: .zero)
+        let background = BrandBackgroundView()
+        background.layer.cornerRadius = 20
+        background.layer.cornerCurve = .continuous
+        background.clipsToBounds = true
+        background.translatesAutoresizingMaskIntoConstraints = false
+
+        let iconView = UIImageView(image: UIImage(systemName: icon))
+        iconView.tintColor = .white
+        iconView.contentMode = .scaleAspectFit
+        iconView.backgroundColor = UIColor.white.withAlphaComponent(0.16)
+        iconView.layer.cornerRadius = 25
+        iconView.translatesAutoresizingMaskIntoConstraints = false
+
+        let titleLabel = FormFactory.label(title, style: .title2, weight: .bold, color: .white)
+        let subtitleLabel = FormFactory.label(subtitle, style: .subheadline, color: UIColor.white.withAlphaComponent(0.82))
+        let textStack = UIStackView(arrangedSubviews: [titleLabel, subtitleLabel])
+        textStack.axis = .vertical; textStack.spacing = 4
+        let content = UIStackView(arrangedSubviews: [iconView, textStack])
+        content.axis = .horizontal; content.alignment = .center; content.spacing = 16
+        content.translatesAutoresizingMaskIntoConstraints = false
+
+        addSubview(background)
+        background.addSubview(content)
+        NSLayoutConstraint.activate([
+            background.topAnchor.constraint(equalTo: topAnchor, constant: 10),
+            background.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10),
+            background.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            background.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            content.leadingAnchor.constraint(equalTo: background.leadingAnchor, constant: 18),
+            content.trailingAnchor.constraint(equalTo: background.trailingAnchor, constant: -18),
+            content.centerYAnchor.constraint(equalTo: background.centerYAnchor),
+            iconView.widthAnchor.constraint(equalToConstant: 50), iconView.heightAnchor.constraint(equalToConstant: 50)
+        ])
+    }
+    required init?(coder: NSCoder) { nil }
+}
+
+final class EmptyStateView: UIView {
+    init(icon: String, title: String, message: String) {
+        super.init(frame: .zero)
+        let image = UIImageView(image: UIImage(systemName: icon))
+        image.tintColor = AppTheme.primary.withAlphaComponent(0.75)
+        image.contentMode = .scaleAspectFit
+        image.heightAnchor.constraint(equalToConstant: 58).isActive = true
+        let titleLabel = FormFactory.label(title, style: .title3, weight: .bold)
+        titleLabel.textAlignment = .center
+        let messageLabel = FormFactory.label(message, style: .subheadline, color: .secondaryLabel)
+        messageLabel.textAlignment = .center
+        let stack = UIStackView(arrangedSubviews: [image, titleLabel, messageLabel])
+        stack.axis = .vertical; stack.spacing = 10; stack.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(stack)
+        NSLayoutConstraint.activate([
+            stack.centerXAnchor.constraint(equalTo: centerXAnchor), stack.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -30),
+            stack.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: 32),
+            stack.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -32)
+        ])
+    }
+    required init?(coder: NSCoder) { nil }
+}
+
+final class PillLabel: UILabel {
+    override func drawText(in rect: CGRect) {
+        super.drawText(in: rect.inset(by: UIEdgeInsets(top: 4, left: 10, bottom: 4, right: 10)))
+    }
+    override var intrinsicContentSize: CGSize {
+        let size = super.intrinsicContentSize
+        return CGSize(width: size.width + 20, height: size.height + 8)
+    }
+    init(text: String, color: UIColor) {
+        super.init(frame: .zero)
+        self.text = text
+        textColor = color
+        backgroundColor = color.withAlphaComponent(0.12)
+        font = .systemFont(ofSize: 12, weight: .bold)
+        textAlignment = .center
+        layer.cornerRadius = 12
+        clipsToBounds = true
+    }
+    required init?(coder: NSCoder) { nil }
+}
+
 enum FormFactory {
     static func textField(placeholder: String, icon: String? = nil, secure: Bool = false) -> UITextField {
         let field = UITextField()

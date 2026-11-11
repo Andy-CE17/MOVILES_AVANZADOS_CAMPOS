@@ -8,8 +8,12 @@ final class ClientsViewController: UITableViewController, UISearchResultsUpdatin
         super.viewDidLoad()
         title = "Clientes"
         applyProfessionalTableStyle()
+        tableView.separatorStyle = .none
+        tableView.rowHeight = 100
+        tableView.tableHeaderView = ScreenHeaderView(title: "Cartera de clientes", subtitle: "Consulta su categoría y compras acumuladas", icon: "person.2.fill")
+        tableView.tableHeaderView?.frame.size.height = 112
         navigationItem.largeTitleDisplayMode = .always
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "client")
+        tableView.register(ClientCardCell.self, forCellReuseIdentifier: "client")
         let search = UISearchController(searchResultsController: nil)
         search.searchResultsUpdater = self
         search.obscuresBackgroundDuringPresentation = false
@@ -21,7 +25,13 @@ final class ClientsViewController: UITableViewController, UISearchResultsUpdatin
     func updateSearchResults(for searchController: UISearchController) { reload(search: searchController.searchBar.text ?? "") }
 
     private func reload(search: String = "") {
-        do { clients = try service.clients(search: search); tableView.reloadData() }
+        do {
+            clients = try service.clients(search: search)
+            tableView.backgroundView = clients.isEmpty
+                ? EmptyStateView(icon: "person.2", title: "Sin clientes", message: "Usa el botón + para registrar el primer cliente.")
+                : nil
+            tableView.reloadData()
+        }
         catch { presentAlert(title: "Error", message: error.localizedDescription) }
     }
 
@@ -33,15 +43,9 @@ final class ClientsViewController: UITableViewController, UISearchResultsUpdatin
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let client = clients[indexPath.row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: "client", for: indexPath)
-        var content = cell.defaultContentConfiguration()
-        content.text = client.nombre
         let total = service.validTotal(for: client).formatted(.currency(code: "PEN"))
-        content.secondaryText = "Doc. \(client.documento)  ·  \(service.category(for: client))  ·  \(total)"
-        content.image = UIImage(systemName: service.category(for: client) == "VIP" ? "star.circle.fill" : "person.crop.circle")
-        content.imageProperties.tintColor = service.category(for: client) == "VIP" ? AppTheme.accent : AppTheme.primary
-        cell.contentConfiguration = content
-        cell.accessoryType = .disclosureIndicator
+        let cell = tableView.dequeueReusableCell(withIdentifier: "client", for: indexPath) as! ClientCardCell
+        cell.configure(client: client, category: service.category(for: client), total: total)
         return cell
     }
 
@@ -57,6 +61,46 @@ final class ClientsViewController: UITableViewController, UISearchResultsUpdatin
             catch { self?.presentAlert(title: "No se puede eliminar", message: error.localizedDescription); done(false) }
         }
         return UISwipeActionsConfiguration(actions: [delete])
+    }
+}
+
+final class ClientCardCell: UITableViewCell {
+    private let card = CardView()
+    private let iconView = UIImageView()
+    private let nameLabel = FormFactory.label("", weight: .bold)
+    private let documentLabel = FormFactory.label("", style: .subheadline, color: .secondaryLabel)
+    private let totalLabel = FormFactory.label("", style: .subheadline, weight: .semibold, color: AppTheme.primary)
+    private let categoryLabel = PillLabel(text: "", color: AppTheme.primary)
+
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        backgroundColor = .clear; selectionStyle = .none
+        card.translatesAutoresizingMaskIntoConstraints = false
+        iconView.contentMode = .scaleAspectFit; iconView.backgroundColor = AppTheme.primary.withAlphaComponent(0.10); iconView.layer.cornerRadius = 22
+        iconView.translatesAutoresizingMaskIntoConstraints = false
+        let texts = UIStackView(arrangedSubviews: [nameLabel, documentLabel, totalLabel]); texts.axis = .vertical; texts.spacing = 3
+        let row = UIStackView(arrangedSubviews: [iconView, texts, categoryLabel]); row.axis = .horizontal; row.alignment = .center; row.spacing = 12
+        row.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(card); card.addSubview(row)
+        NSLayoutConstraint.activate([
+            card.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 6), card.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -6),
+            card.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16), card.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            row.leadingAnchor.constraint(equalTo: card.leadingAnchor, constant: 14), row.trailingAnchor.constraint(equalTo: card.trailingAnchor, constant: -14), row.centerYAnchor.constraint(equalTo: card.centerYAnchor),
+            iconView.widthAnchor.constraint(equalToConstant: 44), iconView.heightAnchor.constraint(equalToConstant: 44)
+        ])
+    }
+    required init?(coder: NSCoder) { nil }
+
+    func configure(client: Cliente, category: String, total: String) {
+        let vip = category == "VIP"
+        nameLabel.text = client.nombre
+        documentLabel.text = "Documento: \(client.documento)"
+        totalLabel.text = "Compras: \(total)"
+        categoryLabel.text = category
+        categoryLabel.textColor = vip ? AppTheme.accent : AppTheme.primary
+        categoryLabel.backgroundColor = (vip ? AppTheme.accent : AppTheme.primary).withAlphaComponent(0.12)
+        iconView.image = UIImage(systemName: vip ? "star.fill" : "person.fill")
+        iconView.tintColor = vip ? AppTheme.accent : AppTheme.primary
     }
 }
 

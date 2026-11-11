@@ -9,8 +9,16 @@ final class ProductsViewController: UITableViewController, UISearchResultsUpdati
         super.viewDidLoad()
         title = "Productos"
         applyProfessionalTableStyle()
+        tableView.separatorStyle = .none
+        tableView.rowHeight = 104
+        tableView.tableHeaderView = ScreenHeaderView(
+            title: canEdit ? "Gestión de inventario" : "Catálogo de productos",
+            subtitle: canEdit ? "Administra precios y existencias" : "Consulta precios y disponibilidad",
+            icon: "shippingbox.fill"
+        )
+        tableView.tableHeaderView?.frame.size.height = 112
         navigationItem.largeTitleDisplayMode = .always
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "product")
+        tableView.register(ProductCardCell.self, forCellReuseIdentifier: "product")
         let search = UISearchController(searchResultsController: nil)
         search.searchResultsUpdater = self
         search.obscuresBackgroundDuringPresentation = false
@@ -30,7 +38,13 @@ final class ProductsViewController: UITableViewController, UISearchResultsUpdati
     }
 
     private func reload(search: String = "") {
-        do { products = try service.products(search: search); tableView.reloadData() }
+        do {
+            products = try service.products(search: search)
+            tableView.backgroundView = products.isEmpty
+                ? EmptyStateView(icon: "shippingbox", title: "Sin productos", message: canEdit ? "Usa el botón + para registrar el primer producto." : "Aún no existen productos disponibles.")
+                : nil
+            tableView.reloadData()
+        }
         catch { presentAlert(title: "Error", message: error.localizedDescription) }
     }
 
@@ -42,14 +56,8 @@ final class ProductsViewController: UITableViewController, UISearchResultsUpdati
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let product = products[indexPath.row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: "product", for: indexPath)
-        var content = cell.defaultContentConfiguration()
-        content.text = product.nombre
-        content.secondaryText = "\(product.categoria)  ·  S/ \(product.precio.formatted(.number.precision(.fractionLength(2))))  ·  Stock: \(product.stock)"
-        content.image = UIImage(systemName: product.stock <= 5 ? "exclamationmark.triangle.fill" : "shippingbox.fill")
-        content.imageProperties.tintColor = product.stock <= 5 ? AppTheme.accent : AppTheme.primary
-        cell.contentConfiguration = content
-        cell.accessoryType = canEdit ? .disclosureIndicator : .none
+        let cell = tableView.dequeueReusableCell(withIdentifier: "product", for: indexPath) as! ProductCardCell
+        cell.configure(product: product, editable: canEdit)
         return cell
     }
 
@@ -66,6 +74,50 @@ final class ProductsViewController: UITableViewController, UISearchResultsUpdati
             catch { self?.presentAlert(title: "No se puede eliminar", message: error.localizedDescription); done(false) }
         }
         return UISwipeActionsConfiguration(actions: [delete])
+    }
+}
+
+final class ProductCardCell: UITableViewCell {
+    private let card = CardView()
+    private let iconView = UIImageView()
+    private let nameLabel = FormFactory.label("", weight: .bold)
+    private let categoryLabel = FormFactory.label("", style: .subheadline, color: .secondaryLabel)
+    private let priceLabel = FormFactory.label("", weight: .bold, color: AppTheme.primary)
+    private let stockLabel = PillLabel(text: "", color: AppTheme.primary)
+    private let chevron = UIImageView(image: UIImage(systemName: "chevron.right"))
+
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        backgroundColor = .clear; selectionStyle = .none
+        card.translatesAutoresizingMaskIntoConstraints = false
+        iconView.contentMode = .scaleAspectFit; iconView.tintColor = AppTheme.primary
+        iconView.backgroundColor = AppTheme.primary.withAlphaComponent(0.10); iconView.layer.cornerRadius = 22
+        iconView.translatesAutoresizingMaskIntoConstraints = false
+        let texts = UIStackView(arrangedSubviews: [nameLabel, categoryLabel, priceLabel]); texts.axis = .vertical; texts.spacing = 3
+        chevron.tintColor = .tertiaryLabel; chevron.setContentHuggingPriority(.required, for: .horizontal)
+        let row = UIStackView(arrangedSubviews: [iconView, texts, stockLabel, chevron]); row.axis = .horizontal; row.alignment = .center; row.spacing = 12
+        row.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(card); card.addSubview(row)
+        NSLayoutConstraint.activate([
+            card.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 6), card.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -6),
+            card.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16), card.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            row.leadingAnchor.constraint(equalTo: card.leadingAnchor, constant: 14), row.trailingAnchor.constraint(equalTo: card.trailingAnchor, constant: -14), row.centerYAnchor.constraint(equalTo: card.centerYAnchor),
+            iconView.widthAnchor.constraint(equalToConstant: 44), iconView.heightAnchor.constraint(equalToConstant: 44)
+        ])
+    }
+    required init?(coder: NSCoder) { nil }
+
+    func configure(product: Producto, editable: Bool) {
+        nameLabel.text = product.nombre
+        categoryLabel.text = product.categoria
+        priceLabel.text = product.precio.soles
+        let lowStock = product.stock <= 5
+        stockLabel.text = "Stock \(product.stock)"
+        stockLabel.textColor = lowStock ? AppTheme.accent : AppTheme.primary
+        stockLabel.backgroundColor = (lowStock ? AppTheme.accent : AppTheme.primary).withAlphaComponent(0.12)
+        iconView.image = UIImage(systemName: lowStock ? "exclamationmark.triangle.fill" : "shippingbox.fill")
+        iconView.tintColor = lowStock ? AppTheme.accent : AppTheme.primary
+        chevron.isHidden = !editable
     }
 }
 

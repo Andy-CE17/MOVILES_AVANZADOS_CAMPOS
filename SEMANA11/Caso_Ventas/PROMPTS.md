@@ -59,3 +59,15 @@
 **Formato esperado:** Pantallas UIKit con tablas, buscador, validaciones y persistencia Core Data.
 
 **Uso de la respuesta:** Se implementaron ambos catálogos, el control de permisos, el cálculo de categoría del cliente y las restricciones de eliminación.
+
+## Consulta 6 Registro de ventas
+
+**Contexto:** El Vendedor necesita registrar operaciones utilizando los productos y clientes persistidos.
+
+**Tarea:** Implementar la selección de producto y cliente, cantidad, cálculo monetario, validación de stock y listado de ventas propias.
+
+**Restricciones:** Aplicar 10 % de descuento a clientes VIP, calcular IGV de 18 % después del descuento, impedir cantidades inválidas o mayores al stock y descontar existencias al guardar.
+
+**Formato esperado:** Flujo UIKit con resumen previo, confirmación y persistencia de relaciones en Core Data.
+
+**Uso de la respuesta:** Se implementó el registro de ventas, los cálculos de subtotal, descuento, IGV y total, la actualización de stock y la consulta de ventas del vendedor.

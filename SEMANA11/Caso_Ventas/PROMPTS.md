@@ -71,3 +71,15 @@
 **Formato esperado:** Flujo UIKit con resumen previo, confirmación y persistencia de relaciones en Core Data.
 
 **Uso de la respuesta:** Se implementó el registro de ventas, los cálculos de subtotal, descuento, IGV y total, la actualización de stock y la consulta de ventas del vendedor.
+
+## Consulta 7 Supervisión y resumen
+
+**Contexto:** El Supervisor debe controlar las operaciones de todo el equipo y revisar indicadores sin alterar las ventas directamente.
+
+**Tarea:** Agregar filtros, detalle de venta, anulación con motivo, reposición del stock y un resumen gerencial.
+
+**Restricciones:** Solo el Supervisor anula. El motivo es obligatorio, una venta no se anula dos veces y las ventas anuladas no participan en ingresos, ranking ni totales válidos.
+
+**Formato esperado:** Lista filtrable, detalle completo y tablero con ingresos, estados, ranking y alertas de stock.
+
+**Uso de la respuesta:** Se implementaron las funciones de supervisión, la anulación trazable y el resumen actualizado desde Core Data.

@@ -2,7 +2,7 @@ import CoreData
 import Foundation
 
 enum SaleError: LocalizedError {
-    case missingSelection, invalidQuantity, insufficientStock, noSession
+    case missingSelection, invalidQuantity, insufficientStock, noSession, missingCancellationReason, alreadyCancelled
 
     var errorDescription: String? {
         switch self {
@@ -10,6 +10,8 @@ enum SaleError: LocalizedError {
         case .invalidQuantity: return "La cantidad debe ser mayor que cero."
         case .insufficientStock: return "No existe stock suficiente para completar la venta."
         case .noSession: return "La sesión actual no es válida."
+        case .missingCancellationReason: return "Es obligatorio indicar el motivo de la anulación."
+        case .alreadyCancelled: return "Esta venta ya se encuentra anulada."
         }
     }
 }
@@ -65,6 +67,16 @@ final class SaleService {
         if !predicates.isEmpty { request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates) }
         request.sortDescriptors = [NSSortDescriptor(key: "fecha", ascending: false)]
         return try context.fetch(request)
+    }
+
+    func cancel(_ sale: Venta, reason: String) throws {
+        let cleanReason = reason.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !sale.anulada else { throw SaleError.alreadyCancelled }
+        guard !cleanReason.isEmpty else { throw SaleError.missingCancellationReason }
+        sale.anulada = true
+        sale.motivoAnulacion = cleanReason
+        sale.producto.stock += sale.cantidad
+        try context.save()
     }
 }
 

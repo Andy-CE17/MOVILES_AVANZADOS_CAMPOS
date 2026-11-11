@@ -23,7 +23,7 @@ final class MainTabBarController: UITabBarController {
 
     private func supervisorTabs() -> [UIViewController] {
         [
-            navigation(title: "Resumen", icon: "chart.bar", controller: PlaceholderViewController(title: "Resumen", message: "Indicadores generales del negocio.")),
+            navigation(title: "Resumen", icon: "chart.bar", controller: SummaryViewController()),
             navigation(title: "Ventas", icon: "doc.text.magnifyingglass", controller: SalesListViewController(onlyCurrentSeller: false)),
             navigation(title: "Productos", icon: "shippingbox", controller: ProductsViewController()),
             navigation(title: "Clientes", icon: "person.2", controller: ClientsViewController()),

@@ -13,8 +13,8 @@ final class MainTabBarController: UITabBarController {
 
     private func sellerTabs() -> [UIViewController] {
         [
-            navigation(title: "Productos", icon: "shippingbox", controller: PlaceholderViewController(title: "Productos", message: "Consulta el catálogo disponible.")),
-            navigation(title: "Clientes", icon: "person.2", controller: PlaceholderViewController(title: "Clientes", message: "Registra y consulta clientes.")),
+            navigation(title: "Productos", icon: "shippingbox", controller: ProductsViewController()),
+            navigation(title: "Clientes", icon: "person.2", controller: ClientsViewController()),
             navigation(title: "Nueva venta", icon: "cart.badge.plus", controller: PlaceholderViewController(title: "Nueva venta", message: "Selecciona un producto y un cliente.")),
             navigation(title: "Mis ventas", icon: "list.bullet.rectangle", controller: PlaceholderViewController(title: "Mis ventas", message: "Revisa tus operaciones registradas.")),
             navigation(title: "Cuenta", icon: "person.crop.circle", controller: AccountViewController())
@@ -25,8 +25,8 @@ final class MainTabBarController: UITabBarController {
         [
             navigation(title: "Resumen", icon: "chart.bar", controller: PlaceholderViewController(title: "Resumen", message: "Indicadores generales del negocio.")),
             navigation(title: "Ventas", icon: "doc.text.magnifyingglass", controller: PlaceholderViewController(title: "Ventas del equipo", message: "Supervisa las ventas registradas.")),
-            navigation(title: "Productos", icon: "shippingbox", controller: PlaceholderViewController(title: "Productos", message: "Administra el catálogo y el stock.")),
-            navigation(title: "Clientes", icon: "person.2", controller: PlaceholderViewController(title: "Clientes", message: "Consulta los clientes registrados.")),
+            navigation(title: "Productos", icon: "shippingbox", controller: ProductsViewController()),
+            navigation(title: "Clientes", icon: "person.2", controller: ClientsViewController()),
             navigation(title: "Cuenta", icon: "person.crop.circle", controller: AccountViewController())
         ]
     }

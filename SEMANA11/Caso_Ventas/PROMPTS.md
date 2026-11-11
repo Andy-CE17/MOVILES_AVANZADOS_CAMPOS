@@ -47,3 +47,15 @@
 **Formato esperado:** Navegación UIKit mediante barra de pestañas, con títulos e iconos claros.
 
 **Uso de la respuesta:** Se configuraron cinco pestañas para cada rol y se agregó el cierre de sesión con confirmación.
+
+## Consulta 5 Gestión de productos y clientes
+
+**Contexto:** La aplicación requiere catálogos persistentes que luego serán utilizados al registrar ventas.
+
+**Tarea:** Implementar listas, búsqueda, formularios y operaciones de mantenimiento para Producto y Cliente.
+
+**Restricciones:** Solo el Supervisor puede modificar productos. El Vendedor únicamente consulta el catálogo. No se puede eliminar un producto o cliente que tenga ventas relacionadas y el documento del cliente no se repite.
+
+**Formato esperado:** Pantallas UIKit con tablas, buscador, validaciones y persistencia Core Data.
+
+**Uso de la respuesta:** Se implementaron ambos catálogos, el control de permisos, el cálculo de categoría del cliente y las restricciones de eliminación.

@@ -34,17 +34,30 @@ final class BrandBackgroundView: UIView {
     override class var layerClass: AnyClass { CAGradientLayer.self }
     override init(frame: CGRect) {
         super.init(frame: frame)
+        configureGradient()
+    }
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        configureGradient()
+    }
+    private func configureGradient() {
         let gradient = layer as! CAGradientLayer
         gradient.colors = [AppTheme.primaryDark.cgColor, AppTheme.primary.cgColor]
         gradient.startPoint = CGPoint(x: 0.1, y: 0)
         gradient.endPoint = CGPoint(x: 0.9, y: 1)
     }
-    required init?(coder: NSCoder) { nil }
 }
 
 final class CardView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
+        configureCard()
+    }
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        configureCard()
+    }
+    private func configureCard() {
         backgroundColor = AppTheme.card
         layer.cornerRadius = 20
         layer.cornerCurve = .continuous
@@ -53,7 +66,6 @@ final class CardView: UIView {
         layer.shadowRadius = 16
         layer.shadowOffset = CGSize(width: 0, height: 8)
     }
-    required init?(coder: NSCoder) { nil }
 }
 
 final class ScreenHeaderView: UIView {

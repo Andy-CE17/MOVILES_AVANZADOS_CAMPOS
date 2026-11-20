@@ -15,6 +15,24 @@ struct MessagesView: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
+                HStack(spacing: 12) {
+                    Image(systemName: "person.crop.circle.fill")
+                        .font(.title2)
+                        .foregroundStyle(.orange)
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("Conectado como")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                        Text(currentEmail)
+                            .font(.subheadline.bold())
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.75)
+                    }
+                    Spacer()
+                }
+                .padding()
+                .background(.orange.opacity(0.08))
+
                 if messages.isEmpty {
                     ContentUnavailableView(
                         "Aún no hay mensajes",
@@ -63,15 +81,6 @@ struct MessagesView: View {
             }
             .navigationTitle("Mensajes")
             .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    VStack(alignment: .leading) {
-                        Text("Conectado como")
-                            .font(.caption2)
-                            .foregroundStyle(.secondary)
-                        Text(currentEmail)
-                            .font(.caption.bold())
-                    }
-                }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Salir", role: .destructive, action: onSignOut)
                 }
